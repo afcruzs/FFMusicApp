@@ -1,4 +1,4 @@
-package ffmusic.com.ffmusicapp;
+package ffmusic.com.ffmusicapp.controller;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,8 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import ffmusic.com.endpoints.EndpointsAsyncTask;
+import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.EndpointsAsyncTask;
 
 public class FFMusicMainActivity extends AppCompatActivity {
 
