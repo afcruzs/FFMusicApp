@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_another_item"
+            android:icon="@drawable/ic_human_computer"
+            android:title="@string/another_item" />
+
+        <!-- Sección de configuración -->
+        <item
+            android:id="@+id/nav_configuration"
+            android:title="@string/settings">
+            <menu>
+                <item
+                    android:id="@+id/nav_log_out"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="@string/log_out"/>
+            </menu>
+        </item>
+    </group>
+
+</menu>
