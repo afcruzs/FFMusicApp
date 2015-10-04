@@ -5,6 +5,14 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/insertUserTest"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickUserTest"/>
+
     <TextView
         android:id="@+id/fragment_home_title"
         android:layout_width="wrap_content"

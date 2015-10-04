@@ -1,6 +1,5 @@
 package ffmusic.com.ffmusicapp.controller;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -9,13 +8,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
+import android.view.View;
+
+import com.ffmusic.backend.ffMusicApi.model.User;
 
 import ffmusic.com.ffmusicapp.R;
-import ffmusic.com.ffmusicapp.endpoints.EndpointsAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
 
 public class FFMusicMainActivity extends AppCompatActivity {
 
@@ -43,6 +45,8 @@ public class FFMusicMainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             selectItem(NAV_HOME, getResources().getString(R.string.home));
         }
+
+
     }
 
     private void setToolbar() {
@@ -54,6 +58,21 @@ public class FFMusicMainActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    public void onClickUserTest(View view){
+        insertUserTest();
+    }
+
+
+    public void insertUserTest(){
+        Log.d("Pecora","HOLA");
+        User xd = new User();
+        xd.setFirstName(":V:v:v:v:v:v");
+        xd.setLastName("v:v:v:v:v:v:v");
+        xd.setEmail("V@unalv.v.veco.co");
+        new InsertUserAsyncTask().execute(xd);
+    }
+
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(

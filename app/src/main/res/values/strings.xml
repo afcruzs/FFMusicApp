@@ -14,5 +14,6 @@
 
     <!-- Login -->
     <string name="login">Login</string>
+    <string name="insertUserTest">Insert User Test</string>
 
 </resources>

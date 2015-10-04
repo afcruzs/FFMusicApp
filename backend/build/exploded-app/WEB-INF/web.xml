@@ -3,10 +3,14 @@
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+
+
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.ffmusic.backend.MyEndpoint</param-value>
+            <param-value>com.ffmusic.backend.UserEndPoint,com.ffmusic.backend.MyEndpoint</param-value>
         </init-param>
+
+
     </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
