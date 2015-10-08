@@ -16,4 +16,7 @@
     <string name="login">Login</string>
     <string name="insertUserTest">Insert User Test</string>
 
+    <!-- Facebook login -->
+    <string name="facebook_app_id">1507779209533662</string>
+
 </resources>
