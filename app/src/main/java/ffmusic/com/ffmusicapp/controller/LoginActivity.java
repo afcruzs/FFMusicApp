@@ -2,8 +2,12 @@ package ffmusic.com.ffmusicapp.controller;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +33,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import ffmusic.com.ffmusicapp.R;
 
@@ -59,6 +66,21 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.ffmusic.ffmusicapp", //your unique package name here
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("AAAAAAAAAAAAAAAAAAAAAA:", Base64.encodeToString(md.digest(), Base64.DEFAULT));// this line  gives your keyhash
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
         // Check if a person is already logged
 
@@ -109,6 +131,7 @@ public class LoginActivity extends AppCompatActivity implements
                 .build();
 
         System.out.println(mGoogleApiClient.getSessionId());
+
 
     }
 
@@ -239,7 +262,7 @@ public class LoginActivity extends AppCompatActivity implements
         } else {
             // Show the signed-out UI
             //showSignedOutUI();
-            startActivity(new Intent(this, FFMusicMainActivity.class));
+            //startActivity(new Intent(this, FFMusicMainActivity.class));
         }
 
 
