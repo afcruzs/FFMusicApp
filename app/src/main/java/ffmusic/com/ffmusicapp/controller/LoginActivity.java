@@ -150,8 +150,6 @@ public class LoginActivity extends AppCompatActivity implements
 
         ((SignInButton)findViewById(R.id.sign_in_button)).setSize(SignInButton.SIZE_WIDE);
 
-        status = (TextView) findViewById(R.id.status);
-
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -342,7 +340,6 @@ public class LoginActivity extends AppCompatActivity implements
         // attempt to resolve any errors that occur.
         mShouldResolve = true;
         mGoogleApiClient.connect();
-        status.setText(R.string.sign_in);
     }
 
     @Override

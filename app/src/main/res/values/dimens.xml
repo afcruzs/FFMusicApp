@@ -7,6 +7,10 @@
     <dimen name="header_height">192dp</dimen>
 
     <!-- Profile image dimensions -->
-    <dimen name="profile_image_size">64dp</dimen>
+    <dimen name="profile_image_size">120dp</dimen>
     <dimen name="profile_image_margin_bottom">16dp</dimen>
+    <dimen name="login_buttom_height">40dp</dimen>
+    <dimen name="login_buttom_width">100dp</dimen>
+
+
 </resources>
