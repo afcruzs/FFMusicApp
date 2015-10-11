@@ -21,7 +21,7 @@ public abstract class GetUserByEmailAsyncTask extends AsyncTask<String,Void,User
     protected User doInBackground(String... params) {
         if(ffMusicApi == null){
             FfMusicApi.Builder builder = new FfMusicApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                    .setRootUrl("https://ffmusicbackend.appspot.com/_ah/api/");
+                    .setRootUrl(Constants.ROOT_URL);
 
             ffMusicApi = builder.build();
         }
