@@ -43,6 +43,8 @@ import org.json.JSONObject;
 
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetUserByEmailAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -83,7 +85,16 @@ public class LoginActivity extends AppCompatActivity implements
                                     JSONObject object,
                                     GraphResponse response) {
 
-                                currentUser = UserFactory.createUser(object);
+                                //currentUser = UserFactory.createUser(object);
+
+                                new InsertUserAsyncTask(){
+                                    @Override
+                                    public void onPostExecute(User user){
+                                        currentUser = user;
+                                        startMainActivity();
+                                    }
+                                }.execute( UserFactory.createUser(object) );
+
                                 isLogged = true;
                                 try {
                                     emailUser = object.getString(UserFactory.FACEBOOK_EMAIL);
@@ -91,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements
                                 }catch( Exception e){
                                     Log.d(TAG,e+"");
                                 }
-                                startMainActivity();
+
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -161,9 +172,18 @@ public class LoginActivity extends AppCompatActivity implements
         if ( mPrefs.getBoolean(IS_LOGGED, false) ) {
             isLogged = true;
             emailUser = mPrefs.getString(EMAIL,null);
-            currentUser = UserFactory.getUser(emailUser);
-            startMainActivity();
-            Log.d(TAG, "Cargado del user ");
+            //currentUser = UserFactory.getUser(emailUser);
+            new GetUserByEmailAsyncTask(){
+             @Override
+             public void onPostExecute(User user){
+                 if(user == null) throw new RuntimeException("THE USER IS NULLLL " + emailUser );
+                 currentUser = user;
+                 Log.d(TAG, "Cargado del user ");
+                 startMainActivity();
+             }
+            }.execute(emailUser);
+
+
             return;
         }else{
             facebookLogin();
@@ -250,14 +270,23 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     public void update(){
+        //Log.d("PERRA",mGoogleApiClient.getSessionId()+"");
         Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        final String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        //Log.d("PERRA",currentPerson.toString());
         if (currentPerson != null) {
             Toast.makeText(getApplicationContext(), "hola : " + currentPerson.getDisplayName(), Toast.LENGTH_SHORT).show();
-            currentUser = UserFactory.createUser(currentPerson, email);
-            isLogged = true;
-            emailUser = email;
-            startMainActivity();
+
+            new InsertUserAsyncTask(){
+                @Override
+                protected void onPostExecute(User result) {
+                    currentUser = result;
+                    isLogged = true;
+                    emailUser = email;
+                    startMainActivity();
+
+                }
+            }.execute( UserFactory.createUser(currentPerson,email) );
         }
     }
 
@@ -277,16 +306,7 @@ public class LoginActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.sign_in_button:
-                if( !isConnect ) {
                     onSignInClicked();
-                    isConnect = true;
-                }else {
-                    onDisconnectClicked();
-                    isConnect = false;
-                }
-                break;
-            case R.id.nav_log_out:
-                onDisconnectClicked();
                 break;
 
 

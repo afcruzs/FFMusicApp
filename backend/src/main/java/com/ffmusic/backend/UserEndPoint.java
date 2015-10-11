@@ -31,8 +31,8 @@ public class UserEndPoint {
         * @return the User associated to id
          */
         @ApiMethod(httpMethod = "GET")
-        public final User getUser(@Named("id") final Long id){
-                return ofy().load().type(User.class).id(id).now();
+        public final User getUserByEmail(@Named("email") final String email){
+                return ofy().load().type(User.class).filter("email", "bones.felipe@gmail.com").first().now();
 
         }
 

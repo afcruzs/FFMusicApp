@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView titleTextView = (TextView) view.findViewById(R.id.fragment_home_title);
 
-        titleTextView.setText(title);
+        titleTextView.setText(title + " -> " + LoginActivity.currentUser);
         return view;
     }
 

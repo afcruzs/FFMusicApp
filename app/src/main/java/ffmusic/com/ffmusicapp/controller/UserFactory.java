@@ -34,25 +34,20 @@ public class UserFactory {
             return newUser;
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            throw new RuntimeException("An error has ocurred putting data in the DataStore");
         }
 
-        return null;
+
+
     }
 
     public static User createUser( Person person, String email ) {
         User newUser = new User();
-
         newUser.setFirstName(person.getName().getGivenName());
         newUser.setLastName(person.getName().getFamilyName());
         newUser.setEmail(email);
-        new InsertUserAsyncTask().execute(newUser);
+
         return newUser;
     }
 
-    public static User getUser( String email ){
-
-        return null;
-        //new InsertUserAsyncTask().execute(xd);
-    }
 }

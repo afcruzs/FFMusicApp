@@ -4,18 +4,27 @@ package com.ffmusic.backend.model;
 import com.google.appengine.repackaged.com.google.gson.JsonObject;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+
 import org.json.JSONObject;
 
 
 @Entity
 public class User {
 
+    @Index
     private String firstName;
+
+    @Index
     private String lastName;
+
+    @Index
     private String email;
 
     @Id
     private Long id;
+
+    public User(){}
 
     public User (  String firstName, String lastName, String email ) {
 
@@ -51,5 +60,13 @@ public class User {
         this.email = email;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
