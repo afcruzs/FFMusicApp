@@ -8,9 +8,9 @@
             android:icon="@drawable/ic_home"
             android:title="@string/home" />
         <item
-            android:id="@+id/nav_another_item"
+            android:id="@+id/nav_youtube"
             android:icon="@drawable/ic_human_computer"
-            android:title="@string/another_item" />
+            android:title="@string/youtube" />
 
         <!-- Seccion de configuracion -->
         <item
@@ -18,9 +18,14 @@
             android:title="@string/settings">
             <menu>
                 <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="@string/action_settings"/>
+                <item
                     android:id="@+id/nav_log_out"
                     android:icon="@android:drawable/ic_lock_power_off"
                     android:title="@string/log_out"/>
+
             </menu>
         </item>
     </group>

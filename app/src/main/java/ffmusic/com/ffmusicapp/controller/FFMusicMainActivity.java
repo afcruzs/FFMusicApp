@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +28,8 @@ public class FFMusicMainActivity extends AppCompatActivity {
     private Menu menu;
 
     private final int NAV_HOME = R.id.nav_home;
-    private final int NAV_ANOTHER_ITEM = R.id.nav_another_item;
+    private final int NAV_YOUTUBE = R.id.nav_youtube;
+    private final int NAV_SETTINGS = R.id.nav_settings;
     private final int NAV_LOG_OUT = R.id.nav_log_out;
 
     @Override
@@ -107,10 +109,19 @@ public class FFMusicMainActivity extends AppCompatActivity {
                 newFragment = new HomeFragment();
                 break;
 
-            case NAV_ANOTHER_ITEM:
+            case NAV_YOUTUBE:
+                Intent toYouTube = getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
+                if ( toYouTube != null )
+                    startActivity(toYouTube);
+                return;
+
+            case NAV_SETTINGS:
+                newFragment = new SettingsFragment();
+                break;
 
             case NAV_LOG_OUT:
 
+                return;
 
             default:
                 args.putString(HomeFragment.TITLE, title);
