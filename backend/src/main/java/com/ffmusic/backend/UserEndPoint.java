@@ -38,6 +38,10 @@ public class UserEndPoint {
 
         @ApiMethod(httpMethod = "POST")
         public User insertUser(final User userInstance){
+                User tmpUser = getUserByEmail( userInstance.getEmail() );
+                if( tmpUser != null ){
+                        return tmpUser;
+                }
                 ofy().save().entity(userInstance).now();
                 return userInstance;
         }
