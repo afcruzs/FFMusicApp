@@ -20,4 +20,8 @@
     <!-- Facebook login -->
     <string name="facebook_app_id">1507779209533662</string>
 
+    <!-- Home tabs -->
+    <string name="home_tabs_my_rooms">Your Rooms</string>
+    <string name="home_tabs_other_rooms">Other Rooms</string>
+
 </resources>

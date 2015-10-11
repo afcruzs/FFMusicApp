@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", UserFactory.FACEBOOK_EMAIL +"," + UserFactory.FACEBOOK_NAME +"," +
+                parameters.putString("fields", UserFactory.FACEBOOK_EMAIL +"," + UserFactory.FACEBOOK_FIRST_NAME +"," +
                         UserFactory.FACEBOOK_LASTNAME);
                 request.setParameters(parameters);
                 request.executeAsync();

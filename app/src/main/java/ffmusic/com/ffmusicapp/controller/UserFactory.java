@@ -11,12 +11,9 @@ import org.json.JSONObject;
 
 import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
 
-/**
- * Created by fabiankasUN on 10/10/2015.
- */
 public class UserFactory {
     //"id,name,email,gender,birthday"
-    public static final String FACEBOOK_NAME = "name";
+    public static final String FACEBOOK_FIRST_NAME = "first_name";
     public static final String FACEBOOK_LASTNAME = "last_name";
     public static final String FACEBOOK_EMAIL = "email";
 
@@ -24,7 +21,7 @@ public class UserFactory {
 
         try {
 
-            String firstName = fbProfile.getString(FACEBOOK_NAME);
+            String firstName = fbProfile.getString(FACEBOOK_FIRST_NAME);
             String lastName= fbProfile.getString(FACEBOOK_LASTNAME);
             String email = fbProfile.getString(FACEBOOK_EMAIL);
             User newUser = new User();

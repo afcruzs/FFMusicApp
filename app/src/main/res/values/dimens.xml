@@ -7,10 +7,23 @@
     <dimen name="header_height">192dp</dimen>
 
     <!-- Profile image dimensions -->
-    <dimen name="profile_image_size">120dp</dimen>
+    <dimen name="profile_image_size">64dp</dimen>
     <dimen name="profile_image_margin_bottom">16dp</dimen>
     <dimen name="login_buttom_height">40dp</dimen>
     <dimen name="login_buttom_width">100dp</dimen>
 
+
+
+    <!-- Home tabs dimensions -->
+    <dimen name="size_fab">56dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="badge_text_size">10sp</dimen>
+
+    <dimen name="card_margin">16dp</dimen>
+
+    <dimen name="grid_item_text_size">11sp</dimen>
+    <dimen name="grid_view_padding">5dp</dimen>
+    <dimen name="grid_item_image_size">90dp</dimen>
 
 </resources>
