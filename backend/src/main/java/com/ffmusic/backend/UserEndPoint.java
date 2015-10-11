@@ -32,7 +32,7 @@ public class UserEndPoint {
          */
         @ApiMethod(httpMethod = "GET")
         public final User getUserByEmail(@Named("email") final String email){
-                return ofy().load().type(User.class).filter("email", "bones.felipe@gmail.com").first().now();
+                return ofy().load().type(User.class).filter("email", email).first().now();
 
         }
 
