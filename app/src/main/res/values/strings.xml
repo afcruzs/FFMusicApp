@@ -11,6 +11,7 @@
     <string name="ranking">Ranking</string>
     <string name="log_out">Log out</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="youtube">YouTube</string>
 
     <!-- Login -->
     <string name="login">Login</string>
