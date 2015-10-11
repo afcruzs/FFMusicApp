@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ffmusic.backend.ffMusicApi.model.User;
 
@@ -34,6 +35,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ffmusic_main);
 
+        initNavigationView();
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -45,8 +47,13 @@ public class FFMusicMainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             selectItem(NAV_HOME, getResources().getString(R.string.home));
         }
+    }
 
-
+    private void initNavigationView ( ) {
+        TextView headerUsernameTextView = (TextView) findViewById(R.id.header_username);
+        headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
+        TextView headerEmailTextView = (TextView) findViewById(R.id.header_email);
+        headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
     }
 
     private void setToolbar() {

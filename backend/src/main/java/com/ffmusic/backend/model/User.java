@@ -21,13 +21,13 @@ public class User {
     @Index
     private String email;
 
+
     @Id
     private Long id;
 
     public User(){}
 
     public User (  String firstName, String lastName, String email ) {
-
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -46,6 +46,10 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public void setLastName(String lastName) {
