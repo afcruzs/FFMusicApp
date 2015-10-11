@@ -11,6 +11,8 @@ import com.ffmusic.backend.ffMusicApi.model.User;
 import com.ffmusic.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
@@ -28,9 +30,7 @@ public class InsertUserAsyncTask extends AsyncTask<User, Void, User> {
     protected User doInBackground(User... params) {
 
         if(ffMusicApi == null){
-            FfMusicApi.Builder builder = new FfMusicApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                    .setRootUrl(Constants.ROOT_URL);
-
+            FfMusicApi.Builder builder = Constants.getApiBuilder();
             ffMusicApi = builder.build();
         }
 

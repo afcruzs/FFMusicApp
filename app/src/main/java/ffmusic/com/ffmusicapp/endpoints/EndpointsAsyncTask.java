@@ -35,7 +35,7 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
 
             FfMusicApi.Builder builder2 = new FfMusicApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                    .setRootUrl("https://ffmusicbackend.appspot.com/_ah/api/");
+                    .setRootUrl(Constants.ROOT_URL);
 
             ffMusicApi = builder2.build();
         }

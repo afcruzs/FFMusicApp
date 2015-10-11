@@ -40,4 +40,8 @@ appengine {
         getClientLibsOnBuild = true
         getDiscoveryDocsOnBuild = true
     }
+
+
+    httpAddress = "0.0.0.0" //When the backend is deployed this should be commented!!
+
 }

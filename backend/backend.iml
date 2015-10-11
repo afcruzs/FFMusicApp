@@ -8,7 +8,7 @@
     </facet>
     <facet type="app-engine-gradle" name="App Engine Gradle">
       <configuration>
-        <option name="HTTP_ADDRESS" value="localhost" />
+        <option name="HTTP_ADDRESS" value="0.0.0.0" />
         <option name="HTTP_PORT" value="8080" />
         <option name="WAR_DIR" value="E:\UN\IX\Desarrollo de aplicaciones moviles\FFMusicApp\backend\build\exploded-app" />
         <option name="WEB_APP_DIR" value="E:\UN\IX\Desarrollo de aplicaciones moviles\FFMusicApp\backend\src\main\webapp" />
