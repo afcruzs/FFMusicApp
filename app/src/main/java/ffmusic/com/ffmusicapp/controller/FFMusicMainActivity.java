@@ -104,6 +104,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
             case NAV_LOG_OUT:
 
+
             default:
                 args.putString(HomeFragment.TITLE, title);
                 newFragment = new HomeFragment();

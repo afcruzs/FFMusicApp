@@ -28,8 +28,7 @@ dependencies {
     compile 'com.google.appengine:appengine-endpoints-deps:1.9.18'
     compile 'com.googlecode.objectify:objectify:5.0.3'
     compile 'javax.servlet:servlet-api:2.5'
-
-
+    compile 'org.json:json:20150729'
 }
 
 appengine {

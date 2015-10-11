@@ -2,9 +2,11 @@ package ffmusic.com.ffmusicapp.controller;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -22,10 +24,13 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.ffmusic.backend.ffMusicApi.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
@@ -34,19 +39,83 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.json.JSONObject;
+
 
 import ffmusic.com.ffmusicapp.R;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener{
+        View.OnClickListener {
+
+    public static User currentUser;
+    public static final String IS_LOGGED = "is_logged";
+    public static final String EMAIL = "email";
+    private SharedPreferences mPrefs;
+    private boolean isLogged;
+    private String emailUser;
+
+    /*
+    * Facebook Login
+    * */
 
     private LoginButton loginFacebookButton;
     private CallbackManager callbackManager;
 
+    private void facebookLogin() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        setContentView(R.layout.activity_login);
+        loginFacebookButton = (LoginButton)findViewById(R.id.login_button);
+
+        loginFacebookButton.setReadPermissions("public_profile");
+        loginFacebookButton.setReadPermissions("email");
+
+        loginFacebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+
+                                currentUser = UserFactory.createUser(object);
+                                isLogged = true;
+                                try {
+                                    emailUser = object.getString(UserFactory.FACEBOOK_EMAIL);
+
+                                }catch( Exception e){
+                                    Log.d(TAG,e+"");
+                                }
+                                startMainActivity();
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", UserFactory.FACEBOOK_EMAIL +"," + UserFactory.FACEBOOK_NAME +"," +
+                        UserFactory.FACEBOOK_LASTNAME);
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                Log.d(TAG, e.getMessage() + " ");
+            }
+        });
+    }
+
+    /*
+    *   Google login
+    * */
 
     private GoogleApiClient mGoogleApiClient;
     private TextView status;
@@ -57,70 +126,22 @@ public class LoginActivity extends AppCompatActivity implements
     /* Should we automatically resolve ConnectionResults when possible? */
     private boolean mShouldResolve = false;
 
+    private boolean isConnect = false;
+
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 1;
     private static final String KEY_IS_RESOLVING = "is_resolving";
     private static final String KEY_SHOULD_RESOLVE = "should_resolve";
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.ffmusic.ffmusicapp", //your unique package name here
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("AAAAAAAAAAAAAAAAAAAAAA:", Base64.encodeToString(md.digest(), Base64.DEFAULT));// this line  gives your keyhash
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-
-        // Check if a person is already logged
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-
-        setContentView(R.layout.activity_login);
-        loginFacebookButton = (LoginButton)findViewById(R.id.login_button);
-
-        loginFacebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // It's necessary to check if a person is already registered in FFMusic
-
-                // Here, some method from User (model) is called to register a new user
-                // User.createNewUser(loginResult);
-
-
-                //After checking MainActivity is started
-                startMainActivity(null);
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException e) {
-
-            }
-        });
-
-
+    private void googleLogin () {
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
 
         ((SignInButton)findViewById(R.id.sign_in_button)).setSize(SignInButton.SIZE_WIDE);
 
         status = (TextView) findViewById(R.id.status);
+
+
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -130,12 +151,28 @@ public class LoginActivity extends AppCompatActivity implements
                 .addScope(new Scope(Scopes.EMAIL))
                 .build();
 
-        System.out.println(mGoogleApiClient.getSessionId());
-
-
     }
 
-    public void startMainActivity(View view) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if ( mPrefs.getBoolean(IS_LOGGED, false) ) {
+            isLogged = true;
+            emailUser = mPrefs.getString(EMAIL,null);
+            currentUser = UserFactory.getUser(emailUser);
+            startMainActivity();
+            Log.d(TAG, "Cargado del user ");
+            return;
+        }else{
+            facebookLogin();
+            googleLogin();
+        }
+    }
+
+
+    public void startMainActivity() {
         startActivity(new Intent(this, FFMusicMainActivity.class));
     }
 
@@ -189,28 +226,38 @@ public class LoginActivity extends AppCompatActivity implements
     protected void onPause() {
         super.onPause();
         AppEventsLogger.deactivateApp(this);
+        SharedPreferences.Editor ed = mPrefs.edit();
+        ed.putBoolean(IS_LOGGED, currentUser != null);
+        ed.putString(EMAIL, emailUser);
+        ed.commit();
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+        //mGoogleApiClient.disconnect();
+        SharedPreferences.Editor ed = mPrefs.edit();
+        ed.putBoolean(IS_LOGGED, isLogged );
+        ed.putString(EMAIL, emailUser);
+        ed.commit();
     }
 
 
     public void update(){
-
         Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
         if (currentPerson != null) {
             Toast.makeText(getApplicationContext(), "hola : " + currentPerson.getDisplayName(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, FFMusicMainActivity.class));
+            currentUser = UserFactory.createUser(currentPerson, email);
+            isLogged = true;
+            emailUser = email;
+            startMainActivity();
         }
     }
 
@@ -218,7 +265,6 @@ public class LoginActivity extends AppCompatActivity implements
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected:" + bundle);
         mShouldResolve = false;
-
         update();
     }
 
@@ -231,11 +277,45 @@ public class LoginActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.sign_in_button:
-                onSignInClicked();
+                if( !isConnect ) {
+                    onSignInClicked();
+                    isConnect = true;
+                }else {
+                    onDisconnectClicked();
+                    isConnect = false;
+                }
+                break;
+            case R.id.nav_log_out:
+                onDisconnectClicked();
+                break;
 
 
         }
     }
+
+    // [START on_sign_out_clicked]
+    private void onSignOutClicked() {
+        // Clear the default account so that GoogleApiClient will not automatically
+        // connect in the future.
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            startMainActivity();
+        }
+    }
+
+    // [START on_disconnect_clicked]
+    private void onDisconnectClicked() {
+        // Revoke all granted permissions and clear the default account.  The user will have
+        // to pass the consent screen to sign in again.
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            startMainActivity();
+        }
+    }
+
 
     private void onSignInClicked() {
         // User clicked the sign-in button, so begin the sign-in process and automatically
@@ -249,6 +329,7 @@ public class LoginActivity extends AppCompatActivity implements
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
         if (!mIsResolving && mShouldResolve) {
+
             if (connectionResult.hasResolution()) {
                 try {
                     connectionResult.startResolutionForResult(this, RC_SIGN_IN);
@@ -259,22 +340,21 @@ public class LoginActivity extends AppCompatActivity implements
                     mGoogleApiClient.connect();
                 }
             }
+
         } else {
             // Show the signed-out UI
             //showSignedOutUI();
             //startActivity(new Intent(this, FFMusicMainActivity.class));
         }
-
-
-
     }
 
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_IS_RESOLVING, mIsResolving);
-        outState.putBoolean(KEY_SHOULD_RESOLVE, mShouldResolve);
+        //outState.putBoolean(KEY_IS_RESOLVING, mIsResolving);
+        //outState.putBoolean(KEY_SHOULD_RESOLVE, mShouldResolve);
+
     }
 
 
