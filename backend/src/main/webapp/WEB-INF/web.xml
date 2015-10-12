@@ -7,7 +7,11 @@
 
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.ffmusic.backend.UserEndPoint,com.ffmusic.backend.MyEndpoint</param-value>
+            <param-value>
+                    com.ffmusic.backend.UserEndPoint,
+                    com.ffmusic.backend.MyEndpoint,
+                    com.ffmusic.backend.RoomEndPoint
+            </param-value>
         </init-param>
 
 
