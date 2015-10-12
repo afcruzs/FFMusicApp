@@ -20,7 +20,7 @@ public class RoomsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rooms, container, false);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.create_new_room_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
