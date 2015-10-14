@@ -24,5 +24,14 @@
     <!-- Home tabs -->
     <string name="home_tabs_my_rooms">Your Rooms</string>
     <string name="home_tabs_other_rooms">Other Rooms</string>
+    <string name="title_activity_create_room">CreateRoomActivity</string>
+
+
+    <!-- Create Room -->
+
+    <string name="hint_name_room">Name Room</string>
+    <string name="create_room">Create Room</string>
+    <string name ="private_room">private</string>
+    <string name="hint_password">password</string>
 
 </resources>

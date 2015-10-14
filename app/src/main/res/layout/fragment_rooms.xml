@@ -20,7 +20,7 @@
         android:layout_gravity="end|bottom"
         android:src="@drawable/messenger_bubble_large_white"
         app:borderWidth="0dp"
-        app:elevation="6dp"
+        app:elevation="12dp"
         android:layout_margin="5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

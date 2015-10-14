@@ -4,6 +4,7 @@ package ffmusic.com.ffmusicapp.controller;
  * Created by Milder on 11/10/2015.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class RoomsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "CreateNewUser", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), CreateRoomActivity.class));
             }
         });
         return view;

@@ -5,4 +5,9 @@
     <color name="primaryColor">#346D7D</color>
     <color name="primaryDarkColor">#1F515F</color>
     <color name="accentColor">#03A9F4</color>
+
+    <!-- Create Room -->
+
+    <color name="buttom_accept">#B71C1C</color>
+
 </resources>
