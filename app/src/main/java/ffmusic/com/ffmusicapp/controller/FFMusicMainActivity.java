@@ -16,9 +16,13 @@ import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ffmusic.backend.ffMusicApi.model.Room;
+import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
 import com.ffmusic.backend.ffMusicApi.model.User;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.InsertRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
 
 public class FFMusicMainActivity extends AppCompatActivity {
@@ -73,13 +77,41 @@ public class FFMusicMainActivity extends AppCompatActivity {
     }
 
 
-    public void insertUserTest(){
-        Log.d("Pecora","HOLA");
-        User xd = new User();
-        xd.setFirstName(":V:v:v:v:v:v");
-        xd.setLastName("v:v:v:v:v:v:v");
-        xd.setEmail("V@unalv.v.veco.co");
-        new InsertUserAsyncTask().execute(xd);
+    public void insertUserTest() {
+        Log.d("Pecora", "HOLA");
+        /*
+        for (int i = 0; i < 5; i++){
+            Room room = new Room();
+            room.setName("Nombre room test"+i);
+            room.setPassword("pecoraUN"+i);
+
+            room.setRoomOwner(LoginActivity.currentUser);
+
+            new InsertRoomAsyncTask() {
+                @Override
+                public void onPostExecute(Room room) {
+                    Log.d("LEL", "Funciono perri " + room);
+                }
+            }.execute(room);
+        }
+
+        */
+
+
+        /*
+        new GetRoomsByUserAsyncTask(){
+            @Override
+            public void onPostExecute(RoomCollection result){
+                Log.d("Rooms","INICIO ROOMS");
+                for(Room room : result.getItems()){
+                    Log.d("Rooms",room.toString());
+                }
+                Log.d("Rooms","FIN ROOMS");
+            }
+        }.execute(LoginActivity.currentUser);
+
+        */
+
     }
 
 

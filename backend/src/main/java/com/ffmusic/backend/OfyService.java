@@ -17,6 +17,7 @@ package com.ffmusic.backend;
 
 
 
+import com.ffmusic.backend.model.Room;
 import com.ffmusic.backend.model.User;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -36,6 +37,7 @@ public final class OfyService {
 
     static {
         factory().register(User.class);
+        factory().register(Room.class);
     }
 
     /**
