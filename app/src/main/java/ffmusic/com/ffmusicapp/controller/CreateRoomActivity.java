@@ -2,6 +2,7 @@ package ffmusic.com.ffmusicapp.controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,19 +27,29 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
     public static final String PASSWORDS_DO_NOT_MATCH = "passwords do not match";
 
 
+    private TextInputLayout textPasswordLayout;
+    private TextInputLayout textPasswordValidateLayout;
+    private TextInputLayout textNameLayout;
+
     private EditText textPassword;
     private EditText textPasswordValidate;
-    private AutoCompleteTextView textName;
+    private EditText textName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_room);
 
-        findViewById(R.id.buttom_accept).setOnClickListener(this);
+        findViewById(R.id.room_create_buttom).setOnClickListener(this);
 
-        textName = (AutoCompleteTextView)findViewById(R.id.name_room);
-        textPasswordValidate = (EditText) findViewById(R.id.passwordValidate);
-        textPassword = (EditText) findViewById(R.id.password);
+        textNameLayout = (TextInputLayout)findViewById(R.id.input_layout_name_room);
+        textPasswordValidateLayout = (TextInputLayout) findViewById(R.id.input_layout_password_validate_room);
+        textPasswordLayout = (TextInputLayout) findViewById(R.id.input_layout_password_room);
+
+        textName = (EditText)findViewById(R.id.input_name_room);
+        textPassword = (EditText)findViewById(R.id.input_password_room);
+        textPasswordValidate = (EditText)findViewById(R.id.input_password_validate);
+
     }
 
     @Override
@@ -78,7 +89,7 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.buttom_accept:
+            case R.id.room_create_buttom:
                 String name = textName.getText().toString();
                 String password = textPassword.getText().toString();
                 String passwordValidate = textPasswordValidate.getText().toString();
