@@ -9,5 +9,6 @@
     <!-- Create Room -->
 
     <color name="buttom_accept">#B71C1C</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

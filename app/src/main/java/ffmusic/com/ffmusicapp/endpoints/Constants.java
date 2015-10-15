@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class Constants {
 
-
+    public static final String DEVELOPMENT_KEY = "AIzaSyB1f6PF0mzo6SvjVyoBqkOdMEqzQk26CYE";
     /*
     *   This is the ip of YOUR local machine if you want to test the backend locally.
     *   Please set it to run the backend in your machine.

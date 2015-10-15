@@ -33,5 +33,14 @@
     <string name="create_room">Create Room</string>
     <string name ="private_room">private</string>
     <string name="hint_password">password</string>
+    <string name="title_activity_room">RoomActivity</string>
+
+
+    <!-- Room -->
+
+    <string name="hint_song">name song</string>
+    <string name="add_list">add list</string>
+
+
 
 </resources>
