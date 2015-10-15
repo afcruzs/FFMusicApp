@@ -56,7 +56,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
             selectItem(NAV_HOME, getResources().getString(R.string.home));
         }
 
-        //insertUserTest();
+        insertUserTest();
     }
 
     private void initNavigationView ( ) {

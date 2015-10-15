@@ -10,14 +10,18 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ffmusic.backend.ffMusicApi.model.Room;
+
 import java.util.ArrayList;
 
 import ffmusic.com.ffmusicapp.R;
 
 public class RoomActivity extends AppCompatActivity {
 
-
+    public static final String CURRENT_ROOM = "current_room";
     private ListAdapter adapter;
+    private Room room;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

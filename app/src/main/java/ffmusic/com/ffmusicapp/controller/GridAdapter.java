@@ -1,6 +1,9 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +57,7 @@ public class GridAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.grid_item, viewGroup, false);
         }
 
-        Room item = getItem(position);
+        final Room item = getItem(position);
 
         // Seteando Imagen
        // ImageView image = (ImageView) view.findViewById(R.id.imagen);
@@ -68,7 +71,13 @@ public class GridAdapter extends BaseAdapter {
         TextView descripcion = (TextView) view.findViewById(R.id.descripcion);
         descripcion.setText(item.getRoomOwner().getFullName());
 
-
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, RoomActivity.class);
+                intent.putExtra(RoomActivity.CURRENT_ROOM, item.getId());
+            }
+        });
         return view;
     }
 }
