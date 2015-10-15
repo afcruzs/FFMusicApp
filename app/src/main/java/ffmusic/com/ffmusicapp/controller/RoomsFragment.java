@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -124,16 +125,26 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     void updateRoomsGrid(){
+        final Context fragment = getContext();
+        new GetRoomsByUserAsyncTask(fragment){
 
-        new GetRoomsByUserAsyncTask(){
+            @Override
+            public void onPreExecute(){}
+
             @Override
             public void onPostExecute(RoomCollection result){
+                //super.onPostExecute(result);
                 userRooms = result.getItems();
 
 
-                new GetNearyByRoomsAsyncTask(){
+                new GetNearyByRoomsAsyncTask(fragment){
+
+                    @Override
+                    public void onPreExecute(){}
+
                     @Override
                     public void onPostExecute(RoomCollection rooms){
+                        //super.onPostExecute(rooms);
                         otherRooms = rooms.getItems();
                         setUpGridView(grid);
                         adapter.notifyDataSetChanged();

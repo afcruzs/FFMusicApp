@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.endpoints;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,17 +16,15 @@ import java.io.IOException;
 /**
  * Created by PC on 11/10/2015.
  */
-public abstract class GetUserByEmailAsyncTask extends AsyncTask<String,Void,User> {
+public abstract class GetUserByEmailAsyncTask extends ApiRequestAsyncTask<String,Void,User> {
 
-    private static FfMusicApi ffMusicApi = null;
+
+    public GetUserByEmailAsyncTask(Context context) {
+        super(context);
+    }
 
     @Override
     protected User doInBackground(String... params) {
-        if(ffMusicApi == null){
-            FfMusicApi.Builder builder = Constants.getApiBuilder();
-            ffMusicApi = builder.build();
-        }
-
         String email = params[0];
 
         try {

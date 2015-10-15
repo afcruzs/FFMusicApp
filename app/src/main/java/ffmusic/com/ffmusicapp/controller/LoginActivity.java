@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -69,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements
 
         loginFacebookButton.setReadPermissions("public_profile");
         loginFacebookButton.setReadPermissions("email");
-
+        final Context aux = this;
         loginFacebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -83,9 +84,10 @@ public class LoginActivity extends AppCompatActivity implements
 
                                 //currentUser = UserFactory.createUser(object);
 
-                                new InsertUserAsyncTask(){
+                                new InsertUserAsyncTask(aux){
                                     @Override
                                     public void onPostExecute(User user){
+                                        super.onPostExecute(user);
                                         currentUser = user;
                                         startMainActivity();
                                     }
@@ -167,9 +169,10 @@ public class LoginActivity extends AppCompatActivity implements
             isLogged = true;
             emailUser = mPrefs.getString(EMAIL,null);
             //currentUser = UserFactory.getUser(emailUser);
-            new GetUserByEmailAsyncTask(){
+            new GetUserByEmailAsyncTask(this){
              @Override
              public void onPostExecute(User user){
+                 super.onPostExecute(user);
                  if(user == null) throw new RuntimeException("THE USER IS NULLLL " + emailUser );
                  currentUser = user;
                  Log.d(TAG, "Cargado del user ");
@@ -189,14 +192,16 @@ public class LoginActivity extends AppCompatActivity implements
     public void startMainActivity() {
 
         final LoginActivity holder = this;
-        new GetRoomsByUserAsyncTask(){
+        new GetRoomsByUserAsyncTask(this){
             @Override
             public void onPostExecute(RoomCollection result){
                 RoomsFragment.setUserRooms(result.getItems());
 
-                new GetNearyByRoomsAsyncTask(){
+                new GetNearyByRoomsAsyncTask(holder){
                     @Override
                     public void onPostExecute(RoomCollection rooms){
+                        super.onPostExecute(rooms);
+                        super.onPostExecute(rooms);
                         RoomsFragment.setOtherRooms(rooms.getItems());
                         startActivity(new Intent(holder, FFMusicMainActivity.class));
                     }
@@ -290,9 +295,10 @@ public class LoginActivity extends AppCompatActivity implements
         if (currentPerson != null) {
             Toast.makeText(getApplicationContext(), "hola : " + currentPerson.getDisplayName(), Toast.LENGTH_SHORT).show();
 
-            new InsertUserAsyncTask(){
+            new InsertUserAsyncTask(this){
                 @Override
-                protected void onPostExecute(User result) {
+                public void onPostExecute(User result) {
+                    super.onPostExecute(result);
                     currentUser = result;
                     isLogged = true;
                     emailUser = email;

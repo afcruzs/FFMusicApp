@@ -56,7 +56,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
             selectItem(NAV_HOME, getResources().getString(R.string.home));
         }
 
-        insertUserTest();
+        //insertUserTest();
     }
 
     private void initNavigationView ( ) {
@@ -92,9 +92,10 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
             room.setRoomOwner(LoginActivity.currentUser);
 
-            new InsertRoomAsyncTask() {
+            new InsertRoomAsyncTask(this) {
                 @Override
                 public void onPostExecute(Room room) {
+                    super.onPostExecute(room);
                     Log.d("LEL", "Funciono perri " + room);
                 }
             }.execute(room);

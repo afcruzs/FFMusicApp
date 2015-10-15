@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.endpoints;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.ffmusic.backend.ffMusicApi.FfMusicApi;
@@ -11,17 +12,15 @@ import java.io.IOException;
 /**
  * Created by PC on 15/10/2015.
  */
-public class GetNearyByRoomsAsyncTask extends AsyncTask<User, Void, RoomCollection> {
+public class GetNearyByRoomsAsyncTask extends ApiRequestAsyncTask<User, Void, RoomCollection> {
 
-    private static FfMusicApi ffMusicApi = null;
+
+    public GetNearyByRoomsAsyncTask(Context context) {
+        super(context);
+    }
 
     @Override
     protected RoomCollection doInBackground(User... params) {
-
-        if(ffMusicApi == null){
-            FfMusicApi.Builder builder = Constants.getApiBuilder();
-            ffMusicApi = builder.build();
-        }
 
 
         User user = params[0];

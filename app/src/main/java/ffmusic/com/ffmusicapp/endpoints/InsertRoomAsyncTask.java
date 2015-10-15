@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.endpoints;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.ffmusic.backend.ffMusicApi.FfMusicApi;
@@ -33,14 +34,15 @@ import java.io.IOException;
     be synchronized with the datastore.
  *
  */
-public class InsertRoomAsyncTask extends AsyncTask<Room,Void,Room> {
-    private static FfMusicApi ffMusicApi = null;
+public class InsertRoomAsyncTask extends ApiRequestAsyncTask<Room,Void,Room> {
+
+
+    public InsertRoomAsyncTask(Context context) {
+        super(context);
+    }
+
     @Override
     protected Room doInBackground(Room... params) {
-        if(ffMusicApi == null){
-            FfMusicApi.Builder builder = Constants.getApiBuilder();
-            ffMusicApi = builder.build();
-        }
 
         Room room = params[0];
         try {

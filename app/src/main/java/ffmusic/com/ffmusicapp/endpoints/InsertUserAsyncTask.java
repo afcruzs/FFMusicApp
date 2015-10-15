@@ -23,16 +23,16 @@ import java.io.IOException;
  *
  *
  */
-public class InsertUserAsyncTask extends AsyncTask<User, Void, User> {
-    private static FfMusicApi ffMusicApi = null;
+public class InsertUserAsyncTask extends ApiRequestAsyncTask<User, Void, User> {
+
+
+    public InsertUserAsyncTask(Context context) {
+        super(context);
+    }
 
     @Override
     protected User doInBackground(User... params) {
 
-        if(ffMusicApi == null){
-            FfMusicApi.Builder builder = Constants.getApiBuilder();
-            ffMusicApi = builder.build();
-        }
 
         User user = params[0];
 
