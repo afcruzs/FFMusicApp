@@ -37,4 +37,9 @@ public class RoomEndPoint {
         public List<Room> roomsByUser(final User user){
                 return ofy().load().type(Room.class).filter("roomOwner",user).list();
         }
+
+        @ApiMethod(httpMethod = "POST")
+        public List<Room> nearByRooms(final User user){
+                return ofy().load().type(Room.class).filter("roomOwner !=", user ).list();
+        }
 }

@@ -26,7 +26,7 @@ public class Room {
     public Room(){}
 
     public void setRoomOwner(User value) { roomOwner = Ref.create(value); }
-
+    public User getRoomOwner(){ return roomOwner.get(); }
 
     public String getName() {
         return name;

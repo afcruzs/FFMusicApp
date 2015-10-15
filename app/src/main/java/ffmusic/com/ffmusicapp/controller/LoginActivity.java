@@ -3,19 +3,13 @@ package ffmusic.com.ffmusicapp.controller;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +20,10 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
 import com.ffmusic.backend.ffMusicApi.model.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -43,6 +37,8 @@ import org.json.JSONObject;
 
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetUserByEmailAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
 
@@ -191,7 +187,26 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     public void startMainActivity() {
-        startActivity(new Intent(this, FFMusicMainActivity.class));
+
+        final LoginActivity holder = this;
+        new GetRoomsByUserAsyncTask(){
+            @Override
+            public void onPostExecute(RoomCollection result){
+                RoomsFragment.setUserRooms(result.getItems());
+
+                new GetNearyByRoomsAsyncTask(){
+                    @Override
+                    public void onPostExecute(RoomCollection rooms){
+                        RoomsFragment.setOtherRooms(rooms.getItems());
+                        startActivity(new Intent(holder, FFMusicMainActivity.class));
+                    }
+                }.execute(LoginActivity.currentUser);
+
+
+            }
+        }.execute(LoginActivity.currentUser);
+
+
     }
 
     @Override
