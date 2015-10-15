@@ -18,7 +18,7 @@ public class Constants {
     *   This is the ip of YOUR local machine if you want to test the backend locally.
     *   Please set it to run the backend in your machine.
     * */
-    public static final String DEVELOPMENT_IP = "192.168.1.2";
+    public static final String DEVELOPMENT_IP = "192.168.1.10";
 
     public static final String DEVELOPMENT_ROOT_URL = "http://"+DEVELOPMENT_IP+":8080/_ah/api/";
     public static final String PRODUCTION_ROOT_URL = "https://ffmusicbackend.appspot.com/_ah/api/";

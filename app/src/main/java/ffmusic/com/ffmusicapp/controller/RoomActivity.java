@@ -15,6 +15,7 @@ import com.ffmusic.backend.ffMusicApi.model.Room;
 import java.util.ArrayList;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 
 public class RoomActivity extends AppCompatActivity {
 
@@ -29,6 +30,20 @@ public class RoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room);
         setupListViewAdapter();
 
+        new GetRoomByIdAsyncTask( this ){
+            @Override
+            public void onPostExecute( Room theRoom ){
+                super.onPostExecute(theRoom);
+
+                room = theRoom;
+                setUp();
+            }
+        }.execute( getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM) );
+
+
+    }
+
+    void setUp(){
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.create_new_room_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

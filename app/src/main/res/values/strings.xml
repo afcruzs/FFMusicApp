@@ -40,7 +40,7 @@
 
     <string name="hint_song">name song</string>
     <string name="add_list">add list</string>
-
+    <string name="loading">Loading</string>
 
 
 </resources>
