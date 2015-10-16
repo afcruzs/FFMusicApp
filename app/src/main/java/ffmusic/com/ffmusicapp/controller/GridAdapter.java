@@ -15,10 +15,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ffmusic.backend.ffMusicApi.model.Room;
+import com.ffmusic.backend.ffMusicApi.model.SongRoom;
+import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 
 /**
  * {@link android.widget.BaseAdapter} personalizado para el gridview

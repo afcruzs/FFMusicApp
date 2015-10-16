@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,10 +17,12 @@ import android.widget.Toast;
 import com.ffmusic.backend.ffMusicApi.FfMusicApi;
 import com.ffmusic.backend.ffMusicApi.model.Song;
 import com.ffmusic.backend.ffMusicApi.model.SongRoom;
+import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 import com.ffmusic.backend.ffMusicApi.model.User;
 import com.ffmusic.backend.ffMusicApi.model.Room;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
@@ -110,32 +113,7 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onPostExecute(Room room){
                             super.onPostExecute(room);
-
-                            //Test code!
-                            Song theSong = new Song();
-                            theSong.setSongName("Someday");
-                            theSong.setArtist("The Strokes");
-                            theSong.setSongYoutubeId(".lll.");
-                            final Room auxRoom = room;
-                            new SaveSongAsyncTask(context){
-                                @Override
-                                public void onPostExecute(final Song realSong){
-                                    super.onPostExecute(realSong);
-                                    SongRoom songRoom = new SongRoom();
-                                    songRoom.setRoom(auxRoom);
-                                    songRoom.setSong(realSong);
-                                    songRoom.setIdxInQueue( new Integer(0) );
-                                    new SaveSongRoom(context){
-                                        @Override
-                                        public void onPostExecute(SongRoom realSongRoom){
-                                            super.onPostExecute(realSongRoom);
-                                            onRoomCreated();
-                                        }
-                                    }.execute( songRoom );
-                                }
-                            }.execute(theSong);
-
-
+                            onRoomCreated();
                         }
 
                     }.execute( r );

@@ -23,9 +23,20 @@ public class SongRoom {
     @Index
     Ref<Song> song;
 
-
+    @Load
+    @Index
+    Ref<User> createdBy;
 
     Integer idxInQueue;
+
+
+    public User getCreatedBy(){
+        return createdBy.get();
+    }
+
+    public void setCreatedBy(User user){
+        createdBy = Ref.create(user);
+    }
 
     public Long getId() {
         return id;
