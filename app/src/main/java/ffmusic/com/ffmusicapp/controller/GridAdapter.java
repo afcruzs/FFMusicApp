@@ -18,6 +18,7 @@ import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.SongRoom;
 import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
@@ -33,7 +34,9 @@ public class GridAdapter extends BaseAdapter {
 
     public GridAdapter(Context c, List<Room> items) {
         mContext = c;
-        this.items = items;
+        if ( items == null )
+            this.items = new ArrayList<>();
+        else this.items = items;
     }
 
     @Override

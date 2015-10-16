@@ -9,9 +9,8 @@
 
 
     <!-- YouTube Fragment -->
-    <fragment
-        android:id="@+id/fragment_youtube"
-        android:name="com.google.android.youtube.player.YouTubePlayerFragment"
+    <RelativeLayout
+        android:id="@+id/youtube_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />

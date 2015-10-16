@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
      * @param viewPager Nueva instancia
      */
     private void setupViewPager(ViewPager viewPager,FragmentManager xd) {
-        adapter = new SectionsPagerAdapter(xd);
+        adapter = new SectionsPagerAdapter(getChildFragmentManager());
         adapter.addFragment(RoomsFragment.newInstance(1), getString(R.string.home_tabs_my_rooms));
         adapter.addFragment(RoomsFragment.newInstance(2), getString(R.string.home_tabs_other_rooms));
         viewPager.setAdapter(adapter);
