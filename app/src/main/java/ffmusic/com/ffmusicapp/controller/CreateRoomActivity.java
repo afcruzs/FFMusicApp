@@ -99,9 +99,10 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
                     r.setName( name );
                     r.setPassword(password);
                     r.setRoomOwner( LoginActivity.currentUser );
-                    new InsertRoomAsyncTask(){
+                    new InsertRoomAsyncTask(this){
                         @Override
                         public void onPostExecute(Room room){
+                            super.onPostExecute(room);
                             Toast.makeText(getApplicationContext(), "Room Created", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), FFMusicMainActivity.class));
                         }

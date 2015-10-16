@@ -20,6 +20,8 @@ import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
 import com.ffmusic.backend.ffMusicApi.model.User;
 
+import java.util.Random;
+
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertRoomAsyncTask;
@@ -53,6 +55,8 @@ public class FFMusicMainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             selectItem(NAV_HOME, getResources().getString(R.string.home));
         }
+
+        //insertUserTest();
     }
 
     private void initNavigationView ( ) {
@@ -79,23 +83,24 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
     public void insertUserTest() {
         Log.d("Pecora", "HOLA");
-        /*
+        Random random = new Random();
         for (int i = 0; i < 5; i++){
             Room room = new Room();
-            room.setName("Nombre room test"+i);
-            room.setPassword("pecoraUN"+i);
+            int lel = random.nextInt(05055);
+            room.setName("Nombre room test"+lel);
+            room.setPassword("pecoraUN"+lel);
 
             room.setRoomOwner(LoginActivity.currentUser);
 
-            new InsertRoomAsyncTask() {
+            new InsertRoomAsyncTask(this) {
                 @Override
                 public void onPostExecute(Room room) {
+                    super.onPostExecute(room);
                     Log.d("LEL", "Funciono perri " + room);
                 }
             }.execute(room);
         }
 
-        */
 
 
         /*
@@ -139,6 +144,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
             case NAV_HOME:
                 args.putString(HomeFragment.TITLE, title);
                 newFragment = new HomeFragment();
+                ((HomeFragment)newFragment).setFragmentManager(getSupportFragmentManager());
                 break;
 
             case NAV_YOUTUBE:
@@ -158,6 +164,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
             default:
                 args.putString(HomeFragment.TITLE, title);
                 newFragment = new HomeFragment();
+                ((HomeFragment)newFragment).setFragmentManager(getSupportFragmentManager());
                 break;
         }
 

@@ -26,4 +26,12 @@
     <dimen name="grid_view_padding">5dp</dimen>
     <dimen name="grid_item_image_size">90dp</dimen>
 
+
+    <!-- Room -->
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="button_elevation">2dp</dimen>
+    <dimen name="button_press_elevation">4dp</dimen>
+    <dimen name="buttom_width">100dp</dimen>
+    <dimen name="buttom_layout_size">100dp</dimen>
+
 </resources>
