@@ -93,7 +93,6 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "CreateNewUser", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getActivity(), CreateRoomActivity.class));
             }
         });

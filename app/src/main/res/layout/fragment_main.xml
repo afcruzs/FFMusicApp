@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/messenger_bubble_large_white"
+        android:src="@drawable/com_facebook_tooltip_black_bottomnub"
         app:borderWidth="0dp"
         app:elevation="50dp"
         android:layout_margin="15dp"

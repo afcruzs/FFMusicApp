@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
+import com.ffmusic.backend.ffMusicApi.model.Song;
 import com.ffmusic.backend.ffMusicApi.model.SongRoom;
 import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -27,6 +28,8 @@ import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.Constants;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
 
 public class RoomActivity extends AppCompatActivity {
 
@@ -77,16 +80,7 @@ public class RoomActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        new GetRoomByIdAsyncTask( this ){
-            @Override
-            public void onPostExecute( Room theRoom ){
-                super.onPostExecute(theRoom);
 
-                room = theRoom;
-                updateSongs();
-                setUp();
-            }
-        }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
 
 
     }
@@ -102,12 +96,14 @@ public class RoomActivity extends AppCompatActivity {
                     mAdapter.notifyItemInserted(list.size());
                     Log.d("hola",sr.getSong().getSongName());
                 }
+                setUp();
                 Log.d("hola", "FIN");
             }
         }.execute(room.getId());
     }
 
     void setUp(){
+        final RoomActivity context = this;
         if (room.getRoomOwner().getId().equals(LoginActivity.currentUser.getId()))
             loadYoutubePlayerFragment();
 
@@ -120,8 +116,35 @@ public class RoomActivity extends AppCompatActivity {
                 //for( int i = 0 ; i < list.size() ; i++ ){
                 //    list.add(new ListModelItem("Song1"));
                 //}
-                list.add(new ListModelItem("Song" + k++, "HcDSfL3mhFI"));
-                mAdapter.notifyItemInserted(list.size());
+
+                final Song song = new Song();
+                song.setSongName("The man who sold the world");
+                song.setSongYoutubeId("fregObNcHC8");
+                song.setArtist("Nirvana");
+
+                new SaveSongAsyncTask(context) {
+                    @Override
+                    public void onPostExecute(Song realSong) {
+                        super.onPostExecute(realSong);
+
+                        final SongRoom songRoom = new SongRoom();
+                        songRoom.setCreatedBy(LoginActivity.currentUser);
+                        songRoom.setIdxInQueue(k++);
+                        songRoom.setSong(realSong);
+                        songRoom.setRoom(room);
+                        new SaveSongRoom(context) {
+                            @Override
+                            public void onPostExecute(SongRoom sr) {
+                                super.onPostExecute(sr);
+                                list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId()));
+                                mAdapter.notifyItemInserted(list.size());
+                            }
+                        }.execute(songRoom);
+
+                    }
+                }.execute(song);
+
+
                 //adapter.insert(new ListModelItem("Song1"), 0);
             }
         });
@@ -132,6 +155,8 @@ public class RoomActivity extends AppCompatActivity {
         youTubePlayerFragment.initialize(Constants.DEVELOPMENT_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean restored) {
+                Log.d("youtube", "puta mierda" + list.size());
+
                 setYouTubePlayer(youTubePlayer);
                 youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                     @Override
@@ -213,5 +238,19 @@ public class RoomActivity extends AppCompatActivity {
 
     public void setYouTubePlayer(YouTubePlayer youTubePlayer) {
         this.youTubePlayer = youTubePlayer;
+    }
+
+    @Override
+    public void onStart () {
+        super.onStart();
+        new GetRoomByIdAsyncTask( this ){
+            @Override
+            public void onPostExecute( Room theRoom ){
+                super.onPostExecute(theRoom);
+                room = theRoom;
+                updateSongs();
+
+            }
+        }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
     }
 }
