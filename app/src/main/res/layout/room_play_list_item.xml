@@ -5,24 +5,7 @@
     android:orientation="horizontal"
     android:background="@color/cardview_shadow_end_color">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
 
-        <ImageButton
-            android:id="@+id/like_buttom"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_weight="2"
-            android:contentDescription="@string/hint_song"
-            android:onClick="removeAtomPayOnClickHandler"
-            android:background="@color/white"
-            android:src="@drawable/ic_like" />
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/name_song"
@@ -34,7 +17,27 @@
         android:background="@color/white"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
 
+
+
+        <ImageButton
+            android:id="@+id/like_buttom"
+            android:layout_height="wrap_content"
+
+            android:layout_width="fill_parent"
+            android:layout_weight="2"
+            android:contentDescription="@string/hint_song"
+            android:onClick="removeAtomPayOnClickHandler"
+            android:background="@color/white"
+            android:src="@drawable/ic_like" />
+
+    </LinearLayout>
 
 
     <ImageButton

@@ -1,13 +1,14 @@
 package ffmusic.com.ffmusicapp.controller;
 
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
@@ -20,15 +21,49 @@ import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 public class RoomActivity extends AppCompatActivity {
 
     public static final String CURRENT_ROOM = "current_room";
-    private ListAdapter adapter;
+
+    private ArrayList<ListModelItem> list;
+    private int k = 0;
+
     private Room room;
 
+    private RecyclerView mRecyclerView;
+    private SongAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-        setupListViewAdapter();
+
+
+        list = new ArrayList<ListModelItem>();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        mAdapter = new SongAdapter(list);
+
+        //
+        mAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Pulsado el elemento " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(
+                new DividerItemDecoration(10));
+
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         new GetRoomByIdAsyncTask( this ){
             @Override
@@ -38,7 +73,7 @@ public class RoomActivity extends AppCompatActivity {
                 room = theRoom;
                 setUp();
             }
-        }.execute( getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM) );
+        }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
 
 
     }
@@ -48,7 +83,14 @@ public class RoomActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapter.insert(new ListModelItem("Song1"), 0);
+
+
+                //for( int i = 0 ; i < list.size() ; i++ ){
+                //    list.add(new ListModelItem("Song1"));
+                //}
+                list.add(new ListModelItem("Song" + k++));
+                mAdapter.notifyItemInserted(list.size());
+                //adapter.insert(new ListModelItem("Song1"), 0);
             }
         });
     }
@@ -74,12 +116,4 @@ public class RoomActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    private void setupListViewAdapter() {
-        adapter = new ListAdapter(RoomActivity.this, R.layout.room_play_list_item, new ArrayList<ListModelItem>());
-        ListView atomPaysListView = (ListView)findViewById(R.id.room_list);
-        atomPaysListView.setAdapter(adapter);
-    }
-
 }
