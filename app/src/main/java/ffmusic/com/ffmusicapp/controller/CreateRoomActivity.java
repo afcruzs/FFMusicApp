@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
@@ -12,11 +13,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ffmusic.backend.ffMusicApi.FfMusicApi;
+import com.ffmusic.backend.ffMusicApi.model.Song;
+import com.ffmusic.backend.ffMusicApi.model.SongRoom;
 import com.ffmusic.backend.ffMusicApi.model.User;
 import com.ffmusic.backend.ffMusicApi.model.Room;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.InsertRoomAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
 
 public class CreateRoomActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -88,6 +94,7 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view){
+        Context context = this;
         switch (view.getId()){
             case R.id.room_create_buttom:
                 String name = textName.getText().toString();
@@ -103,8 +110,32 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onPostExecute(Room room){
                             super.onPostExecute(room);
-                            Toast.makeText(getApplicationContext(), "Room Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), FFMusicMainActivity.class));
+
+                            //Test code!
+                            Song theSong = new Song();
+                            theSong.setSongName("Someday");
+                            theSong.setArtist("The Strokes");
+                            theSong.setSongYoutubeId(".lll.");
+                            final Room auxRoom = room;
+                            new SaveSongAsyncTask(context){
+                                @Override
+                                public void onPostExecute(final Song realSong){
+                                    super.onPostExecute(realSong);
+                                    SongRoom songRoom = new SongRoom();
+                                    songRoom.setRoom(auxRoom);
+                                    songRoom.setSong(realSong);
+                                    songRoom.setIdxInQueue( new Integer(0) );
+                                    new SaveSongRoom(context){
+                                        @Override
+                                        public void onPostExecute(SongRoom realSongRoom){
+                                            super.onPostExecute(realSongRoom);
+                                            onRoomCreated();
+                                        }
+                                    }.execute( songRoom );
+                                }
+                            }.execute(theSong);
+
+
                         }
 
                     }.execute( r );
@@ -119,6 +150,11 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
 
                 break;
         }
+    }
+
+    void onRoomCreated(){
+        Toast.makeText(getApplicationContext(), "Room Created " , Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), FFMusicMainActivity.class));
     }
 
 }

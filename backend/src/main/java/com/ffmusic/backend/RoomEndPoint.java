@@ -1,12 +1,13 @@
 package com.ffmusic.backend;
 
 import com.ffmusic.backend.model.Room;
+import com.ffmusic.backend.model.Song;
+import com.ffmusic.backend.model.SongRoom;
 import com.ffmusic.backend.model.User;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
-import com.googlecode.objectify.Ref;
 
 import java.util.List;
 
@@ -46,6 +47,22 @@ public class RoomEndPoint {
         @ApiMethod(httpMethod = "GET")
         public final Room getRoomById(@Named("idRoom") final Long id){
                 return ofy().load().type(Room.class).id(id).now();
+        }
 
+        @ApiMethod(httpMethod = "POST")
+        public SongRoom songRoom(final SongRoom songRoom){
+                ofy().save().entity(songRoom).now();
+                return songRoom;
+        }
+
+        @ApiMethod(httpMethod = "POST")
+        public List<SongRoom> songs(final Room room){
+                return ofy().load().type(SongRoom.class).filter("room",room).list();
+        }
+
+        @ApiMethod(httpMethod = "POST")
+        public Song insertSong(final Song data){
+                ofy().save().entity(data).now();
+                return data;
         }
 }
