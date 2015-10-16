@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
+import com.ffmusic.backend.ffMusicApi.model.SongRoom;
+import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 
 import java.util.ArrayList;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 
 public class RoomActivity extends AppCompatActivity {
 
@@ -71,11 +75,28 @@ public class RoomActivity extends AppCompatActivity {
                 super.onPostExecute(theRoom);
 
                 room = theRoom;
+                updateSongs();
                 setUp();
             }
         }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
 
 
+    }
+
+    void updateSongs(){
+        new GetRoomSongsAsyncTask(this){
+            @Override
+            public void onPostExecute(SongRoomCollection data){
+                super.onPostExecute(data);
+                Log.d("hola", "INICIO");
+                for(SongRoom sr : data.getItems()){
+                    list.add(new ListModelItem(sr.getSong().getSongName()));
+                    mAdapter.notifyItemInserted(list.size());
+                    Log.d("hola",sr.getSong().getSongName());
+                }
+                Log.d("hola", "FIN");
+            }
+        }.execute(room.getId());
     }
 
     void setUp(){

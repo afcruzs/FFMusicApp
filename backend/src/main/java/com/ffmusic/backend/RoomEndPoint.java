@@ -46,7 +46,10 @@ public class RoomEndPoint {
 
         @ApiMethod(httpMethod = "GET")
         public final Room getRoomById(@Named("idRoom") final Long id){
-                return ofy().load().type(Room.class).id(id).now();
+
+                Room r = ofy().load().type(Room.class).id(id).now();
+                //r.setRoomOwner( r.getRoomOwner() );
+                return r;
         }
 
         @ApiMethod(httpMethod = "POST")
@@ -56,7 +59,8 @@ public class RoomEndPoint {
         }
 
         @ApiMethod(httpMethod = "POST")
-        public List<SongRoom> songs(final Room room){
+        public List<SongRoom> songs(@Named("idRoom") final Long roomId){
+                Room room = ofy().load().type(Room.class).id(roomId).now();
                 return ofy().load().type(SongRoom.class).filter("room",room).list();
         }
 

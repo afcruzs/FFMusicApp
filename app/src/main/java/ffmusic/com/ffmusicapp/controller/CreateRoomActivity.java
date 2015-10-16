@@ -27,7 +27,7 @@ import ffmusic.com.ffmusicapp.endpoints.InsertRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
 
-public class CreateRoomActivity extends AppCompatActivity implements View.OnClickListener {
+public class    CreateRoomActivity extends AppCompatActivity implements View.OnClickListener {
 
 
 
@@ -94,7 +94,7 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
 
         return OK;
     }
-
+    Room auxRoom;
     @Override
     public void onClick(View view){
         Context context = this;
@@ -113,7 +113,42 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onPostExecute(Room room){
                             super.onPostExecute(room);
-                            onRoomCreated();
+                            //Test code!
+                            Song theSong = new Song();
+                            theSong.setSongName("Someday");
+                            theSong.setArtist("The Strokes");
+                            theSong.setSongYoutubeId(".lll.");
+                            auxRoom = room;
+                            new SaveSongAsyncTask(context){
+                                @Override
+                                public void onPostExecute(final Song realSong){
+                                    super.onPostExecute(realSong);
+                                    SongRoom songRoom = new SongRoom();
+                                    songRoom.setRoom(auxRoom);
+                                    songRoom.setSong(realSong);
+                                    songRoom.setIdxInQueue(new Integer(0));
+                                    songRoom.setCreatedBy(LoginActivity.currentUser);
+                                    new SaveSongRoom(context){
+                                        @Override
+                                        public void onPostExecute(SongRoom realSongRoom){
+                                            super.onPostExecute(realSongRoom);
+                                            new GetRoomSongsAsyncTask(context){
+                                                @Override
+                                                public void onPostExecute(SongRoomCollection data){
+                                                    super.onPostExecute(data);
+                                                    Log.d("hola", "INICIO");
+                                                    //Log.d("hola",auxRoom.getName() + " "  + auxRoom.getId() + " " + auxRoom.getRoomOwner() + " " + auxRoom.getPassword()  );
+                                                    for(SongRoom sr : data.getItems()){
+                                                        Log.d("hola",sr.getSong().getSongName());
+                                                    }
+                                                    Log.d("hola","FIN");
+                                                    onRoomCreated();
+                                                }
+                                            }.execute(auxRoom.getId());
+                                        }
+                                    }.execute( songRoom );
+                                }
+                            }.execute(theSong);
                         }
 
                     }.execute( r );
