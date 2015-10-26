@@ -55,6 +55,8 @@
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
     <string name="hint_repeat_password">Repeat password</string>
+    <string name="hint_search">type a room name</string>
+    <string name="title_activity_rooms_search_results">RoomsSearchResultsActivity</string>
 
 
 </resources>

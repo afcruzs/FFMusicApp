@@ -2,6 +2,7 @@ package ffmusic.com.ffmusicapp.endpoints;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ffmusic.backend.ffMusicApi.FfMusicApi;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
@@ -24,6 +25,7 @@ public class GetNearyByRoomsAsyncTask extends ApiRequestAsyncTask<User, Void, Ro
 
 
         User user = params[0];
+        Log.d("HOLA", "Just do it " + user.toString());
         try {
             return ffMusicApi.roomEndPoint().nearByRooms(user).execute();
         } catch (IOException e) {
