@@ -48,7 +48,6 @@ public class RoomActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
@@ -64,7 +63,7 @@ public class RoomActivity extends AppCompatActivity {
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Pulsado el elemento " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Song selected " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -76,13 +75,7 @@ public class RoomActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(10));
 
-
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
-
-
-
     }
 
     void updateSongs(){
@@ -90,39 +83,40 @@ public class RoomActivity extends AppCompatActivity {
             @Override
             public void onPostExecute(SongRoomCollection data){
                 super.onPostExecute(data);
-                Log.d("hola", "INICIO");
                 for(SongRoom sr : data.getItems()){
                     list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId()));
                     mAdapter.notifyItemInserted(list.size());
-                    Log.d("hola",sr.getSong().getSongName());
                 }
                 setUp();
-                Log.d("hola", "FIN");
             }
         }.execute(room.getId());
     }
 
-    void setUp(){
-        final RoomActivity context = this;
+    /*
+    * Loads components of a single room
+    * */
+    void setUp ( ) {
+        /*
+        * If the owner of this room is the user who is managing the application
+        * YouTubePlayer must be loaded
+        * */
         if (room.getRoomOwner().getId().equals(LoginActivity.currentUser.getId()))
             loadYoutubePlayerFragment();
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.create_new_room_button);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton addSongButton = (FloatingActionButton) findViewById(R.id.add_song_button);
+        addSongButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                //for( int i = 0 ; i < list.size() ; i++ ){
-                //    list.add(new ListModelItem("Song1"));
-                //}
+                /*
+                * Adds a new song
+                * */
 
                 final Song song = new Song();
                 song.setSongName("The man who sold the world");
                 song.setSongYoutubeId("fregObNcHC8");
                 song.setArtist("Nirvana");
 
-                new SaveSongAsyncTask(context) {
+                new SaveSongAsyncTask(RoomActivity.this) {
                     @Override
                     public void onPostExecute(Song realSong) {
                         super.onPostExecute(realSong);
@@ -143,9 +137,6 @@ public class RoomActivity extends AppCompatActivity {
 
                     }
                 }.execute(song);
-
-
-                //adapter.insert(new ListModelItem("Song1"), 0);
             }
         });
     }
@@ -155,8 +146,6 @@ public class RoomActivity extends AppCompatActivity {
         youTubePlayerFragment.initialize(Constants.DEVELOPMENT_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean restored) {
-                Log.d("youtube", "puta mierda" + list.size());
-
                 setYouTubePlayer(youTubePlayer);
                 youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                     @Override
@@ -179,9 +168,11 @@ public class RoomActivity extends AppCompatActivity {
 
                     }
 
+                    /*
+                    * When current song finishes next song must be loaded
+                    * */
                     @Override
                     public void onVideoEnded() {
-                        // Continue next song in the list
                         if (!list.isEmpty()) {
                             list.add(list.remove(0));
                             youTubePlayer.loadVideo(list.get(0).getSongId());
@@ -193,6 +184,11 @@ public class RoomActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+                /*
+                * The first song begins to play
+                * */
                 if ( !list.isEmpty() )
                     youTubePlayer.loadVideo(list.get(0).getSongId());
             }
@@ -210,6 +206,9 @@ public class RoomActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /*
+    * Missing menu options
+    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -249,7 +248,6 @@ public class RoomActivity extends AppCompatActivity {
                 super.onPostExecute(theRoom);
                 room = theRoom;
                 updateSongs();
-
             }
         }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
     }

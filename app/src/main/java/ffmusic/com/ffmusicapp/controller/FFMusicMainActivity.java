@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
@@ -33,6 +34,9 @@ public class FFMusicMainActivity extends AppCompatActivity {
     private Fragment currentFragment;
     private Menu menu;
 
+    /*
+    * Options of NavigationView
+    * */
     private final int NAV_HOME = R.id.nav_home;
     private final int NAV_YOUTUBE = R.id.nav_youtube;
     private final int NAV_SETTINGS = R.id.nav_settings;
@@ -43,8 +47,11 @@ public class FFMusicMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ffmusic_main);
 
-        initNavigationView();
-        setToolbar();
+        /*
+        * Initializing Material Design components
+        * */
+        setUpNavigationView();
+        setUpToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -52,21 +59,22 @@ public class FFMusicMainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+        /*
+        * First time of execution HOME of app is showed
+        * */
         if (savedInstanceState == null) {
             selectItem(NAV_HOME, getResources().getString(R.string.home));
         }
-
-        //insertUserTest();
     }
 
-    private void initNavigationView ( ) {
+    private void setUpNavigationView ( ) {
         TextView headerUsernameTextView = (TextView) findViewById(R.id.header_username);
         headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
         TextView headerEmailTextView = (TextView) findViewById(R.id.header_email);
         headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
     }
 
-    private void setToolbar() {
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         final ActionBar ab = getSupportActionBar();
@@ -76,59 +84,15 @@ public class FFMusicMainActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickUserTest(View view){
-        insertUserTest();
-    }
-
-
-    public void insertUserTest() {
-        Log.d("Pecora", "HOLA");
-        Random random = new Random();
-        for (int i = 0; i < 5; i++){
-            Room room = new Room();
-            int lel = random.nextInt(05055);
-            room.setName("Nombre room test"+lel);
-            room.setPassword("pecoraUN"+lel);
-
-            room.setRoomOwner(LoginActivity.currentUser);
-
-            new InsertRoomAsyncTask(this) {
-                @Override
-                public void onPostExecute(Room room) {
-                    super.onPostExecute(room);
-                    Log.d("LEL", "Funciono perri " + room);
-                }
-            }.execute(room);
-        }
-
-
-
-        /*
-        new GetRoomsByUserAsyncTask(){
-            @Override
-            public void onPostExecute(RoomCollection result){
-                Log.d("Rooms","INICIO ROOMS");
-                for(Room room : result.getItems()){
-                    Log.d("Rooms",room.toString());
-                }
-                Log.d("Rooms","FIN ROOMS");
-            }
-        }.execute(LoginActivity.currentUser);
-
-        */
-
-    }
-
-
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
 
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // Marks item
+                        // Marks item as checked
                         menuItem.setChecked(true);
-                        // Creates a new fragment
+                        // Selects new item on NavigationDrawer
                         selectItem(menuItem.getItemId(), menuItem.getTitle().toString());
                         return true;
                     }
@@ -136,35 +100,40 @@ public class FFMusicMainActivity extends AppCompatActivity {
         );
     }
 
+    /*
+    * Manages the items on NavigationView
+    *
+    * Creates a new fragment to be replaced for the old one
+    * This is done on NavigationDrawer structure
+    * */
     private void selectItem(int itemId, String title) {
         Bundle args = new Bundle();
         Fragment newFragment;
 
         switch (itemId) {
             case NAV_HOME:
-                args.putString(HomeFragment.TITLE, title);
                 newFragment = new HomeFragment();
-                ((HomeFragment)newFragment).setFragmentManager(getSupportFragmentManager());
                 break;
 
             case NAV_YOUTUBE:
                 Intent toYouTube = getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
                 if ( toYouTube != null )
                     startActivity(toYouTube);
+                else
+                    Toast.makeText(this, R.string.youtube_app_not_found, Toast.LENGTH_SHORT);
                 return;
 
             case NAV_SETTINGS:
+                // Settings missing
                 newFragment = new SettingsFragment();
                 break;
 
             case NAV_LOG_OUT:
-
+                // Log out missing
                 return;
 
             default:
-                args.putString(HomeFragment.TITLE, title);
                 newFragment = new HomeFragment();
-                ((HomeFragment)newFragment).setFragmentManager(getSupportFragmentManager());
                 break;
         }
 
@@ -172,6 +141,9 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
+        /*
+        * Replaces new fragment over main_content layout
+        * */
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.main_content, newFragment)
@@ -183,6 +155,10 @@ public class FFMusicMainActivity extends AppCompatActivity {
         currentFragment = newFragment;
     }
 
+
+    /*
+    * Missing menu options on NavigationDrawer
+    * */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

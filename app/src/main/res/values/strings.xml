@@ -28,20 +28,24 @@
 
 
     <!-- Create Room -->
-
     <string name="hint_name_room">Name Room</string>
     <string name="create_room">Create Room</string>
     <string name ="private_room">private</string>
     <string name="hint_password">password</string>
     <string name="title_activity_room">RoomActivity</string>
 
-
     <!-- Room -->
-
     <string name="hint_song">name song</string>
     <string name="add_list">add list</string>
     <string name="loading">Loading</string>
+    <string name="room_created">Room Created</string>
 
+
+    <!-- Errors -->
+    <string name="unknown_error">Unknown error</string>
+    <string name="youtube_app_not_found">YouTube App not found</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="empty_fields">Empty fields</string>
 
 
     <string name="hint_name">Name Room</string>

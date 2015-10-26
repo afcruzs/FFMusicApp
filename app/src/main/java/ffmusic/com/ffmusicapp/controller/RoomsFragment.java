@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
@@ -29,25 +28,14 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private static List<Room> userRooms,otherRooms;
 
-    public static void setUserRooms(List<Room> data){
-        userRooms = data;
-    }
-
-    public static void setOtherRooms(List<Room> data){
-        otherRooms = data;
-    }
-
-    public static List<Room> getUserRooms() {
-        return userRooms;
-    }
-
-    public static List<Room> getOtherRooms() {
-        return otherRooms;
-    }
-
     private GridView grid;
-    private GridAdapter adapter;
+    private RoomsGridAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    public final static int CREATE_NEW_ROOM_ACTION = 1;
+    public final static int GO_TO_ROOM_ACTION = 2;
+
+
     /**
      * Argumento que representa el numero seccion al que pertenece
      */
@@ -67,6 +55,22 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public RoomsFragment() {
     }
 
+    public static List<Room> getUserRooms() {
+        return userRooms;
+    }
+
+    public static List<Room> getOtherRooms() {
+        return otherRooms;
+    }
+
+    public static void setUserRooms(List<Room> data){
+        userRooms = data;
+    }
+
+    public static void setOtherRooms(List<Room> data){
+        otherRooms = data;
+    }
+
     @Override
     public void onResume(){
         super.onResume();
@@ -76,24 +80,25 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("Lol","Creawtinggg");
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
         
-        // Obtención del grid view
+        // Catching grid view
         grid = (GridView) rootView.findViewById(R.id.gridview);
 
-
-        // Inicializar el grid view
+        // Initializing grid view
         setUpGridView(grid);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) rootView .findViewById(R.id.create_new_room_button);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        /*
+        * Floating action button to create new rooms
+        * */
+        FloatingActionButton newRoomButton = (FloatingActionButton) rootView.findViewById(R.id.create_new_room_button);
+        newRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CreateRoomActivity.class));
+                startActivityForResult(new Intent(getActivity(), CreateRoomActivity.class), CREATE_NEW_ROOM_ACTION);
             }
         });
 
@@ -107,20 +112,16 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
      */
     private void setUpGridView(GridView grid) {
         int section_number = getArguments().getInt(ARG_SECTION_NUMBER);
-        Log.d("Pecora", section_number + "");
         switch (section_number) {
             case 1:
-                adapter = new GridAdapter(getActivity(), getUserRooms());
+                adapter = new RoomsGridAdapter(getActivity(), getUserRooms());
                 grid.setAdapter(adapter);
                 break;
             case 2:
-                adapter = new GridAdapter(getActivity(), getOtherRooms());
+                adapter = new RoomsGridAdapter(getActivity(), getOtherRooms());
                 grid.setAdapter(adapter);
                 break;
         }
-
-
-
     }
 
     void updateRoomsGrid(){
@@ -132,10 +133,7 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
             @Override
             public void onPostExecute(RoomCollection result){
-                //super.onPostExecute(result);
                 userRooms = result.getItems();
-
-
                 new GetNearyByRoomsAsyncTask(fragment){
 
                     @Override
@@ -143,7 +141,6 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
                     @Override
                     public void onPostExecute(RoomCollection rooms){
-                        //super.onPostExecute(rooms);
                         otherRooms = rooms.getItems();
                         setUpGridView(grid);
                         adapter.notifyDataSetChanged();
@@ -152,16 +149,24 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }.execute(LoginActivity.currentUser);
-
-
             }
         }.execute(LoginActivity.currentUser);
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CREATE_NEW_ROOM_ACTION:
+            case GO_TO_ROOM_ACTION:
+                if ( resultCode == AppCompatActivity.RESULT_OK )
+                    updateRoomsGrid();
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     public void onRefresh() {
-
         updateRoomsGrid();
-
     }
 }

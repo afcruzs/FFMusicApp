@@ -1,38 +1,30 @@
 package ffmusic.com.ffmusicapp.controller;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ffmusic.backend.ffMusicApi.model.Room;
-import com.ffmusic.backend.ffMusicApi.model.SongRoom;
-import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
-import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 
 /**
  * {@link android.widget.BaseAdapter} personalizado para el gridview
  */
-public class GridAdapter extends BaseAdapter {
+public class RoomsGridAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final List<Room> items;
 
-    public GridAdapter(Context c, List<Room> items) {
+    public RoomsGridAdapter(Context c, List<Room> items) {
         mContext = c;
         if ( items == null )
             this.items = new ArrayList<>();
@@ -61,14 +53,14 @@ public class GridAdapter extends BaseAdapter {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.grid_item, viewGroup, false);
+            view = inflater.inflate(R.layout.cardview_room, viewGroup, false);
         }
 
         final Room item = getItem(position);
 
         // Seteando Imagen
-       // ImageView image = (ImageView) view.findViewById(R.id.imagen);
-        //Glide.with(image.getContext()).load(1).into(image);
+        // ImageView image = (ImageView) view.findViewById(R.id.imagen);
+        // Glide.with(image.getContext()).load(1).into(image);
 
         // Seteando Nombre
         TextView name = (TextView) view.findViewById(R.id.nombre);
@@ -81,10 +73,9 @@ public class GridAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("pecora","Entro al on click");
                 Intent intent = new Intent(mContext, RoomActivity.class);
                 intent.putExtra(RoomActivity.CURRENT_ROOM, item.getId());
-                mContext.startActivity(intent);
+                ((AppCompatActivity)mContext).startActivityForResult(intent, RoomsFragment.GO_TO_ROOM_ACTION);
             }
         });
         return view;

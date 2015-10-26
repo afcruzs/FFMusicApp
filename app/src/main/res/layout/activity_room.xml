@@ -8,7 +8,7 @@
     tools:context="ffmusic.com.ffmusicapp.controller.RoomActivity">
 
 
-    <!-- YouTube Fragment -->
+    <!-- YouTube Player Fragment -->
     <RelativeLayout
         android:id="@+id/youtube_player"
         android:layout_width="match_parent"

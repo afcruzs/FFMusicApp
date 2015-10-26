@@ -7,7 +7,6 @@ public class ListModelItem implements Serializable {
 
     private String name;
     private String songId;
-    private boolean value;
 
     public ListModelItem( String name, String songId){
         this.name = name;

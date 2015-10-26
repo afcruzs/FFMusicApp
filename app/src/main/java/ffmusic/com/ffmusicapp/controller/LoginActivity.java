@@ -288,10 +288,8 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     public void update(){
-        //Log.d("PERRA",mGoogleApiClient.getSessionId()+"");
         Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
         final String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-        //Log.d("PERRA",currentPerson.toString());
         if (currentPerson != null) {
             Toast.makeText(getApplicationContext(), "hola : " + currentPerson.getDisplayName(), Toast.LENGTH_SHORT).show();
 
@@ -379,10 +377,6 @@ public class LoginActivity extends AppCompatActivity implements
                 }
             }
 
-        } else {
-            // Show the signed-out UI
-            //showSignedOutUI();
-            //startActivity(new Intent(this, FFMusicMainActivity.class));
         }
     }
 
@@ -390,9 +384,6 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putBoolean(KEY_IS_RESOLVING, mIsResolving);
-        //outState.putBoolean(KEY_SHOULD_RESOLVE, mShouldResolve);
-
     }
 
 
