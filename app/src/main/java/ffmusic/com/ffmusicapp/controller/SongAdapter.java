@@ -1,14 +1,19 @@
 package ffmusic.com.ffmusicapp.controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import ffmusic.com.ffmusicapp.R;
@@ -60,43 +65,54 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mNameSong;
-        private  ImageButton like;
-        private ImageButton delete;
-        private boolean isLike;
+        private TextView artist;
+        private ImageView image;
+        private ImageView star;
+        private int mLastResourceId;
+
         public ViewHolder(View v) {
             super(v);
             mNameSong = (TextView)v.findViewById(R.id.name_song);
-            delete =  (ImageButton)v.findViewById(R.id.delete_song);
-            like = (ImageButton)v.findViewById(R.id.like_buttom);
-            isLike = false;
+            artist = (TextView)v.findViewById(R.id.name_artist);
+            image = (ImageView) v.findViewById(R.id.image_song);
+            star = (ImageView) v.findViewById(R.id.star);
+            mLastResourceId = android.R.drawable.star_off;
+
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Pulsado el elemento ", Toast.LENGTH_LONG).show();
+
                 }
             });
-            delete.setOnClickListener(new View.OnClickListener(){
+
+            star.setOnClickListener( new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Pulsado el elemento xx", Toast.LENGTH_LONG).show();
+                    if( mLastResourceId == android.R.drawable.star_off){
+                        mLastResourceId = android.R.drawable.star_on;
+                        star.setImageResource(android.R.drawable.star_on);
+                    }else{
+                        mLastResourceId = android.R.drawable.star_off;
+                        star.setImageResource(android.R.drawable.star_off);
+                    }
                 }
             });
-            like.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    if( !isLike )
-                        like.setImageResource(R.drawable.ic_dislike);
-                    else
-                        like.setImageResource(R.drawable.ic_like);
-                    isLike = !isLike;
-                    Toast.makeText(v.getContext(), "Pulsado el elemento xx", Toast.LENGTH_LONG).show();
-                }
-            });
+
         }
 
-
         public void bindHolder(ListModelItem t) {
+
             mNameSong.setText(t.getName());
+            artist.setText(t.getArtist());
+            if( t.getName().equals("Someday")) {
+                image.setImageResource(R.drawable.test);
+            }
+            if( t.getName().equals("Resistance")){
+                image.setImageResource(R.drawable.muse);
+            }
+            if( t.getName().equals("The man who sold the world")){
+                image.setImageResource(R.drawable.nirvana);
+            }
         }
     }
 

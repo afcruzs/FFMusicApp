@@ -59,7 +59,6 @@ public class RoomActivity extends AppCompatActivity {
 
         mAdapter = new SongAdapter(list);
 
-        //
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +83,7 @@ public class RoomActivity extends AppCompatActivity {
             public void onPostExecute(SongRoomCollection data){
                 super.onPostExecute(data);
                 for(SongRoom sr : data.getItems()){
-                    list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId()));
+                    list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId(), sr.getSong().getArtist()));
                     mAdapter.notifyItemInserted(list.size());
                 }
                 setUp();
@@ -130,7 +129,7 @@ public class RoomActivity extends AppCompatActivity {
                             @Override
                             public void onPostExecute(SongRoom sr) {
                                 super.onPostExecute(sr);
-                                list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId()));
+                                list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId(), song.getArtist()));
                                 mAdapter.notifyItemInserted(list.size());
                             }
                         }.execute(songRoom);

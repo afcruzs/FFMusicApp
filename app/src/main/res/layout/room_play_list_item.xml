@@ -1,47 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:background="@color/cardview_shadow_end_color">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="1dp"
+    card_view:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/name_song"
-        android:layout_width="0sp"
-        android:layout_height="fill_parent"
-        android:layout_weight="10"
-        android:gravity="center_vertical"
-        android:hint="@string/hint_song"
-        android:background="@color/white"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/like_buttom"
+        <ImageView
+            android:id="@+id/image_song"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test"
+            android:adjustViewBounds="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Large Text"
+            android:id="@+id/name_song"
+            android:layout_toRightOf="@+id/image_song"
+            android:layout_toLeftOf="@+id/time"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp" />
 
-            android:layout_width="fill_parent"
-            android:layout_weight="2"
-            android:contentDescription="@string/hint_song"
-            android:onClick="removeAtomPayOnClickHandler"
-            android:background="@color/white"
-            android:src="@drawable/ic_like" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/name_artist"
+            android:layout_below="@+id/name_song"
+            android:layout_alignLeft="@+id/name_song" />
 
-    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/delete_song"
-        android:layout_width="0sp"
-        android:layout_height="fill_parent"
-        android:layout_weight="2"
-        android:gravity="center"
-        android:inputType="numberDecimal"
-        android:background="@color/white"
-        android:src="@drawable/ic_delete_song"/>
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="2:32"
+            android:id="@+id/time"
+            android:layout_marginTop="6dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignLeft="@+id/star" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/star"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@android:drawable/star_off" />
+
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
