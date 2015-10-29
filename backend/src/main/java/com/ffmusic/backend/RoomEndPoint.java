@@ -8,7 +8,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
-
+import com.googlecode.objectify.cmd.*;
 import java.util.List;
 
 import static com.ffmusic.backend.OfyService.ofy;
@@ -68,5 +68,12 @@ public class RoomEndPoint {
         public Song insertSong(final Song data){
                 ofy().save().entity(data).now();
                 return data;
+        }
+
+        @ApiMethod(httpMethod = "POST")
+        public List<Room> querySongs(@Named("prefix")String prefix){
+                return ofy().load().type(Room.class).
+                        filter("name >=",prefix).filter("name <",prefix + "\ufffd").list();
+
         }
 }

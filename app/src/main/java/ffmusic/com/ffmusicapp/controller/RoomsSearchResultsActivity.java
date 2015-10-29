@@ -13,6 +13,7 @@ import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.GetRoomsByPrefixAsyncTask;
 
 public class RoomsSearchResultsActivity extends AppCompatActivity {
 
@@ -42,14 +43,14 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
     private void showResults(String query) {
         Log.d("HOLA", "This is my query " + query);
         final RoomsSearchResultsActivity aux = this;
-        new GetNearyByRoomsAsyncTask(this){
+        new GetRoomsByPrefixAsyncTask(this){
             @Override
             public void onPostExecute(RoomCollection data){
                 super.onPostExecute(data);
 
                 Log.d("HOLA2",data.toString());
             }
-        }.execute(LoginActivity.currentUser);
+        }.execute(query);
     }
 
     @Override
