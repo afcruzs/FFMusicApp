@@ -26,7 +26,7 @@ import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
  */
 public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
-    private static List<Room> userRooms,otherRooms;
+    private static List<Room> userRooms,otherRooms,enteredRooms;
 
     private GridView grid;
     private RoomsGridAdapter adapter;
@@ -62,6 +62,12 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public static List<Room> getOtherRooms() {
         return otherRooms;
     }
+
+    public static List<Room> getEnteredRooms() {
+        return enteredRooms;
+    }
+
+
 
     public static void setUserRooms(List<Room> data){
         userRooms = data;
@@ -121,6 +127,11 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 adapter = new RoomsGridAdapter(getActivity(), getOtherRooms());
                 grid.setAdapter(adapter);
                 break;
+            case 3:
+                adapter = new RoomsGridAdapter(getActivity(), getEnteredRooms());
+                grid.setAdapter(adapter);
+                break;
+
         }
     }
 
@@ -134,6 +145,7 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onPostExecute(RoomCollection result){
                 userRooms = result.getItems();
+                enteredRooms = result.getItems();
                 new GetNearyByRoomsAsyncTask(fragment){
 
                     @Override

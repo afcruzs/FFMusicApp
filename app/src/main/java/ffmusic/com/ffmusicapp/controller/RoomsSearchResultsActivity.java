@@ -40,7 +40,7 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new RoomAdapter(list);
+        mAdapter = new RoomAdapter(list,this);
 
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,7 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
             public void onPostExecute(RoomCollection data){
                 super.onPostExecute(data);
                 for( Room room : data.getItems() ){
-                    list.add( new RoomListModelItem( room.getName(), room.getRoomOwner().getFirstName() ) );
+                    list.add( new RoomListModelItem( room.getName(), room.getRoomOwner().getFirstName(), room.getId() ) );
                     mAdapter.notifyItemInserted(list.size());
                 }
                 Log.d("HOLA2",data.toString());

@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements
                                     GraphResponse response) {
 
                                 //currentUser = UserFactory.createUser(object);
-
+                                Log.d("HOLA","COMP");
                                 new InsertUserAsyncTask(aux){
                                     @Override
                                     public void onPostExecute(User user){
@@ -165,7 +165,9 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("HOLA", "Here "+ mPrefs.getBoolean(IS_LOGGED, false));
         if ( mPrefs.getBoolean(IS_LOGGED, false) ) {
+
             isLogged = true;
             emailUser = mPrefs.getString(EMAIL,null);
             //currentUser = UserFactory.getUser(emailUser);

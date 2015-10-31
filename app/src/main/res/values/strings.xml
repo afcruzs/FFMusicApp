@@ -57,6 +57,7 @@
     <string name="hint_repeat_password">Repeat password</string>
     <string name="hint_search">type a room name</string>
     <string name="title_activity_rooms_search_results">RoomsSearchResultsActivity</string>
+    <string name="home_entered_rooms">Entered rooms</string>
 
 
 </resources>

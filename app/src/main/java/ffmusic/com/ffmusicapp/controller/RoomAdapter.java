@@ -1,5 +1,7 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +21,11 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
 
     private ArrayList<RoomListModelItem> list;
     private View.OnClickListener listener;
+    private AppCompatActivity context;
 
-    public RoomAdapter(ArrayList<RoomListModelItem> list) {
+    public RoomAdapter(ArrayList<RoomListModelItem> list, AppCompatActivity context) {
         this.list = list;
+        this.context = context;
     }
 
 
@@ -35,7 +39,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.search_rooms_play_list_item, viewGroup, false);
         v.setOnClickListener(this);
-        ViewHolder view = new ViewHolder(v);
+        ViewHolder view = new ViewHolder(v,context);
 
         return view;
     }
@@ -64,9 +68,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView roomName;
         private TextView roomOwnerName;
+        private Long id;
 
-
-        public ViewHolder(View v) {
+        public ViewHolder(View v, final AppCompatActivity mContext) {
             super(v);
             roomName = (TextView)v.findViewById(R.id.name_room);
             roomOwnerName = (TextView)v.findViewById(R.id.name_room_owner);
@@ -74,7 +78,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("HOLA", "CLICK ON " + roomName);
+                    Intent intent = new Intent(mContext, RoomActivity.class);
+                    intent.putExtra(RoomActivity.CURRENT_ROOM, id);
+                    mContext.startActivityForResult(intent, RoomsFragment.GO_TO_ROOM_ACTION);
                 }
             });
         }
@@ -83,7 +89,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
 
             roomName.setText(t.getRoomName());
             roomOwnerName.setText(t.getRoomOwnerName());
-
+            this.id = t.getRoomId();
         }
     }
 }

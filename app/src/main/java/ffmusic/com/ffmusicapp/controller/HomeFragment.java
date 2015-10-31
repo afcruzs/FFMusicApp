@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.home_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.home_tabs_my_rooms));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.home_tabs_other_rooms));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.home_entered_rooms));
 
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -73,6 +74,7 @@ public class HomeFragment extends Fragment {
         * */
         adapter.addFragment(RoomsFragment.newInstance(1), getString(R.string.home_tabs_my_rooms));
         adapter.addFragment(RoomsFragment.newInstance(2), getString(R.string.home_tabs_other_rooms));
+        adapter.addFragment(RoomsFragment.newInstance(3), getString(R.string.home_entered_rooms));
         viewPager.setAdapter(adapter);
     }
 
