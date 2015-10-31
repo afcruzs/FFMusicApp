@@ -95,9 +95,11 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         * Floating action button to create new rooms
         * */
         FloatingActionButton newRoomButton = (FloatingActionButton) rootView.findViewById(R.id.create_new_room_button);
+
         newRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //its private ????
                 startActivityForResult(new Intent(getActivity(), CreateRoomActivity.class), CREATE_NEW_ROOM_ACTION);
             }
         });

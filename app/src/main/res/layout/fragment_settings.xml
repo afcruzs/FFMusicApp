@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:tag="@string/setting_tag">
 
     <TextView
         android:id="@+id/fragment_settings_title"

@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
@@ -17,22 +19,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ffmusic.backend.ffMusicApi.model.Room;
-import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
-import com.ffmusic.backend.ffMusicApi.model.User;
 
 import java.util.Random;
+import java.util.Stack;
 
 import ffmusic.com.ffmusicapp.R;
-import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
-import ffmusic.com.ffmusicapp.endpoints.InsertRoomAsyncTask;
-import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
 
 public class FFMusicMainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private Fragment currentFragment;
     private Menu menu;
+    private Stack<Fragment> fragmentStack;
 
     /*
     * Options of NavigationView
@@ -41,12 +39,14 @@ public class FFMusicMainActivity extends AppCompatActivity {
     private final int NAV_YOUTUBE = R.id.nav_youtube;
     private final int NAV_SETTINGS = R.id.nav_settings;
     private final int NAV_LOG_OUT = R.id.nav_log_out;
+    private final String SETTINGS_TAG = R.string.setting_tag+"";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ffmusic_main);
 
+        fragmentStack = new Stack<>();
         /*
         * Initializing Material Design components
         * */
@@ -112,6 +112,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
         switch (itemId) {
             case NAV_HOME:
+
                 newFragment = new HomeFragment();
                 break;
 
@@ -124,8 +125,8 @@ public class FFMusicMainActivity extends AppCompatActivity {
                 return;
 
             case NAV_SETTINGS:
-                // Settings missing
                 newFragment = new SettingsFragment();
+
                 break;
 
             case NAV_LOG_OUT:
@@ -146,13 +147,14 @@ public class FFMusicMainActivity extends AppCompatActivity {
         * */
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.main_content, newFragment)
-                .commit();
+                .replace(R.id.main_content, newFragment).commit();
+
 
         drawerLayout.closeDrawers(); // Closes the drawer
         setTitle(title);
 
         currentFragment = newFragment;
+        fragmentStack.push(newFragment);
     }
 
 
@@ -178,5 +180,28 @@ public class FFMusicMainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void removeCurrentFragment()
+    {
+        FragmentTransaction tx = getFragmentManager().beginTransaction();
+
+        Fragment currentFrag =  getSupportFragmentManager().findFragmentById(currentFragment.getId());
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if( fragmentStack.size() > 1 ){
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentStack.lastElement().onPause();
+                fragmentStack.pop();
+                fragmentStack.lastElement().onResume();
+                fragmentManager.beginTransaction().replace(R.id.main_content, fragmentStack.lastElement()).commit();
+                return true;
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -203,7 +203,9 @@ public class LoginActivity extends AppCompatActivity implements
                         super.onPostExecute(rooms);
                         super.onPostExecute(rooms);
                         RoomsFragment.setOtherRooms(rooms.getItems());
-                        startActivity(new Intent(holder, FFMusicMainActivity.class));
+                        Intent intent = new Intent( holder, FFMusicMainActivity.class );
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 }.execute(LoginActivity.currentUser);
 
