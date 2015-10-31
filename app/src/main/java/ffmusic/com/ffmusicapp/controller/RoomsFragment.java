@@ -14,10 +14,14 @@ import android.widget.GridView;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoomCollection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 
@@ -145,7 +149,7 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onPostExecute(RoomCollection result){
                 userRooms = result.getItems();
-                enteredRooms = result.getItems();
+
                 new GetNearyByRoomsAsyncTask(fragment){
 
                     @Override
@@ -154,11 +158,22 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     @Override
                     public void onPostExecute(RoomCollection rooms){
                         otherRooms = rooms.getItems();
-                        setUpGridView(grid);
-                        adapter.notifyDataSetChanged();
-                        grid.setAdapter(adapter);
-                        grid.invalidateViews();
-                        swipeRefreshLayout.setRefreshing(false);
+                        new GetEnteredRoomsAsyncTask(fragment){
+                            @Override
+                            public void onPostExecute( UserEnteredRoomCollection data ){
+                                super.onPostExecute(data);
+                                enteredRooms = new ArrayList<>();
+                                for(UserEnteredRoom d : data.getItems()){
+                                    enteredRooms.add(d.getRoom());
+                                }
+                                setUpGridView(grid);
+                                adapter.notifyDataSetChanged();
+                                grid.setAdapter(adapter);
+                                grid.invalidateViews();
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+
+                        }.execute(LoginActivity.currentUser);
                     }
                 }.execute(LoginActivity.currentUser);
             }
