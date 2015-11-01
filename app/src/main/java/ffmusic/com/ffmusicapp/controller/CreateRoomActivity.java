@@ -120,6 +120,9 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
                                 theSongs[2].setArtist("Muse");
                                 theSongs[2].setSongYoutubeId("TPE9uSFFxrI");
 
+                                for(Song song : theSongs)
+                                    song.setThumbnailURL("http://revel.in/wp-content/uploads/2015/04/grumpy-cat.png");
+
                                 auxRoom = room;
                                 for (int l = 0; l < 3; ++l) {
                                     new SaveSongAsyncTask(context) {

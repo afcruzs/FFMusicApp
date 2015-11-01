@@ -19,6 +19,8 @@ public class Song {
     @Index
     String songYoutubeId;
 
+    String thumbnailURL;
+
     public Long getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class Song {
 
     public void setSongYoutubeId(String songYoutubeId) {
         this.songYoutubeId = songYoutubeId;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
     }
 }

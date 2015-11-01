@@ -1,1 +1,1 @@
-include ':app', ':backend', ':youtubeconnection', ':test'
+include ':app',':youtubeconnection', ':test', ':backend'
