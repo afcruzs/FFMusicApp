@@ -39,10 +39,25 @@
                 android:hint="@string/hint_name" />
         </android.support.design.widget.TextInputLayout>
 
+
+
+        <com.rey.material.widget.CheckBox
+            android:id="@+id/buttom_private"
+            style="@style/CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/private_room"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+
+            />
+
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_password_room"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <EditText
                 android:id="@+id/input_password_room"
@@ -55,7 +70,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_password_validate_room"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
 
             <EditText
                 android:id="@+id/input_password_validate"
@@ -65,7 +81,7 @@
                 android:hint="@string/hint_repeat_password" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button android:id="@+id/room_create_buttom"
+        <Button android:id="@+id/room_create_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/buttom_acept"

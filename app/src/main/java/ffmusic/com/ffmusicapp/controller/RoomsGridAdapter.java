@@ -2,7 +2,10 @@ package ffmusic.com.ffmusicapp.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +13,30 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoomCollection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 
 /**
  * {@link android.widget.BaseAdapter} personalizado para el gridview
  */
-public class RoomsGridAdapter extends BaseAdapter {
+public class RoomsGridAdapter extends BaseAdapter{
 
-    private final Context mContext;
+    public static Context mContext;
     private final List<Room> items;
+    private FragmentManager manager;
+    public static String STATE = "";
 
-    public RoomsGridAdapter(Context c, List<Room> items) {
+
+    public static final String TAG = "Adapter";
+    public RoomsGridAdapter(Context c, List<Room> items, FragmentManager manager ) {
         mContext = c;
+        this.manager = manager;
         if ( items == null )
             this.items = new ArrayList<>();
         else this.items = items;
@@ -49,7 +60,7 @@ public class RoomsGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-
+        final RoomsGridAdapter context = this;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -73,11 +84,35 @@ public class RoomsGridAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, RoomActivity.class);
+                final Intent intent = new Intent(mContext, RoomActivity.class);
                 intent.putExtra(RoomActivity.CURRENT_ROOM, item.getId());
-                ((AppCompatActivity)mContext).startActivityForResult(intent, RoomsFragment.GO_TO_ROOM_ACTION);
+
+                new GetEnteredRoomsAsyncTask(mContext) {
+                    @Override
+                    public void onPostExecute(UserEnteredRoomCollection data) {
+                        super.onPostExecute(data);
+                        boolean exist = false;
+                        for (UserEnteredRoom d : data.getItems()) {
+                            if (d.getRoom().getId().equals(item.getId())) {
+                                exist = true;
+                            }
+                        }
+                        if (exist || item.getPassword().equals("-") || item.getPassword().equals(STATE)
+                                || LoginActivity.currentUser.getId().equals(item.getRoomOwner().getId())) {
+                            ((AppCompatActivity) mContext).startActivityForResult(intent, RoomsFragment.GO_TO_ROOM_ACTION);
+                        } else {
+                            DialogFragment fragment = new PasswordDialogFragment();
+                            ((PasswordDialogFragment) (fragment)).newInstance(item,context);
+                            fragment.show(manager, "NoticeDialog");
+                        }
+
+                    }
+                }.execute(LoginActivity.currentUser);
+
+
             }
         });
+
         return view;
     }
 }

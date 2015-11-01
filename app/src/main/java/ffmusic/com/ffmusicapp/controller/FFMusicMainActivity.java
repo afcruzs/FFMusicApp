@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -72,9 +73,9 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
     private void setUpNavigationView ( ) {
         TextView headerUsernameTextView = (TextView) findViewById(R.id.header_username);
-        headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
+        //headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
         TextView headerEmailTextView = (TextView) findViewById(R.id.header_email);
-        headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
+        //headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
     }
 
     private void setUpToolbar() {
@@ -216,4 +217,5 @@ public class FFMusicMainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }

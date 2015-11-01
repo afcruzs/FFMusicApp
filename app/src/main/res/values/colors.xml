@@ -11,4 +11,7 @@
     <color name="buttom_accept">#E53935</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="red_color">#F44336</color>
+    <color name="gray_color">#424242</color>
+
 </resources>

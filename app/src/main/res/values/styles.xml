@@ -10,4 +10,24 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
+
+    <style name="CheckBox">
+        <item name="cbd_width">32dp</item>
+        <item name="cbd_height">32dp</item>
+        <item name="cbd_boxSize">20dp</item>
+        <item name="cbd_cornerRadius">2dp</item>
+        <item name="cbd_strokeSize">2dp</item>
+        <item name="cbd_animDuration">@android:integer/config_mediumAnimTime</item>
+    </style>
+
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+        //hint color And Label Color in False State
+        <item name="android:textColorHint">@color/gray_color</item>
+        <item name="android:textSize">20sp</item>
+        //Label color in True State And Bar Color False And True State
+        <item name="colorAccent">@color/red_color</item>
+        <item name="colorControlNormal">@color/gray_color</item>
+        <item name="colorControlActivated">@color/red_color</item>
+    </style>
+
 </resources>

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,8 @@ import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 /**
  * Un fragmento que contiene una grilla de Rooms
  */
-public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+, NoticeDialog{
 
     private static List<Room> userRooms,otherRooms,enteredRooms;
 
@@ -126,15 +130,15 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         int section_number = getArguments().getInt(ARG_SECTION_NUMBER);
         switch (section_number) {
             case 1:
-                adapter = new RoomsGridAdapter(getActivity(), getUserRooms());
+                adapter = new RoomsGridAdapter(getActivity(), getUserRooms(), getChildFragmentManager());
                 grid.setAdapter(adapter);
                 break;
             case 2:
-                adapter = new RoomsGridAdapter(getActivity(), getOtherRooms());
+                adapter = new RoomsGridAdapter(getActivity(), getOtherRooms(), getChildFragmentManager());
                 grid.setAdapter(adapter);
                 break;
             case 3:
-                adapter = new RoomsGridAdapter(getActivity(), getEnteredRooms());
+                adapter = new RoomsGridAdapter(getActivity(), getEnteredRooms(), getChildFragmentManager());
                 grid.setAdapter(adapter);
                 break;
 
@@ -197,5 +201,15 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onRefresh() {
         updateRoomsGrid();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        Log.e("TAG", "HOLA MUNDO");
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }
