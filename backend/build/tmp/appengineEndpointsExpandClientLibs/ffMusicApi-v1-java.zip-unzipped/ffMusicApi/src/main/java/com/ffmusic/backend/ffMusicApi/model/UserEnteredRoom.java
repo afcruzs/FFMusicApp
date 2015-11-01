@@ -19,7 +19,7 @@
 package com.ffmusic.backend.ffMusicApi.model;
 
 /**
- * Model definition for Song.
+ * Model definition for UserEnteredRoom.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the ffMusicApi. For a detailed explanation see:
@@ -29,13 +29,7 @@ package com.ffmusic.backend.ffMusicApi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class Song extends com.google.api.client.json.GenericJson {
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.String artist;
+public final class UserEnteredRoom extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
@@ -47,28 +41,13 @@ public final class Song extends com.google.api.client.json.GenericJson {
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String songName;
+  private Room room;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String songYoutubeId;
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.String getArtist() {
-    return artist;
-  }
-
-  /**
-   * @param artist artist or {@code null} for none
-   */
-  public Song setArtist(java.lang.String artist) {
-    this.artist = artist;
-    return this;
-  }
+  private User user;
 
   /**
    * @return value or {@code null} for none
@@ -80,7 +59,7 @@ public final class Song extends com.google.api.client.json.GenericJson {
   /**
    * @param id id or {@code null} for none
    */
-  public Song setId(java.lang.Long id) {
+  public UserEnteredRoom setId(java.lang.Long id) {
     this.id = id;
     return this;
   }
@@ -88,41 +67,41 @@ public final class Song extends com.google.api.client.json.GenericJson {
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getSongName() {
-    return songName;
+  public Room getRoom() {
+    return room;
   }
 
   /**
-   * @param songName songName or {@code null} for none
+   * @param room room or {@code null} for none
    */
-  public Song setSongName(java.lang.String songName) {
-    this.songName = songName;
+  public UserEnteredRoom setRoom(Room room) {
+    this.room = room;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getSongYoutubeId() {
-    return songYoutubeId;
+  public User getUser() {
+    return user;
   }
 
   /**
-   * @param songYoutubeId songYoutubeId or {@code null} for none
+   * @param user user or {@code null} for none
    */
-  public Song setSongYoutubeId(java.lang.String songYoutubeId) {
-    this.songYoutubeId = songYoutubeId;
+  public UserEnteredRoom setUser(User user) {
+    this.user = user;
     return this;
   }
 
   @Override
-  public Song set(String fieldName, Object value) {
-    return (Song) super.set(fieldName, value);
+  public UserEnteredRoom set(String fieldName, Object value) {
+    return (UserEnteredRoom) super.set(fieldName, value);
   }
 
   @Override
-  public Song clone() {
-    return (Song) super.clone();
+  public UserEnteredRoom clone() {
+    return (UserEnteredRoom) super.clone();
   }
 
 }

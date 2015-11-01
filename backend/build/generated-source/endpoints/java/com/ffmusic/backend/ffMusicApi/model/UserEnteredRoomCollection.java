@@ -19,7 +19,7 @@
 package com.ffmusic.backend.ffMusicApi.model;
 
 /**
- * Model definition for SongRoomCollection.
+ * Model definition for UserEnteredRoomCollection.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the ffMusicApi. For a detailed explanation see:
@@ -29,37 +29,43 @@ package com.ffmusic.backend.ffMusicApi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class SongRoomCollection extends com.google.api.client.json.GenericJson {
+public final class UserEnteredRoomCollection extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<SongRoom> items;
+  private java.util.List<UserEnteredRoom> items;
+
+  static {
+    // hack to force ProGuard to consider UserEnteredRoom used, since otherwise it would be stripped out
+    // see http://code.google.com/p/google-api-java-client/issues/detail?id=528
+    com.google.api.client.util.Data.nullOf(UserEnteredRoom.class);
+  }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<SongRoom> getItems() {
+  public java.util.List<UserEnteredRoom> getItems() {
     return items;
   }
 
   /**
    * @param items items or {@code null} for none
    */
-  public SongRoomCollection setItems(java.util.List<SongRoom> items) {
+  public UserEnteredRoomCollection setItems(java.util.List<UserEnteredRoom> items) {
     this.items = items;
     return this;
   }
 
   @Override
-  public SongRoomCollection set(String fieldName, Object value) {
-    return (SongRoomCollection) super.set(fieldName, value);
+  public UserEnteredRoomCollection set(String fieldName, Object value) {
+    return (UserEnteredRoomCollection) super.set(fieldName, value);
   }
 
   @Override
-  public SongRoomCollection clone() {
-    return (SongRoomCollection) super.clone();
+  public UserEnteredRoomCollection clone() {
+    return (UserEnteredRoomCollection) super.clone();
   }
 
 }
