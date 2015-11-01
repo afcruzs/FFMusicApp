@@ -87,7 +87,8 @@ public class RoomActivity extends AppCompatActivity {
             public void onPostExecute(SongRoomCollection data){
                 super.onPostExecute(data);
                 for(SongRoom sr : data.getItems()){
-                    list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId(), sr.getSong().getArtist()));
+                    list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
+                            sr.getSong().getThumbnailURL()));
                     mAdapter.notifyItemInserted(list.size());
                 }
                 setUp();
@@ -118,6 +119,7 @@ public class RoomActivity extends AppCompatActivity {
                 song.setSongName("The man who sold the world");
                 song.setSongYoutubeId("fregObNcHC8");
                 song.setArtist("Nirvana");
+                song.setThumbnailURL("http://revel.in/wp-content/uploads/2015/04/grumpy-cat.png");
 
                 new SaveSongAsyncTask(RoomActivity.this) {
                     @Override
@@ -133,7 +135,8 @@ public class RoomActivity extends AppCompatActivity {
                             @Override
                             public void onPostExecute(SongRoom sr) {
                                 super.onPostExecute(sr);
-                                list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId(), song.getArtist()));
+                                list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId(), song.getArtist(),
+                                        song.getThumbnailURL()));
                                 mAdapter.notifyItemInserted(list.size());
                             }
                         }.execute(songRoom);

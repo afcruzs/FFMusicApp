@@ -11,6 +11,7 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
 import com.googlecode.objectify.cmd.*;
 import java.util.List;
+import java.util.Random;
 
 import static com.ffmusic.backend.OfyService.ofy;
 
@@ -57,6 +58,13 @@ public class RoomEndPoint {
         public SongRoom songRoom(final SongRoom songRoom){
                 ofy().save().entity(songRoom).now();
                 return songRoom;
+        }
+
+        @ApiMethod(httpMethod = "POST")
+        public Song randomSongFromRoom(final Room room){
+                List<SongRoom> list = ofy().load().type(SongRoom.class).filter("room",room).list();
+
+                return list.get( new Random().nextInt(list.size()) ).getSong();
         }
 
         @ApiMethod(httpMethod = "POST")

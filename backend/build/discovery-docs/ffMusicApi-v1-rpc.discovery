@@ -1,6 +1,6 @@
 {
  "kind": "discovery#rpcDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/bOX5-jUVrgWIzJARl4dO9lf3anw\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/4z6R2YK8IyOtM_wMt8d7t5qIsTA\"",
  "discoveryVersion": "v1",
  "id": "ffMusicApi:v1",
  "name": "ffMusicApi",
@@ -117,6 +117,9 @@
      "type": "string"
     },
     "songYoutubeId": {
+     "type": "string"
+    },
+    "thumbnailURL": {
      "type": "string"
     }
    }
@@ -311,6 +314,23 @@
    ],
    "returns": {
     "$ref": "RoomCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "ffMusicApi.roomEndPoint.randomSongFromRoom": {
+   "id": "ffMusicApi.roomEndPoint.randomSongFromRoom",
+   "parameters": {
+    "resource": {
+     "$ref": "Room"
+    }
+   },
+   "parameterOrder": [
+    "resource"
+   ],
+   "returns": {
+    "$ref": "Song"
    },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"

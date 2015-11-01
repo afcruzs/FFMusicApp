@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
 import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoomCollection;
@@ -20,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
-import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 
 /**
  * {@link android.widget.BaseAdapter} personalizado para el gridview
@@ -65,13 +67,25 @@ public class RoomsGridAdapter extends BaseAdapter{
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.cardview_room, viewGroup, false);
+
         }
 
-        final Room item = getItem(position);
-
         // Seteando Imagen
-        // ImageView image = (ImageView) view.findViewById(R.id.imagen);
-        // Glide.with(image.getContext()).load(1).into(image);
+        ImageView image = (ImageView) view.findViewById(R.id.imagen);
+
+        //image.setImageResource(R.drawable.nirvana);
+
+        if( DownloadImageTask.getBitmaskFromCache(item.getId().toString()) == null ) {
+            Log.d("HOLA","JEJEJEIJIJIJI");
+            image.setImageResource(R.drawable.muse);
+        }else{
+            image.setImageBitmap(DownloadImageTask.getBitmaskFromCache(item.getId().toString()));
+        }
+
+
+
+
+
 
         // Seteando Nombre
         TextView name = (TextView) view.findViewById(R.id.nombre);

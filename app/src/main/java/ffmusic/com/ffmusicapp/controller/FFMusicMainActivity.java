@@ -72,11 +72,16 @@ public class FFMusicMainActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView ( ) {
-        TextView headerUsernameTextView = (TextView) findViewById(R.id.header_username);
-        //headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
-        TextView headerEmailTextView = (TextView) findViewById(R.id.header_email);
-        //headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
+        TextView headerUsernameTextView = (TextView) headerView.findViewById(R.id.header_username);
+        headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
+        TextView headerEmailTextView = (TextView) headerView.findViewById(R.id.header_email);
+        headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
     }
+
+
+
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -217,5 +222,4 @@ public class FFMusicMainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }

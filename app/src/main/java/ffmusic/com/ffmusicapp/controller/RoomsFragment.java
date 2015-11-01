@@ -17,6 +17,7 @@ import android.widget.GridView;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
+import com.ffmusic.backend.ffMusicApi.model.Song;
 import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
 import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoomCollection;
 
@@ -27,6 +28,7 @@ import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.RandomSongFromRoomAsyncTask;
 
 /**
  * Un fragmento que contiene una grilla de Rooms
@@ -145,6 +147,19 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         }
     }
 
+    void cacheRoomsThumbnails(List<Room> list){
+        for(Room r : list) {
+            final Room room = r;
+            new RandomSongFromRoomAsyncTask(getContext()){
+            @Override
+            public void onPostExecute(Song song){
+                super.onPostExecute(song);
+                new DownloadImageTask(null, room.getId().toString()).execute(song.getThumbnailURL());
+            }
+            }.execute(r);
+        }
+    }
+
     void updateRoomsGrid(){
         final Context fragment = getContext();
         new GetRoomsByUserAsyncTask(fragment){
@@ -155,7 +170,7 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onPostExecute(RoomCollection result){
                 userRooms = result.getItems();
-
+                cacheRoomsThumbnails(userRooms);
                 new GetNearyByRoomsAsyncTask(fragment){
 
                     @Override
@@ -164,11 +179,13 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     @Override
                     public void onPostExecute(RoomCollection rooms){
                         otherRooms = rooms.getItems();
+                        cacheRoomsThumbnails(otherRooms);
                         new GetEnteredRoomsAsyncTask(fragment){
                             @Override
                             public void onPostExecute( UserEnteredRoomCollection data ){
                                 super.onPostExecute(data);
                                 enteredRooms = new ArrayList<>();
+                                cacheRoomsThumbnails(enteredRooms);
                                 for(UserEnteredRoom d : data.getItems()){
                                     enteredRooms.add(d.getRoom());
                                 }
