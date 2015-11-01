@@ -21,6 +21,7 @@ import com.ffmusic.backend.model.Room;
 import com.ffmusic.backend.model.Song;
 import com.ffmusic.backend.model.SongRoom;
 import com.ffmusic.backend.model.User;
+import com.ffmusic.backend.model.UserEnteredRoom;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -42,6 +43,8 @@ public final class OfyService {
         factory().register(Room.class);
         factory().register(Song.class);
         factory().register(SongRoom.class);
+        factory().register(UserEnteredRoom.class);
+
     }
 
     /**

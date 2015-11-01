@@ -18,6 +18,7 @@ import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.Song;
 import com.ffmusic.backend.ffMusicApi.model.SongRoom;
 import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -28,6 +29,7 @@ import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.Constants;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
 
@@ -75,6 +77,8 @@ public class RoomActivity extends AppCompatActivity {
                 new DividerItemDecoration(10));
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
     }
 
     void updateSongs(){
@@ -241,12 +245,24 @@ public class RoomActivity extends AppCompatActivity {
     @Override
     public void onStart () {
         super.onStart();
+        final RoomActivity aux = this;
         new GetRoomByIdAsyncTask( this ){
             @Override
             public void onPostExecute( Room theRoom ){
                 super.onPostExecute(theRoom);
                 room = theRoom;
                 updateSongs();
+
+                UserEnteredRoom userEnteredRoom = new UserEnteredRoom();
+                userEnteredRoom.setRoom(room);
+                userEnteredRoom.setUser(LoginActivity.currentUser);
+                new InsertUserEnteredRoomAsyncTask(aux){
+                    @Override
+                    public void onPostExecute(UserEnteredRoom data){
+                        super.onPostExecute(data);
+                        Log.d("HOLA","Insertado UserEnteredRoom");
+                    }
+                }.execute(userEnteredRoom);
             }
         }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
     }

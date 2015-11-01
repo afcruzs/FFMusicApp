@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/UldMy3i7ZACFB-fi_Gl55FkBJ_0\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/bOX5-jUVrgWIzJARl4dO9lf3anw\"",
  "discoveryVersion": "v1",
  "id": "ffMusicApi:v1",
  "name": "ffMusicApi",
@@ -179,11 +179,61 @@
      "type": "string"
     }
    }
+  },
+  "UserEnteredRoom": {
+   "id": "UserEnteredRoom",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "room": {
+     "$ref": "Room"
+    },
+    "user": {
+     "$ref": "User"
+    }
+   }
+  },
+  "UserEnteredRoomCollection": {
+   "id": "UserEnteredRoomCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "UserEnteredRoom"
+     }
+    }
+   }
   }
  },
  "resources": {
   "roomEndPoint": {
    "methods": {
+    "enteredRooms": {
+     "id": "ffMusicApi.roomEndPoint.enteredRooms",
+     "path": "enteredRooms/{idRoom}",
+     "httpMethod": "POST",
+     "parameters": {
+      "idRoom": {
+       "type": "string",
+       "required": true,
+       "format": "int64",
+       "location": "path"
+      }
+     },
+     "parameterOrder": [
+      "idRoom"
+     ],
+     "response": {
+      "$ref": "UserEnteredRoomCollection"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
     "getRoomById": {
      "id": "ffMusicApi.roomEndPoint.getRoomById",
      "path": "room/{idRoom}",
@@ -251,6 +301,27 @@
       "https://www.googleapis.com/auth/userinfo.email"
      ]
     },
+    "querySongs": {
+     "id": "ffMusicApi.roomEndPoint.querySongs",
+     "path": "querySongs/{prefix}",
+     "httpMethod": "POST",
+     "parameters": {
+      "prefix": {
+       "type": "string",
+       "required": true,
+       "location": "path"
+      }
+     },
+     "parameterOrder": [
+      "prefix"
+     ],
+     "response": {
+      "$ref": "RoomCollection"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
     "roomsByUser": {
      "id": "ffMusicApi.roomEndPoint.roomsByUser",
      "path": "roomsByUser",
@@ -298,6 +369,21 @@
      ],
      "response": {
       "$ref": "SongRoomCollection"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
+    "userEnteredRoom": {
+     "id": "ffMusicApi.roomEndPoint.userEnteredRoom",
+     "path": "userEnteredRoom",
+     "httpMethod": "POST",
+     "request": {
+      "$ref": "UserEnteredRoom",
+      "parameterName": "resource"
+     },
+     "response": {
+      "$ref": "UserEnteredRoom"
      },
      "scopes": [
       "https://www.googleapis.com/auth/userinfo.email"

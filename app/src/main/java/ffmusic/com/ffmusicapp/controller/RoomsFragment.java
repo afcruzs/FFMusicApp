@@ -14,10 +14,14 @@ import android.widget.GridView;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
+import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoomCollection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 
@@ -26,7 +30,7 @@ import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
  */
 public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
-    private static List<Room> userRooms,otherRooms;
+    private static List<Room> userRooms,otherRooms,enteredRooms;
 
     private GridView grid;
     private RoomsGridAdapter adapter;
@@ -62,6 +66,12 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public static List<Room> getOtherRooms() {
         return otherRooms;
     }
+
+    public static List<Room> getEnteredRooms() {
+        return enteredRooms;
+    }
+
+
 
     public static void setUserRooms(List<Room> data){
         userRooms = data;
@@ -123,6 +133,11 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 adapter = new RoomsGridAdapter(getActivity(), getOtherRooms());
                 grid.setAdapter(adapter);
                 break;
+            case 3:
+                adapter = new RoomsGridAdapter(getActivity(), getEnteredRooms());
+                grid.setAdapter(adapter);
+                break;
+
         }
     }
 
@@ -136,6 +151,7 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void onPostExecute(RoomCollection result){
                 userRooms = result.getItems();
+
                 new GetNearyByRoomsAsyncTask(fragment){
 
                     @Override
@@ -144,11 +160,22 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     @Override
                     public void onPostExecute(RoomCollection rooms){
                         otherRooms = rooms.getItems();
-                        setUpGridView(grid);
-                        adapter.notifyDataSetChanged();
-                        grid.setAdapter(adapter);
-                        grid.invalidateViews();
-                        swipeRefreshLayout.setRefreshing(false);
+                        new GetEnteredRoomsAsyncTask(fragment){
+                            @Override
+                            public void onPostExecute( UserEnteredRoomCollection data ){
+                                super.onPostExecute(data);
+                                enteredRooms = new ArrayList<>();
+                                for(UserEnteredRoom d : data.getItems()){
+                                    enteredRooms.add(d.getRoom());
+                                }
+                                setUpGridView(grid);
+                                adapter.notifyDataSetChanged();
+                                grid.setAdapter(adapter);
+                                grid.invalidateViews();
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+
+                        }.execute(LoginActivity.currentUser);
                     }
                 }.execute(LoginActivity.currentUser);
             }
