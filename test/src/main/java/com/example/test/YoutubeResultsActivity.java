@@ -23,7 +23,6 @@ public class YoutubeResultsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_youtube_results, menu);
-        handler = new Handler();
         return true;
     }
 
@@ -45,22 +44,20 @@ public class YoutubeResultsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handler = new Handler();
         handleIntent(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+
         handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            searchOnYoutube(query);
-        }
-    }
-
+    /*
+    * Searches on youtube and then calls updateVideosFound to show videos
+    * */
     private void searchOnYoutube(final String keywords) {
         new AsyncTask<String, Void, List<VideoItem>>() {
             @Override
@@ -75,7 +72,12 @@ public class YoutubeResultsActivity extends AppCompatActivity {
         }.execute(keywords);
     }
 
-
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            searchOnYoutube(query);
+        }
+    }
 
     private void updateVideosFound(List<VideoItem> searchResults) {
         Log.d("xd", searchResults.get(0).getTitle() + "");
