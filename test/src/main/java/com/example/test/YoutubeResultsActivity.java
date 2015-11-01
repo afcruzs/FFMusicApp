@@ -4,20 +4,32 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.ffmusic.youtubeconnection.VideoItem;
 import com.ffmusic.youtubeconnection.YoutubeConnector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YoutubeResultsActivity extends AppCompatActivity {
 
     private Handler handler;
+    private ArrayList<VideoItem> list;
+
+    private RecyclerView mRecyclerView;
+    private YoutubeItemAdapter mAdapter;
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -44,7 +56,36 @@ public class YoutubeResultsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_youtube_results);
         handler = new Handler();
+
+
+        list = new ArrayList<VideoItem>();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_youtube_searches);
+        mRecyclerView.setHasFixedSize(true);
+
+        mAdapter = new YoutubeItemAdapter(list, this);
+
+        mAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("xd", "listener act");
+
+                Toast.makeText(getBaseContext(), "Song selected " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.addItemDecoration(
+                new DividerItemDecoration(10));
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         handleIntent(getIntent());
     }
 
@@ -80,7 +121,13 @@ public class YoutubeResultsActivity extends AppCompatActivity {
     }
 
     private void updateVideosFound(List<VideoItem> searchResults) {
-        Log.d("xd", searchResults.get(0).getTitle() + "");
+        list.clear();
+        for(VideoItem sr : searchResults){
+            list.add(sr);
+            mAdapter.notifyItemInserted(list.size());
+        }
+
+        mAdapter.notifyItemInserted(list.size());
     }
 
 }

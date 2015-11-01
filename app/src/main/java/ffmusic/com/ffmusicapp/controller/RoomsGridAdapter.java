@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 
 /**
  * {@link android.widget.BaseAdapter} personalizado para el gridview
@@ -63,6 +64,7 @@ public class RoomsGridAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         final RoomsGridAdapter context = this;
+        final Room item = getItem(position);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
