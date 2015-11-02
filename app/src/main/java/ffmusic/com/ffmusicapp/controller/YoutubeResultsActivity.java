@@ -65,7 +65,7 @@ public class YoutubeResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube_results);
 
-        setUpToolbar();
+        //setUpToolbar();
         handler = new Handler();
 
 
@@ -130,6 +130,7 @@ public class YoutubeResultsActivity extends AppCompatActivity {
     }
 
     private void updateVideosFound(List<VideoItem> searchResults) {
+        Log.d("xd", searchResults.get(0).getTitle());
         list.clear();
         for(VideoItem sr : searchResults){
             list.add(sr);
