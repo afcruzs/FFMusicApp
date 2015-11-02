@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ffmusic.youtubeconnection.VideoItem;
-import com.ffmusic.youtubeconnection.YoutubeConnector;
 
 import java.util.ArrayList;
 import java.util.List;

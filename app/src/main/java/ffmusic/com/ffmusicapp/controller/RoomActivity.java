@@ -1,5 +1,6 @@
 package ffmusic.com.ffmusicapp.controller;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,7 +27,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import java.util.ArrayList;
 
 import ffmusic.com.ffmusicapp.R;
-import ffmusic.com.ffmusicapp.endpoints.Constants;
+import ffmusic.com.ffmusicapp.Constants;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
@@ -115,36 +116,42 @@ public class RoomActivity extends AppCompatActivity {
                 * Adds a new song
                 * */
 
+                startActivity(new Intent(RoomActivity.this, AddNewSongActivity.class));
+
                 final Song song = new Song();
                 song.setSongName("The man who sold the world");
                 song.setSongYoutubeId("fregObNcHC8");
                 song.setArtist("Nirvana");
                 song.setThumbnailURL("http://revel.in/wp-content/uploads/2015/04/grumpy-cat.png");
 
-                new SaveSongAsyncTask(RoomActivity.this) {
-                    @Override
-                    public void onPostExecute(Song realSong) {
-                        super.onPostExecute(realSong);
-
-                        final SongRoom songRoom = new SongRoom();
-                        songRoom.setCreatedBy(LoginActivity.currentUser);
-                        songRoom.setIdxInQueue(k++);
-                        songRoom.setSong(realSong);
-                        songRoom.setRoom(room);
-                        new SaveSongRoom(context) {
-                            @Override
-                            public void onPostExecute(SongRoom sr) {
-                                super.onPostExecute(sr);
-                                list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId(), song.getArtist(),
-                                        song.getThumbnailURL()));
-                                mAdapter.notifyItemInserted(list.size());
-                            }
-                        }.execute(songRoom);
-
-                    }
-                }.execute(song);
+                addNewSong(song);
             }
         });
+    }
+
+    private void addNewSong ( final Song song ) {
+        new SaveSongAsyncTask(RoomActivity.this) {
+            @Override
+            public void onPostExecute(Song realSong) {
+                super.onPostExecute(realSong);
+
+                final SongRoom songRoom = new SongRoom();
+                songRoom.setCreatedBy(LoginActivity.currentUser);
+                songRoom.setIdxInQueue(k++);
+                songRoom.setSong(realSong);
+                songRoom.setRoom(room);
+                new SaveSongRoom(context) {
+                    @Override
+                    public void onPostExecute(SongRoom sr) {
+                        super.onPostExecute(sr);
+                        list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId(), song.getArtist(),
+                                song.getThumbnailURL()));
+                        mAdapter.notifyItemInserted(list.size());
+                    }
+                }.execute(songRoom);
+
+            }
+        }.execute(song);
     }
 
     private void loadYoutubePlayerFragment() {
