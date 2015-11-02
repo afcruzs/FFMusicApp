@@ -155,64 +155,17 @@ public class CreateRoomActivity extends AppCompatActivity implements View.OnClic
                         r.setRoomOwner(LoginActivity.currentUser);
 
                         // Test
+
                         new InsertRoomAsyncTask(this) {
                             @Override
                             public void onPostExecute(Room room) {
                                 super.onPostExecute(room);
-                                //Test code!
-                                Song theSongs[] = new Song[3];
-                                theSongs[0] = new Song();
-                                theSongs[0].setSongName("Someday");
-                                theSongs[0].setArtist("The Strokes");
-                                theSongs[0].setSongYoutubeId("knU9gRUWCno");
-                                theSongs[1] = new Song();
-                                theSongs[1].setSongName("Fluorescent Adolescent");
-                                theSongs[1].setArtist("AM");
-                                theSongs[1].setSongYoutubeId("ma9I9VBKPiw");
-                                theSongs[2] = new Song();
-                                theSongs[2].setSongName("Resistance");
-                                theSongs[2].setArtist("Muse");
-                                theSongs[2].setSongYoutubeId("TPE9uSFFxrI");
-
-                                for(Song song : theSongs)
-                                    song.setThumbnailURL("http://revel.in/wp-content/uploads/2015/04/grumpy-cat.png");
-
                                 auxRoom = room;
-                                for (int l = 0; l < 3; ++l) {
-                                    new SaveSongAsyncTask(context) {
-                                        @Override
-                                        public void onPostExecute(final Song realSong) {
-                                            super.onPostExecute(realSong);
-                                            SongRoom songRoom = new SongRoom();
-                                            songRoom.setRoom(auxRoom);
-                                            songRoom.setSong(realSong);
-                                            songRoom.setIdxInQueue(new Integer(0));
-                                            songRoom.setCreatedBy(LoginActivity.currentUser);
-                                            new SaveSongRoom(context) {
-                                                @Override
-                                                public void onPostExecute(SongRoom realSongRoom) {
-                                                    super.onPostExecute(realSongRoom);
-                                                    new GetRoomSongsAsyncTask(context) {
-                                                        @Override
-                                                        public void onPostExecute(SongRoomCollection data) {
-                                                            super.onPostExecute(data);
-                                                            Log.d("hola", "INICIO");
-                                                            //Log.d("hola",auxRoom.getName() + " "  + auxRoom.getId() + " " + auxRoom.getRoomOwner() + " " + auxRoom.getPassword()  );
-                                                            for (SongRoom sr : data.getItems()) {
-                                                                Log.d("hola", sr.getSong().getSongName());
-                                                            }
-                                                            Log.d("hola", "FIN");
-                                                            onRoomCreated();
-                                                        }
-                                                    }.execute(auxRoom.getId());
-                                                }
-                                            }.execute(songRoom);
-                                        }
-                                    }.execute(theSongs[l]);
-                                }
+                                onRoomCreated();
                             }
 
                         }.execute(r);
+
                         break;
                     case EMPTY_FIELDS:
                         inputLayoutNameError();

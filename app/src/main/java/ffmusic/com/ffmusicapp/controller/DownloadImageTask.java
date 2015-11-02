@@ -18,6 +18,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     protected ImageView bmImage;
     private static Map<String,Bitmap> cache = new HashMap<>();
     private String imageKey;
+
     public DownloadImageTask(ImageView bmImage, String key) {
         this.bmImage = bmImage;
         this.imageKey = key;

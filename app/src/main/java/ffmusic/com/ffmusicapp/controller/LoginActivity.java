@@ -66,7 +66,8 @@ public class LoginActivity extends AppCompatActivity implements
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-        loginFacebookButton = (LoginButton)findViewById(R.id.login_button);
+        loginFacebookButton = (LoginButton)findViewById(R.
+                id.login_button);
 
         loginFacebookButton.setReadPermissions("public_profile");
         loginFacebookButton.setReadPermissions("email");
@@ -202,7 +203,6 @@ public class LoginActivity extends AppCompatActivity implements
                 new GetNearyByRoomsAsyncTask(holder){
                     @Override
                     public void onPostExecute(RoomCollection rooms){
-                        super.onPostExecute(rooms);
                         super.onPostExecute(rooms);
                         RoomsFragment.setOtherRooms(rooms.getItems());
                         Intent intent = new Intent( holder, FFMusicMainActivity.class );

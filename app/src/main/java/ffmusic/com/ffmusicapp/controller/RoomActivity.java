@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,6 +26,9 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.Constants;
@@ -34,14 +38,15 @@ import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
 
-public class RoomActivity extends AppCompatActivity {
+public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String CURRENT_ROOM = "current_room";
 
-    private ArrayList<ListModelItem> list;
-    private int k = 0;
 
-    private Room room;
+    private ArrayList<ListModelItem> list;
+
+
+    public static Room room;
 
     private RecyclerView mRecyclerView;
     private SongAdapter mAdapter;
@@ -49,11 +54,16 @@ public class RoomActivity extends AppCompatActivity {
 
     private YouTubePlayer youTubePlayer;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private boolean setupCalled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
+        setupCalled = false;
 
         list = new ArrayList<ListModelItem>();
 
@@ -79,20 +89,48 @@ public class RoomActivity extends AppCompatActivity {
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
 
     }
 
     void updateSongs(){
+        while(!list.isEmpty()){
+            list.remove(0);
+        mAdapter.notifyDataSetChanged();
+        }
+
         new GetRoomSongsAsyncTask(this){
+
+            @Override
+            public void onPreExecute(){}
+
             @Override
             public void onPostExecute(SongRoomCollection data){
-                super.onPostExecute(data);
-                for(SongRoom sr : data.getItems()){
+                //super.onPostExecute(data);
+                List<SongRoom> aux = data.getItems();
+                Collections.sort(aux, new Comparator<SongRoom>() {
+                    @Override
+                    public int compare(SongRoom lhs, SongRoom rhs) {
+                        return lhs.getIdxInQueue() - rhs.getIdxInQueue();
+                    }
+                });
+
+                for(SongRoom sr : aux){
                     list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
                             sr.getSong().getThumbnailURL()));
                     mAdapter.notifyItemInserted(list.size());
                 }
-                setUp();
+
+
+                swipeRefreshLayout.setRefreshing(false);
+
+                if( !setupCalled ){
+                    setUp();
+                    setupCalled = true;
+                }
+
             }
         }.execute(room.getId());
     }
@@ -117,42 +155,11 @@ public class RoomActivity extends AppCompatActivity {
                 * */
 
                 startActivity(new Intent(RoomActivity.this, AddNewSongActivity.class));
-
-                final Song song = new Song();
-                song.setSongName("The man who sold the world");
-                song.setSongYoutubeId("fregObNcHC8");
-                song.setArtist("Nirvana");
-                song.setThumbnailURL("http://revel.in/wp-content/uploads/2015/04/grumpy-cat.png");
-
-                addNewSong(song);
             }
         });
     }
 
-    private void addNewSong ( final Song song ) {
-        new SaveSongAsyncTask(RoomActivity.this) {
-            @Override
-            public void onPostExecute(Song realSong) {
-                super.onPostExecute(realSong);
 
-                final SongRoom songRoom = new SongRoom();
-                songRoom.setCreatedBy(LoginActivity.currentUser);
-                songRoom.setIdxInQueue(k++);
-                songRoom.setSong(realSong);
-                songRoom.setRoom(room);
-                new SaveSongRoom(context) {
-                    @Override
-                    public void onPostExecute(SongRoom sr) {
-                        super.onPostExecute(sr);
-                        list.add(new ListModelItem(song.getSongName(), song.getSongYoutubeId(), song.getArtist(),
-                                song.getThumbnailURL()));
-                        mAdapter.notifyItemInserted(list.size());
-                    }
-                }.execute(songRoom);
-
-            }
-        }.execute(song);
-    }
 
     private void loadYoutubePlayerFragment() {
         YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
@@ -202,8 +209,10 @@ public class RoomActivity extends AppCompatActivity {
                 /*
                 * The first song begins to play
                 * */
-                if ( !list.isEmpty() )
+                if ( !list.isEmpty() ) {
+                    Log.d("xd"," ID " + list.get(0).getSongId());
                     youTubePlayer.loadVideo(list.get(0).getSongId());
+                }
             }
 
             @Override
@@ -275,5 +284,10 @@ public class RoomActivity extends AppCompatActivity {
                 }.execute(userEnteredRoom);
             }
         }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
+    }
+
+    @Override
+    public void onRefresh() {
+        updateSongs();
     }
 }

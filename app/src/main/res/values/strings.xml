@@ -68,6 +68,6 @@
     <string name="setting_tag">settings tag</string>
 
 
-    <string name="title_activity_add_new_song">AddNewSongActivity</string>
+    <string name="title_activity_add_new_song">Add New Song</string>
     <string name="title_activity_youtube_results">YoutubeResultsActivity</string>
 </resources>

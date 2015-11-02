@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ffmusic.backend.ffMusicApi.FfMusicApi;
+import com.ffmusic.backend.ffMusicApi.model.SongRoom;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +84,7 @@ public class YoutubeResultsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("xd", "listener act");
 
-                Toast.makeText(getBaseContext(), "Song selected " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Song selzzzzected " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
             }
         });
 

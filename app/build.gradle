@@ -63,4 +63,6 @@ dependencies {
     compile 'in.srain.cube:grid-view-with-header-footer:1.0.12'
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile files('libs/YouTubeAndroidPlayerApi.jar')
+
+    compile 'com.android.support:multidex:1.0.0'
 }

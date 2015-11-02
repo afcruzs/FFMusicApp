@@ -103,6 +103,7 @@ public class RoomsGridAdapter extends BaseAdapter{
                 final Intent intent = new Intent(mContext, RoomActivity.class);
                 intent.putExtra(RoomActivity.CURRENT_ROOM, item.getId());
 
+
                 new GetEnteredRoomsAsyncTask(mContext) {
                     @Override
                     public void onPostExecute(UserEnteredRoomCollection data) {
