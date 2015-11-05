@@ -107,9 +107,9 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onPreExecute(){}
 
             @Override
-            public void onPostExecute(SongRoomCollection data){
+            public void onPostExecute(List<SongRoom> data){
                 //super.onPostExecute(data);
-                List<SongRoom> aux = data.getItems();
+                List<SongRoom> aux = data;
                 Collections.sort(aux, new Comparator<SongRoom>() {
                     @Override
                     public int compare(SongRoom lhs, SongRoom rhs) {

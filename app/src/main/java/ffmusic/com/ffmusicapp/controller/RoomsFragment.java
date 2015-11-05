@@ -172,8 +172,8 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             public void onPreExecute(){}
 
             @Override
-            public void onPostExecute(RoomCollection result){
-                userRooms = result.getItems();
+            public void onPostExecute(List<Room> result){
+                userRooms = result;
                 Log.d("xd",LoginActivity.currentUser.getId()+"");
                 cacheRoomsThumbnails(userRooms);
                 new GetNearyByRoomsAsyncTask(fragment){
@@ -182,19 +182,19 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     public void onPreExecute(){}
 
                     @Override
-                    public void onPostExecute(RoomCollection rooms){
-                        otherRooms = rooms.getItems();
+                    public void onPostExecute(List<Room> rooms){
+                        otherRooms = rooms;
                         cacheRoomsThumbnails(otherRooms);
                         new GetEnteredRoomsAsyncTask(fragment){
                             @Override
                             public void onPreExecute(){}
 
                             @Override
-                            public void onPostExecute( UserEnteredRoomCollection data ){
+                            public void onPostExecute( List<UserEnteredRoom> data ){
                                 //super.onPostExecute(data);
                                 enteredRooms = new ArrayList<>();
                                 cacheRoomsThumbnails(enteredRooms);
-                                for(UserEnteredRoom d : data.getItems()){
+                                for(UserEnteredRoom d : data){
                                     enteredRooms.add(d.getRoom());
                                 }
                                 setUpGridView(grid);

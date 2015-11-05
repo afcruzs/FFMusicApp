@@ -24,6 +24,7 @@ import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
 import com.ffmusic.backend.ffMusicApi.model.User;
 import com.google.android.gms.common.ConnectionResult;
@@ -36,6 +37,8 @@ import com.google.android.gms.plus.model.people.Person;
 
 import org.json.JSONObject;
 
+
+import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
@@ -197,14 +200,14 @@ public class LoginActivity extends AppCompatActivity implements
         final LoginActivity holder = this;
         new GetRoomsByUserAsyncTask(this){
             @Override
-            public void onPostExecute(RoomCollection result){
-                RoomsFragment.setUserRooms(result.getItems());
+            public void onPostExecute(List<Room> result){
+                RoomsFragment.setUserRooms(result);
 
                 new GetNearyByRoomsAsyncTask(holder){
                     @Override
-                    public void onPostExecute(RoomCollection rooms){
+                    public void onPostExecute(List<Room> rooms){
                         super.onPostExecute(rooms);
-                        RoomsFragment.setOtherRooms(rooms.getItems());
+                        RoomsFragment.setOtherRooms(rooms);
                         Intent intent = new Intent( holder, FFMusicMainActivity.class );
                         //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

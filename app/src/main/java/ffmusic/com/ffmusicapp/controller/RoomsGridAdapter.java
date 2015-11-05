@@ -106,10 +106,10 @@ public class RoomsGridAdapter extends BaseAdapter{
 
                 new GetEnteredRoomsAsyncTask(mContext) {
                     @Override
-                    public void onPostExecute(UserEnteredRoomCollection data) {
+                    public void onPostExecute(List<UserEnteredRoom> data) {
                         super.onPostExecute(data);
                         boolean exist = false;
-                        for (UserEnteredRoom d : data.getItems()) {
+                        for (UserEnteredRoom d : data) {
                             if (d.getRoom().getId().equals(item.getId())) {
                                 exist = true;
                             }

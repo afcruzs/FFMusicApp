@@ -17,6 +17,7 @@ import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
@@ -82,9 +83,9 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
         final RoomsSearchResultsActivity aux = this;
         new GetRoomsByPrefixAsyncTask(this){
             @Override
-            public void onPostExecute(RoomCollection data){
+            public void onPostExecute(List<Room> data){
                 super.onPostExecute(data);
-                for( Room room : data.getItems() ){
+                for( Room room : data ){
                     list.add( new RoomListModelItem( room.getName(), room.getRoomOwner().getFirstName(), room.getId() ) );
                     mAdapter.notifyItemInserted(list.size());
                 }
