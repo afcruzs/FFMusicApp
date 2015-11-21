@@ -1,0 +1,35 @@
+<resources>
+
+    <style name="Theme.FFMusicMainTheme" parent="Base.AppTheme"/>
+
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColor</item>
+        <item name="colorAccent">@color/accentColor</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item> 
+        <item name="android:windowSharedElementsUseOverlay">true</item>
+    </style>
+
+
+    <style name="CheckBox">
+        <item name="cbd_width">32dp</item>
+        <item name="cbd_height">32dp</item>
+        <item name="cbd_boxSize">20dp</item>
+        <item name="cbd_cornerRadius">2dp</item>
+        <item name="cbd_strokeSize">2dp</item>
+        <item name="cbd_animDuration">@android:integer/config_mediumAnimTime</item>
+    </style>
+
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+        //hint color And Label Color in False State
+        <item name="android:textColorHint">@color/gray_color</item>
+        <item name="android:textSize">20sp</item>
+        //Label color in True State And Bar Color False And True State
+        <item name="colorAccent">@color/red_color</item>
+        <item name="colorControlNormal">@color/gray_color</item>
+        <item name="colorControlActivated">@color/red_color</item>
+    </style>
+
+</resources>
