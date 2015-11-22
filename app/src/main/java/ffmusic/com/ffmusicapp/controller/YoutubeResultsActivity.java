@@ -98,8 +98,6 @@ public class YoutubeResultsActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(10));
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 

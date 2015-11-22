@@ -20,7 +20,8 @@ public class Constants {
     * */
 
     //public static final String DEVELOPMENT_IP = "192.168.1.21";
-    public static final String DEVELOPMENT_IP = " 10.203.163.108";
+    public static final String DEVELOPMENT_IP = "192.168.1.4";
+    //public static final String DEVELOPMENT_IP = " 10.203.163.108";
 
     public static final String DEVELOPMENT_ROOT_URL = "http://"+DEVELOPMENT_IP+":8080/_ah/api/";
     public static final String PRODUCTION_ROOT_URL = "https://ffmusicbackend.appspot.com/_ah/api/";

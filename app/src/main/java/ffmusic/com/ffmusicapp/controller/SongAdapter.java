@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
             image = (ImageView) v.findViewById(R.id.image_song);
             star = (ImageView) v.findViewById(R.id.star);
             mLastResourceId = android.R.drawable.star_off;
+
+            Toolbar toolbar = (Toolbar)v.findViewById(R.id.play_list_menu_item_bar);
+            toolbar.inflateMenu( R.menu.menu_room_play_list_item);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

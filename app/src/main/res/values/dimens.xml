@@ -10,8 +10,8 @@
     <!-- Profile image dimensions -->
     <dimen name="profile_image_size">64dp</dimen>
     <dimen name="profile_image_margin_bottom">16dp</dimen>
-    <dimen name="login_buttom_height">40dp</dimen>
-    <dimen name="login_buttom_width">100dp</dimen>
+    <dimen name="login_buttom_height">50dp</dimen>
+    <dimen name="login_buttom_width">120dp</dimen>
 
 
 
@@ -34,8 +34,8 @@
     <dimen name="button_press_elevation">4dp</dimen>
     <dimen name="buttom_width">100dp</dimen>
     <dimen name="buttom_layout_size">100dp</dimen>
-
-
+    <dimen name="cardView_height">50dp</dimen>
+    <dimen name="text_song_size">17dp</dimen>
 
     <dimen name="below_toolbar_margin">65dp</dimen>
 

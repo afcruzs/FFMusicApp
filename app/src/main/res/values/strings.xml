@@ -16,7 +16,7 @@
     <string name="login">Login</string>
     <string name="sign_in">Connecting</string>
     <string name="insertUserTest">Insert User Test</string>
-
+    <string name="name_app">FFMusic</string>
     <!-- Facebook login -->
     <string name="facebook_app_id">1507779209533662</string>
 

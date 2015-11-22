@@ -84,8 +84,6 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(10));
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -129,7 +127,14 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 });
 
                 for(SongRoom sr : aux){
-                    list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
+
+                    String cutSongName = sr.getSong().getSongName().length()
+                            < 40?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 40);
+
+                    String cutArtistName = sr.getSong().getArtist().length()
+                            < 20?sr.getSong().getArtist():sr.getSong().getArtist().substring(0, 20);
+                    Log.e("xd","name = "+ cutSongName );
+                    list.add(new ListModelItem(cutSongName, sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
                             sr.getSong().getThumbnailURL()));
                     mAdapter.notifyItemInserted(list.size());
                 }

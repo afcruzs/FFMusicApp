@@ -6,19 +6,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/primaryDarkColor1"
+    android:background="@drawable/background"
     tools:context="ffmusic.com.ffmusicapp.controller.LoginActivity">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/header_circle_image"
-        android:layout_width="@dimen/profile_image_size"
-        android:layout_height="@dimen/profile_image_size"
-        android:layout_marginBottom="38dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/logo"
-        android:layout_above="@+id/login_button"
-        android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/name_app_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:gravity="center"
+        android:text="@string/name_app"
+        android:textSize="50dp"
+        android:fontFamily="Billabong"
+        android:textStyle="italic"
+        android:textColor="@color/white_color"
+        />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
