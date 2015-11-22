@@ -27,26 +27,25 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_width="@dimen/fb_button_width"
+        android:layout_height="@dimen/fb_button_height"
         android:layout_above="@+id/sign_in_button"
         android:layout_alignRight="@+id/sign_in_button"
         android:layout_alignEnd="@+id/sign_in_button"
-        android:layout_marginBottom="32dp"
-        android:height="@dimen/login_buttom_height"
-        android:width="@dimen/login_buttom_width"
+        android:layout_marginBottom="16dp"
         android:layout_alignLeft="@+id/sign_in_button"
         android:layout_alignStart="@+id/sign_in_button" />
 
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_width="@dimen/google_button_width"
+        android:layout_height="@dimen/google_button_height"
+        android:minHeight="@dimen/google_button_width"
         android:layout_alignParentBottom="true"
-        android:height="@dimen/login_buttom_height"
-        android:minWidth="@dimen/login_buttom_width"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="124dp" />
+        android:layout_marginBottom="100dp" />
 
 </RelativeLayout>

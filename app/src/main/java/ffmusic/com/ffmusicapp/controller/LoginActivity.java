@@ -87,7 +87,6 @@ public class LoginActivity extends AppCompatActivity implements
                                     GraphResponse response) {
 
                                 //currentUser = UserFactory.createUser(object);
-                                Log.d("HOLA","COMP");
                                 new InsertUserAsyncTask(aux){
                                     @Override
                                     public void onPostExecute(User user){
@@ -169,7 +168,6 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("HOLA", "Here "+ mPrefs.getBoolean(IS_LOGGED, false));
         if ( mPrefs.getBoolean(IS_LOGGED, false) ) {
 
             isLogged = true;
@@ -298,8 +296,6 @@ public class LoginActivity extends AppCompatActivity implements
         Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
         final String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
         if (currentPerson != null) {
-            Toast.makeText(getApplicationContext(), "hola : " + currentPerson.getDisplayName(), Toast.LENGTH_SHORT).show();
-
             new InsertUserAsyncTask(this){
                 @Override
                 public void onPostExecute(User result) {
