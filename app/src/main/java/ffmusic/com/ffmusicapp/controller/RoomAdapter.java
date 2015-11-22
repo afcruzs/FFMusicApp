@@ -69,6 +69,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
         private TextView roomName;
         private TextView roomOwnerName;
         private Long id;
+        private String name;
 
         public ViewHolder(View v, final AppCompatActivity mContext) {
             super(v);
@@ -80,16 +81,17 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.ViewHolder> im
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, RoomActivity.class);
                     intent.putExtra(RoomActivity.CURRENT_ROOM, id);
+                    intent.putExtra(RoomActivity.CURRENT_ROOM_NAME, name);
                     mContext.startActivityForResult(intent, RoomsFragment.GO_TO_ROOM_ACTION);
                 }
             });
         }
 
         public void bindHolder(RoomListModelItem t) {
-
             roomName.setText(t.getRoomName());
             roomOwnerName.setText(t.getRoomOwnerName());
             this.id = t.getRoomId();
+            name = t.getRoomName();
         }
     }
 }

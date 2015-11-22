@@ -2,6 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ffmusic.com.ffmusicapp.controller.RoomActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/delete_room" android:title="@string/delete_room"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

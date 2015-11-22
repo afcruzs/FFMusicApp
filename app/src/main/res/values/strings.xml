@@ -10,7 +10,6 @@
     <string name="settings">Settings</string>
     <string name="ranking">Ranking</string>
     <string name="log_out">Log out</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="youtube">YouTube</string>
 
     <!-- Login -->
@@ -24,7 +23,7 @@
     <!-- Home tabs -->
     <string name="home_tabs_my_rooms">Your Rooms</string>
     <string name="home_tabs_other_rooms">Other Rooms</string>
-    <string name="title_activity_create_room">CreateRoomActivity</string>
+
 
 
     <!-- Create Room -->
@@ -32,17 +31,19 @@
     <string name="create_room">Create Room</string>
     <string name ="private_room">private</string>
     <string name="hint_password">password</string>
-    <string name="title_activity_room">RoomActivity</string>
+
 
     <!-- Room -->
-    <string name="hint_song">name song</string>
-    <string name="add_list">add list</string>
+    <string name="hint_song">Name song</string>
+    <string name="add_list">Add list</string>
     <string name="loading">Loading</string>
     <string name="room_created">Room Created</string>
     <string name="enter_password">Accept</string>
     <string name= "ok">ok</string>
-    <string name= "cancel_exam">cancel</string>
-    <string name= "incorrect_pass">incorrect password</string>
+    <string name= "cancel_exam">Cancel</string>
+    <string name= "incorrect_pass">Incorrect password</string>
+    <string name= "delete_room">Delete</string>
+
     <!-- Errors -->
     <string name="unknown_error">Unknown error</string>
     <string name="youtube_app_not_found">YouTube App not found</string>
@@ -60,14 +61,21 @@
     <string name="err_msg_email">Enter valid email address</string>
     <string name="err_msg_password">Enter the password</string>
     <string name="hint_repeat_password">Repeat password</string>
-    <string name="hint_search">type a room name</string>
-    <string name="title_activity_rooms_search_results">RoomsSearchResultsActivity</string>
+    <string name="hint_search_room">type a room name</string>
+    <string name="hint_search_song">type a song name</string>
     <string name="home_entered_rooms">Entered rooms</string>
 
     <!-- Settings -->
     <string name="setting_tag">settings tag</string>
 
 
-    <string name="title_activity_add_new_song">Add New Song</string>
-    <string name="title_activity_youtube_results">YoutubeResultsActivity</string>
+    <!-- Activities titles -->
+    <string name="title_activity_add_new_song">Add new song</string>
+    <string name="title_activity_youtube_results">Searching results</string>
+    <string name="title_activity_room"></string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_create_room">Create new room</string>
+    <string name="title_activity_rooms_search_results">Searching results</string>
+
+
 </resources>

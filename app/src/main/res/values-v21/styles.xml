@@ -1,15 +1,23 @@
 <resources>
 
-    <style name="Theme.FFMusicMainTheme" parent="Base.AppTheme"/>
+    <style name="Theme.FirstTheme" parent="Base.AppTheme">
+        <item name="colorPrimary">@color/primaryColor1</item>
+        <item name="colorPrimaryDark">@color/primaryColor1</item>
+        <item name="colorAccent">@color/accentColor1</item>
+    </style>
+
+    <style name="Theme.FirstThemeTranslucent" parent="Theme.FirstTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
+    <style name="Theme.FirstThemeNoTranslucent" parent="Theme.FirstTheme">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
 
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColor</item>
-        <item name="colorAccent">@color/accentColor</item>
 
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:colorControlHighlight">@android:color/transparent</item> 
-        <item name="android:windowSharedElementsUseOverlay">true</item>
     </style>
 
 

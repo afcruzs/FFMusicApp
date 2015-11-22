@@ -80,8 +80,7 @@ public class YoutubeItemAdapter extends RecyclerView.Adapter<YoutubeItemAdapter.
         private VideoItem item;
 
 
-
-        public ViewHolder(View v,final Context mContext) {
+        public ViewHolder(View v, final Context mContext) {
             super(v);
             mNameSong = (TextView)v.findViewById(R.id.name_song);
             image = (ImageView) v.findViewById(R.id.image_song);

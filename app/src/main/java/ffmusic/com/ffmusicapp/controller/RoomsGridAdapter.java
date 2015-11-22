@@ -102,6 +102,7 @@ public class RoomsGridAdapter extends BaseAdapter{
             public void onClick(View v) {
                 final Intent intent = new Intent(mContext, RoomActivity.class);
                 intent.putExtra(RoomActivity.CURRENT_ROOM, item.getId());
+                intent.putExtra(RoomActivity.CURRENT_ROOM_NAME, item.getName());
 
 
                 new GetEnteredRoomsAsyncTask(mContext) {

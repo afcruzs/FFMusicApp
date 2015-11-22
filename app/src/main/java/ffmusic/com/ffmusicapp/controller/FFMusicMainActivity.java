@@ -84,12 +84,14 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
 
     private void setUpToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-        final ActionBar ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-            ab.setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if ( toolbar != null ) {
+            setSupportActionBar(toolbar);
+            final ActionBar ab = getSupportActionBar();
+            if (ab != null) {
+                ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+                ab.setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 
@@ -176,7 +178,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_ffmusic_main, menu);
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.contacts, menu);
+
         getMenuInflater().inflate(R.menu.menu_rooms_search_results,menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();

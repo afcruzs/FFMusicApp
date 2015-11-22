@@ -2,11 +2,13 @@ package ffmusic.com.ffmusicapp.controller;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms_search_results);
+        setUpToolbar();
         Log.d("HOLA", "On create");
         list = new ArrayList<>();
 
@@ -62,6 +65,15 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
 
+    }
+
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if ( toolbar != null ) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     protected void onNewIntent (Intent intent){
@@ -97,7 +109,7 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_rooms_search_results, menu);
+        //getMenuInflater().inflate(R.menu.menu_rooms_search_results, menu);
         return true;
     }
 
@@ -108,9 +120,9 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
         }
 
         return super.onOptionsItemSelected(item);

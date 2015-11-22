@@ -2,12 +2,10 @@
 
     <style name="Theme.FFMusicMainTheme" parent="Base.AppTheme"/>
 
-    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/accentColor</item>
-
-        <item name="android:windowBackground">@color/window_background</item>
+    <style name="Theme.FirstTheme" parent="Base.AppTheme">
+        <item name="colorPrimary">@color/primaryColor1</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor1</item>
+        <item name="colorAccent">@color/accentColor1</item>
     </style>
 
 

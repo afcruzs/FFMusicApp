@@ -2,14 +2,17 @@ package ffmusic.com.ffmusicapp.controller;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,135 +41,57 @@ import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
 
-public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class RoomActivity extends AppCompatActivity {
 
     public static final String CURRENT_ROOM = "current_room";
-
-
-    private ArrayList<ListModelItem> list;
-
+    public static final String CURRENT_ROOM_NAME = "current_room_name";
 
     public static Room room;
+    private PlayListFragment playlistFragment;
 
-    private RecyclerView mRecyclerView;
-    private SongAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    private YouTubePlayer youTubePlayer;
-
-    private SwipeRefreshLayout swipeRefreshLayout;
-
-    private boolean setupCalled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
-
-        setupCalled = false;
-
-        list = new ArrayList<ListModelItem>();
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new SongAdapter(list);
-
-        mAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Song selected " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        mRecyclerView.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(10));
-
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        swipeRefreshLayout.setOnRefreshListener(this);
-
-
+        setTitle(getIntent().getExtras().getString(CURRENT_ROOM_NAME));
+        setUpToolbar();
+        setUp();
     }
 
-    void updateSongs(){
-        while(!list.isEmpty()){
-            list.remove(0);
-        mAdapter.notifyDataSetChanged();
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if ( toolbar != null ) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        new GetRoomSongsAsyncTask(this){
-
-            @Override
-            public void onPreExecute(){}
-
-            @Override
-            public void onPostExecute(List<SongRoom> data){
-                //super.onPostExecute(data);
-                List<SongRoom> aux = data;
-                Collections.sort(aux, new Comparator<SongRoom>() {
-                    @Override
-                    public int compare(SongRoom lhs, SongRoom rhs) {
-                        return lhs.getIdxInQueue() - rhs.getIdxInQueue();
-                    }
-                });
-
-                for(SongRoom sr : aux){
-                    list.add(new ListModelItem(sr.getSong().getSongName(), sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
-                            sr.getSong().getThumbnailURL()));
-                    mAdapter.notifyItemInserted(list.size());
-                }
-
-
-                swipeRefreshLayout.setRefreshing(false);
-
-                if( !setupCalled ){
-                    setUp();
-                    setupCalled = true;
-                }
-
-            }
-        }.execute(room.getId());
     }
 
     /*
     * Loads components of a single room
     * */
     void setUp ( ) {
-        /*
-        * If the owner of this room is the user who is managing the application
-        * YouTubePlayer must be loaded
-        * */
-        if (room.getRoomOwner().getId().equals(LoginActivity.currentUser.getId()))
-            loadYoutubePlayerFragment();
+        loadPlaylist();
+    }
 
-        FloatingActionButton addSongButton = (FloatingActionButton) findViewById(R.id.add_song_button);
-        addSongButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                * Adds a new song
-                * */
+    private void loadPlaylist ( ) {
+        playlistFragment = new PlayListFragment(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM), this);
 
-                startActivity(new Intent(RoomActivity.this, AddNewSongActivity.class));
-            }
-        });
+        FragmentManager fragManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.playlist, playlistFragment);
+        fragmentTransaction.commit();
     }
 
 
-
-    private void loadYoutubePlayerFragment() {
-        YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+    public void loadYoutubePlayerFragment() {
+        final YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
         youTubePlayerFragment.initialize(Constants.DEVELOPMENT_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean restored) {
-                setYouTubePlayer(youTubePlayer);
+                playlistFragment.setYouTubePlayer(youTubePlayer);
                 youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                     @Override
                     public void onLoading() {
@@ -193,10 +118,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
                     * */
                     @Override
                     public void onVideoEnded() {
-                        if (!list.isEmpty()) {
-                            list.add(list.remove(0));
-                            youTubePlayer.loadVideo(list.get(0).getSongId());
-                        }
+                        playlistFragment.nextSong();
                     }
 
                     @Override
@@ -204,15 +126,7 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                     }
                 });
-
-
-                /*
-                * The first song begins to play
-                * */
-                if ( !list.isEmpty() ) {
-                    Log.d("xd"," ID " + list.get(0).getSongId());
-                    youTubePlayer.loadVideo(list.get(0).getSongId());
-                }
+                playlistFragment.tryToPlay();
             }
 
             @Override
@@ -246,48 +160,15 @@ public class RoomActivity extends AppCompatActivity implements SwipeRefreshLayou
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch( id ) {
+            case R.id.delete_room:
+                return true;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public YouTubePlayer getYouTubePlayer() {
-        return youTubePlayer;
-    }
-
-    public void setYouTubePlayer(YouTubePlayer youTubePlayer) {
-        this.youTubePlayer = youTubePlayer;
-    }
-
-    @Override
-    public void onStart () {
-        super.onStart();
-        final RoomActivity aux = this;
-        new GetRoomByIdAsyncTask( this ){
-            @Override
-            public void onPostExecute( Room theRoom ){
-                super.onPostExecute(theRoom);
-                room = theRoom;
-                updateSongs();
-
-                UserEnteredRoom userEnteredRoom = new UserEnteredRoom();
-                userEnteredRoom.setRoom(room);
-                userEnteredRoom.setUser(LoginActivity.currentUser);
-                new InsertUserEnteredRoomAsyncTask(aux){
-                    @Override
-                    public void onPostExecute(UserEnteredRoom data){
-                        super.onPostExecute(data);
-                        Log.d("HOLA","Insertado UserEnteredRoom");
-                    }
-                }.execute(userEnteredRoom);
-            }
-        }.execute(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM));
-    }
-
-    @Override
-    public void onRefresh() {
-        updateSongs();
-    }
 }
