@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Nombre"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="12dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black"
             android:textSize="@dimen/grid_item_text_size" />
@@ -38,7 +38,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="Descripción"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="12dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="@dimen/grid_item_text_size" />
 

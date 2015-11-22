@@ -25,7 +25,7 @@
 
     <dimen name="card_margin">0dp</dimen>
 
-    <dimen name="grid_item_text_size">11sp</dimen>
+    <dimen name="grid_item_text_size">13sp</dimen>
     <dimen name="grid_view_padding">5dp</dimen>
     <dimen name="grid_item_image_size">130dp</dimen>
 
