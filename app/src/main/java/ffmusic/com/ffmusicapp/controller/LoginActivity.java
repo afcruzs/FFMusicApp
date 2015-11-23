@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,12 +147,30 @@ public class LoginActivity extends AppCompatActivity implements
     private static final String KEY_IS_RESOLVING = "is_resolving";
     private static final String KEY_SHOULD_RESOLVE = "should_resolve";
 
+
+
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setTextSize(15);
+                tv.setTypeface(null, Typeface.NORMAL);
+                tv.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+                tv.setText(buttonText);
+                return;
+            }
+        }
+    }
+
     private void googleLogin () {
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
 
         ((SignInButton)findViewById(R.id.sign_in_button)).setSize(SignInButton.SIZE_WIDE);
-
+        SignInButton gPlusLoginButton = (SignInButton) findViewById(R.id.sign_in_button);
+        setGooglePlusButtonText(gPlusLoginButton,"Sign in with Google");
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)

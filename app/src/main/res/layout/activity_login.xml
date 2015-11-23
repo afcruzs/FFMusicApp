@@ -40,12 +40,13 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:layout_width="@dimen/google_button_width"
         android:layout_height="@dimen/google_button_height"
-        android:minHeight="@dimen/google_button_width"
+
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp" />
+        android:layout_marginBottom="100dp"
+        android:tag=""/>
 
 </RelativeLayout>
