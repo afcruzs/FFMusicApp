@@ -53,10 +53,20 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public PlayListFragment ( ) { }
 
-    public PlayListFragment ( Long id, RoomActivity roomActivity ) {
+    /*
+    Changed because of android is crying like a little bitch
+    private PlayListFragment ( Long id, RoomActivity roomActivity ) {
         this.currentRoom = id;
         this.roomActivity = roomActivity;
         setupCalled = false;
+    }*/
+
+    public static PlayListFragment newInstance(Long id, RoomActivity roomActivity){
+        PlayListFragment ret = new PlayListFragment();
+        ret.currentRoom = id;
+        ret.roomActivity = roomActivity;
+        ret.setupCalled = false;
+        return ret;
     }
 
     @Override
@@ -165,7 +175,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onPostExecute(SongRoom v){
                 super.onPostExecute(v);
-                Log.d("xd","OnPostExec delete " + id);
+                Log.d("xd", "OnPostExec delete " + id);
                 //V is always null
                 updateSongs();
             }

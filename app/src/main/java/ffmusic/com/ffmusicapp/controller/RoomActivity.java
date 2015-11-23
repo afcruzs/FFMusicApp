@@ -76,7 +76,7 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     private void loadPlaylist ( ) {
-        playlistFragment = new PlayListFragment(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM), this);
+        playlistFragment = PlayListFragment.newInstance(getIntent().getExtras().getLong(RoomActivity.CURRENT_ROOM), this);
 
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
