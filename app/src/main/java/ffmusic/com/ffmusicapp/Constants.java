@@ -31,7 +31,7 @@ public class Constants {
 
         Otherwise it will connect to de api deployed in the google cloud.
     * */
-    public static final String ROOT_URL = DEVELOPMENT_ROOT_URL;
+    public static final String ROOT_URL = PRODUCTION_ROOT_URL;
 
 
     /*
