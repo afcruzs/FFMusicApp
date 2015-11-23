@@ -9,14 +9,17 @@ public class ListModelItem implements Serializable {
     private String artist;
     private String songId;
     private String thumbnailURL;
+    private Long songRoomId;
 
-
-    public ListModelItem( String name, String songId, String artist, String thumbnailURL){
+    public ListModelItem( String name, String songId, String artist, String thumbnailURL, Long songRoomId){
         this.name = name;
         this.songId = songId;
         this.artist = artist;
         this.thumbnailURL = thumbnailURL;
+        this.songRoomId = songRoomId;
     }
+
+    public Long getDBId(){ return songRoomId; }
 
     public String getName(){
         return name;

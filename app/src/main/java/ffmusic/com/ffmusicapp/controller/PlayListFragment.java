@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.endpoints.DeleteSongRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
@@ -128,6 +129,12 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
                 for(SongRoom sr : aux){
 
+                    Log.d("xd", "Idx in queue: " + sr.getIdxInQueue() + "" );
+
+                    if( sr.getIdxInQueue() == -1 ){
+                        Log.d("xd","INACTIVEA " + sr.getId());
+                        continue;
+                    }
                     String cutSongName = sr.getSong().getSongName().length()
                             < 40?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 40);
 
@@ -135,7 +142,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                             < 20?sr.getSong().getArtist():sr.getSong().getArtist().substring(0, 20);
                     Log.e("xd","name = "+ cutSongName );
                     list.add(new ListModelItem(cutSongName, sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
-                            sr.getSong().getThumbnailURL()));
+                            sr.getSong().getThumbnailURL(), sr.getId()) );
                     mAdapter.notifyItemInserted(list.size());
                 }
 
@@ -152,6 +159,19 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
         }.execute(room.getId());
     }
 
+    void removeOnDB(final Long id){
+        Log.d("xd","INCIIANDO delete " + id);
+        new DeleteSongRoomAsyncTask(getContext()){
+            @Override
+            public void onPostExecute(SongRoom v){
+                super.onPostExecute(v);
+                Log.d("xd","OnPostExec delete " + id);
+                //V is always null
+                updateSongs();
+            }
+        }.execute(id);
+    }
+
     public void tryToPlay () {
         if ( youTubePlayer != null && !youTubePlayer.isPlaying() && !list.isEmpty() ) {
             youTubePlayer.loadVideo(list.get(0).getSongId());
@@ -160,6 +180,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void nextSong() {
         if (!list.isEmpty()) {
+            removeOnDB( list.get(0).getDBId() );
             list.remove(0);
             tryToPlay();
         }

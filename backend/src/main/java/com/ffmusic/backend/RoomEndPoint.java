@@ -63,15 +63,15 @@ public class RoomEndPoint {
         @ApiMethod(httpMethod = "POST")
         public Song randomSongFromRoom(final Room room){
                 List<SongRoom> list = ofy().load().type(SongRoom.class).filter("room",room).list();
-
+                if(list == null || list.isEmpty()) return null;
                 return list.get( new Random().nextInt(list.size()) ).getSong();
         }
 
         @ApiMethod(httpMethod = "POST")
         public UserEnteredRoom userEnteredRoom(final UserEnteredRoom userEnteredRoom){
-                List<UserEnteredRoom> aux = ofy().load().type( UserEnteredRoom.class ).
-                        filter("user",userEnteredRoom.getUser()).
-                        filter("room",userEnteredRoom.getRoom()).list();
+                List<UserEnteredRoom> aux = ofy().load().type(UserEnteredRoom.class).
+                        filter("user", userEnteredRoom.getUser()).
+                        filter("room", userEnteredRoom.getRoom()).list();
 
                 if( aux == null || aux.size() == 0 ){
                         ofy().save().entity(userEnteredRoom).now();
@@ -101,9 +101,20 @@ public class RoomEndPoint {
         }
 
         @ApiMethod(httpMethod = "POST")
+        public SongRoom deleteSongRoom(@Named("idSongRoom") final Long songRoomId){
+                SongRoom sr = ofy().load().type(SongRoom.class).id(songRoomId).now();
+                //sr.setActive(new Boolean(false));
+                sr.setIdxInQueue(new Integer(-1));
+                ofy().save().entity(sr).now();
+                return sr;
+
+        }
+
+        @ApiMethod(httpMethod = "POST")
         public List<Room> querySongs(@Named("prefix")String prefix){
                 return ofy().load().type(Room.class).
                         filter("name >=",prefix).filter("name <",prefix + "\ufffd").list();
-
         }
+
+
 }
