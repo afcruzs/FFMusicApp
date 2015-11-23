@@ -3,13 +3,18 @@ package ffmusic.com.ffmusicapp.controller;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -102,7 +107,8 @@ public class FFMusicMainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // Marks item as checked
-                        menuItem.setChecked(true);
+                        if ( menuItem.getItemId() != NAV_LOG_OUT )
+                            menuItem.setChecked(true);
                         // Selects new item on NavigationDrawer
                         selectItem(menuItem.getItemId(), menuItem.getTitle().toString());
                         return true;
@@ -123,7 +129,6 @@ public class FFMusicMainActivity extends AppCompatActivity {
 
         switch (itemId) {
             case NAV_HOME:
-
                 newFragment = new HomeFragment();
                 break;
 
@@ -141,7 +146,28 @@ public class FFMusicMainActivity extends AppCompatActivity {
                 break;
 
             case NAV_LOG_OUT:
-                // Log out missing
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.log_out_title);
+                builder.setMessage(R.string.log_out_message);
+                builder.setPositiveButton(R.string.yes_message, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(FFMusicMainActivity.this);
+                        SharedPreferences.Editor ed = mPrefs.edit();
+                        ed.clear();
+                        ed.commit();
+                        try {
+                            Runtime runtime = Runtime.getRuntime();
+                            runtime.exec("pm clear ffmusic.com.ffmusicapp");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        startActivity(new Intent(FFMusicMainActivity.this, LoginActivity.class));
+
+                    }
+                });
+                builder.setNegativeButton(R.string.no_message, null);
+                builder.show();
                 return;
 
             default:

@@ -161,7 +161,8 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void nextSong() {
         if (!list.isEmpty()) {
             list.remove(0);
-            tryToPlay();
+            if ( !list.isEmpty() )
+                youTubePlayer.loadVideo(list.get(0).getSongId());
         }
     }
 

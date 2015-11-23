@@ -6,20 +6,12 @@
         <item name="colorAccent">@color/accentColor1</item>
     </style>
 
-    <style name="Theme.FirstThemeTranslucent" parent="Theme.FirstTheme">
+    <style name="Theme.FFMusicMainTheme" parent="Theme.FirstTheme">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
-    <style name="Theme.FirstThemeNoTranslucent" parent="Theme.FirstTheme">
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowSharedElementsUseOverlay">false</item>
-    </style>
-
-    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
-    </style>
-
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 
     <style name="CheckBox">
         <item name="cbd_width">32dp</item>
