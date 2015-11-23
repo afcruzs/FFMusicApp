@@ -107,13 +107,13 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform (1)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="grid-view-with-header-footer-1.0.12" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.21.0" level="project" />
+    <orderEntry type="library" exported="" name="grid-view-with-header-footer-1.0.12" level="project" />
     <orderEntry type="library" exported="" name="play-services-measurement-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-appindexing-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-8.1.0" level="project" />
-    <orderEntry type="library" exported="" name="guava-jdk5-17.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-gson-1.21.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-jdk5-17.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-identity-8.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="material-1.2.1" level="project" />

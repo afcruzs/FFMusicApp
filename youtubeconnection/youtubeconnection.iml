@@ -93,8 +93,8 @@
     <orderEntry type="library" exported="" name="google-http-client-android-1.21.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.21.0" level="project" />
-    <orderEntry type="library" exported="" name="guava-jdk5-17.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-gson-1.21.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-jdk5-17.0" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.20.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-jackson2-1.21.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-jackson2-1.20.0" level="project" />
