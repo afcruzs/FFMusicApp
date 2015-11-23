@@ -78,4 +78,10 @@
     <string name="title_activity_rooms_search_results">Searching results</string>
 
 
+    <!-- Log out -->
+    <string name="log_out_title">Log out</string>
+    <string name="log_out_message">Are you sure you want to quit?</string>
+    <string name="yes_message">Yes</string>
+    <string name="no_message">No</string>
+
 </resources>

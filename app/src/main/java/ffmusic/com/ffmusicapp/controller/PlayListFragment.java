@@ -173,8 +173,11 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
         Log.d("xd","INCIIANDO delete " + id);
         new DeleteSongRoomAsyncTask(getContext()){
             @Override
+            protected void onPreExecute() { }
+
+            @Override
             public void onPostExecute(SongRoom v){
-                super.onPostExecute(v);
+                //super.onPostExecute(v);
                 Log.d("xd", "OnPostExec delete " + id);
                 //V is always null
                 updateSongs();
@@ -190,9 +193,10 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void nextSong() {
         if (!list.isEmpty()) {
-            removeOnDB( list.get(0).getDBId() );
+            removeOnDB(list.get(0).getDBId());
             list.remove(0);
-            tryToPlay();
+            if ( !list.isEmpty() )
+                youTubePlayer.loadVideo(list.get(0).getSongId());
         }
     }
 
