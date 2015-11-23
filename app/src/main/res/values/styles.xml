@@ -1,8 +1,8 @@
 <resources>
 
-    <style name="Theme.FFMusicMainTheme" parent="Base.AppTheme"/>
+    <style name="Theme.FFMusicMainTheme" parent="Theme.FirstTheme"/>
 
-    <style name="Theme.FirstTheme" parent="Base.AppTheme">
+    <style name="Theme.FirstTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryColor1</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor1</item>
         <item name="colorAccent">@color/accentColor1</item>
