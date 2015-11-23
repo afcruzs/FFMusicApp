@@ -9,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.GridView;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
@@ -41,6 +43,7 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private GridView grid;
     private RoomsGridAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    int myLastVisiblePos;
 
     public final static int CREATE_NEW_ROOM_ACTION = 1;
     public final static int GO_TO_ROOM_ACTION = 2;
@@ -117,6 +120,23 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             public void onClick(View v) {
                 //its private ????
                 startActivityForResult(new Intent(getActivity(), CreateRoomActivity.class), CREATE_NEW_ROOM_ACTION);
+            }
+        });
+
+        myLastVisiblePos = grid.getFirstVisiblePosition();
+
+        grid.setOnScrollListener( new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int currentFirstVisPos = view.getFirstVisiblePosition();
+                if(currentFirstVisPos == myLastVisiblePos)
+                    swipeRefreshLayout.setEnabled(true);
+                else
+                    swipeRefreshLayout.setEnabled(false);
             }
         });
 
