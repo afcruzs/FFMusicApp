@@ -19,7 +19,7 @@ public class Constants {
     *   Please set it to run the backend in your machine.
     * */
 
-    public static final String DEVELOPMENT_IP = "192.168.1.4";
+    public static final String DEVELOPMENT_IP = "10.203.132.240";
     //public static final String DEVELOPMENT_IP = "192.168.0.4";
     //public static final String DEVELOPMENT_IP = " 10.203.163.108";
 
@@ -31,7 +31,7 @@ public class Constants {
 
         Otherwise it will connect to de api deployed in the google cloud.
     * */
-    public static final String ROOT_URL = PRODUCTION_ROOT_URL;
+    public static final String ROOT_URL = DEVELOPMENT_ROOT_URL;
 
 
     /*

@@ -119,5 +119,12 @@ public class RoomEndPoint {
                         filter("name >=",prefix).filter("name <",prefix + "\ufffd").list();
         }
 
+        @ApiMethod(httpMethod = "POST")
+        public SongRoom vote(SongRoom songRoom){
+                songRoom.setVotes( songRoom.getVotes() + 1);
+                ofy().save().entity(songRoom).now();
+                return songRoom;
+        }
+
 
 }

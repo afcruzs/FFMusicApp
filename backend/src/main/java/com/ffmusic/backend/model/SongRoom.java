@@ -29,6 +29,12 @@ public class SongRoom {
 
     Integer idxInQueue;
 
+    Integer votes;
+
+    public Integer getVotes(){ return votes; }
+    public void setVotes(Integer v){
+        votes = v;
+    }
 
     public User getCreatedBy(){
         return createdBy.get();

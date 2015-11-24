@@ -136,7 +136,10 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 Collections.sort(aux, new Comparator<SongRoom>() {
                     @Override
                     public int compare(SongRoom lhs, SongRoom rhs) {
-                        return lhs.getIdxInQueue() - rhs.getIdxInQueue();
+                        if( lhs.getVotes() == rhs.getVotes() )
+                            return lhs.getIdxInQueue() - rhs.getIdxInQueue();
+                        else
+                            return lhs.getVotes() - rhs.getVotes();
                     }
                 });
 
