@@ -64,7 +64,10 @@ public class RoomEndPoint {
         public Song randomSongFromRoom(final Room room){
                 List<SongRoom> list = ofy().load().type(SongRoom.class).filter("room",room).list();
                 if(list == null || list.isEmpty()) return null;
-                return list.get( new Random().nextInt(list.size()) ).getSong();
+                SongRoom sr = list.get( new Random().nextInt(list.size()) );
+                while( sr.getIdxInQueue() == -1  )
+                        sr = list.get( new Random().nextInt(list.size()) );
+                return sr.getSong();
         }
 
         @ApiMethod(httpMethod = "POST")

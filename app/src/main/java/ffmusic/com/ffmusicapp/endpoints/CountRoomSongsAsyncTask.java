@@ -1,6 +1,8 @@
 package ffmusic.com.ffmusicapp.endpoints;
 
 import android.content.Context;
+
+import com.ffmusic.backend.ffMusicApi.model.SongRoom;
 import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
 
 import java.io.IOException;
@@ -18,9 +20,13 @@ public class CountRoomSongsAsyncTask extends ApiRequestAsyncTask<Long,Void,Integ
         try {
             Long room = params[0];
             SongRoomCollection data = ffMusicApi.roomEndPoint().songs(room).execute();
-            if( data != null && data.getItems() != null )
-                return data.getItems().size();
-            else
+            if( data != null && data.getItems() != null ) {
+                int aux = 0;
+                for(SongRoom sr : data.getItems()){
+                    if(sr.getIdxInQueue() != -1) aux++;
+                }
+                return aux;
+            }else
                 return 0;
 
         } catch (IOException e) {
