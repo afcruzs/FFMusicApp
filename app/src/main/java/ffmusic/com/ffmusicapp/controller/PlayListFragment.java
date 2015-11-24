@@ -30,6 +30,7 @@ import ffmusic.com.ffmusicapp.endpoints.DeleteSongRoomAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
+import ffmusic.com.ffmusicapp.util.NoResults;
 
 /**
  * Created by Milder on 21/11/2015.
@@ -48,6 +49,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private RoomActivity roomActivity;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private View view;
 
     private boolean setupCalled;
 
@@ -72,7 +74,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
+        view = inflater.inflate(R.layout.fragment_playlist, container, false);
 
         setupCalled = false;
 
@@ -130,6 +132,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onPostExecute(List<SongRoom> data){
                 //super.onPostExecute(data);
                 List<SongRoom> aux = data;
+
                 Collections.sort(aux, new Comparator<SongRoom>() {
                     @Override
                     public int compare(SongRoom lhs, SongRoom rhs) {
@@ -137,6 +140,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     }
                 });
 
+                int added = 0;
                 for(SongRoom sr : aux){
 
                     Log.d("xd", "Idx in queue: " + sr.getIdxInQueue() + "" );
@@ -145,6 +149,8 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                         Log.d("xd","INACTIVEA " + sr.getId());
                         continue;
                     }
+
+                    ++added;
                     String cutSongName = sr.getSong().getSongName().length()
                             < 40?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 40);
 
@@ -156,6 +162,8 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     mAdapter.notifyItemInserted(list.size());
                 }
 
+                if ( added == 0 ) NoResults.show(view);
+                else NoResults.hide(view);
 
                 swipeRefreshLayout.setRefreshing(false);
 

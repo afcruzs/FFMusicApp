@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
 import com.ffmusic.backend.ffMusicApi.model.RoomCollection;
@@ -31,6 +32,7 @@ import ffmusic.com.ffmusicapp.endpoints.GetEnteredRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.RandomSongFromRoomAsyncTask;
+import ffmusic.com.ffmusicapp.util.NoResults;
 
 /**
  * Un fragmento que contiene una grilla de Rooms
@@ -44,6 +46,8 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private RoomsGridAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     int myLastVisiblePos;
+
+    private View rootView;
 
     public final static int CREATE_NEW_ROOM_ACTION = 1;
     public final static int GO_TO_ROOM_ACTION = 2;
@@ -99,8 +103,8 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
-        
+        rootView = inflater.inflate(R.layout.fragment_rooms, container, false);
+
         // Catching grid view
         grid = (GridView) rootView.findViewById(R.id.gridview);
 
@@ -154,14 +158,20 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             case 1:
                 adapter = new RoomsGridAdapter(getActivity(), getUserRooms(), getChildFragmentManager());
                 grid.setAdapter(adapter);
+                if ( adapter.getItems().isEmpty() ) NoResults.show(rootView);
+                else NoResults.hide(rootView);
                 break;
             case 2:
                 adapter = new RoomsGridAdapter(getActivity(), getOtherRooms(), getChildFragmentManager());
                 grid.setAdapter(adapter);
+                if ( adapter.getItems().isEmpty() ) NoResults.show(rootView);
+                else NoResults.hide(rootView);
                 break;
             case 3:
                 adapter = new RoomsGridAdapter(getActivity(), getEnteredRooms(), getChildFragmentManager());
                 grid.setAdapter(adapter);
+                if ( adapter.getItems().isEmpty() ) NoResults.show(rootView);
+                else NoResults.hide(rootView);
                 break;
 
         }
@@ -193,9 +203,11 @@ public class RoomsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
             @Override
             public void onPostExecute(List<Room> result){
+
                 userRooms = result;
                 Log.d("xd",LoginActivity.currentUser.getId()+"");
                 cacheRoomsThumbnails(userRooms);
+
                 new GetNearyByRoomsAsyncTask(fragment){
 
                     @Override

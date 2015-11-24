@@ -13,6 +13,8 @@
         android:orientation="vertical"
         android:background="@color/white">
 
+        <include layout="@layout/no_results"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"

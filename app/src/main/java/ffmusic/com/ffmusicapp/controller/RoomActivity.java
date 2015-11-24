@@ -1,45 +1,21 @@
 package ffmusic.com.ffmusicapp.controller;
 
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
-import com.ffmusic.backend.ffMusicApi.model.Song;
-import com.ffmusic.backend.ffMusicApi.model.SongRoom;
-import com.ffmusic.backend.ffMusicApi.model.SongRoomCollection;
-import com.ffmusic.backend.ffMusicApi.model.UserEnteredRoom;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import ffmusic.com.ffmusicapp.R;
-import ffmusic.com.ffmusicapp.Constants;
-import ffmusic.com.ffmusicapp.endpoints.GetRoomByIdAsyncTask;
-import ffmusic.com.ffmusicapp.endpoints.GetRoomSongsAsyncTask;
-import ffmusic.com.ffmusicapp.endpoints.InsertUserEnteredRoomAsyncTask;
-import ffmusic.com.ffmusicapp.endpoints.SaveSongAsyncTask;
-import ffmusic.com.ffmusicapp.endpoints.SaveSongRoom;
+import ffmusic.com.ffmusicapp.util.Constants;
 
 public class RoomActivity extends AppCompatActivity {
 

@@ -133,4 +133,8 @@ public class RoomsGridAdapter extends BaseAdapter{
 
         return view;
     }
+
+    public List<Room> getItems() {
+        return items;
+    }
 }

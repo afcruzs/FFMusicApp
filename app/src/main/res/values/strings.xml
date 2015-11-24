@@ -52,6 +52,7 @@
     <string name="error_name">You need to enter a name</string>
     <string name="error_password_message">You need to enter a password</string>
     <string name="error_password_message_validate">Passwords do not match</string>
+    <string name="no_results_text">No results</string>
 
 
     <string name="hint_name">Name Room</string>

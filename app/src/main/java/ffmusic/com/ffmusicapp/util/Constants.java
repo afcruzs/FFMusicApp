@@ -1,4 +1,4 @@
-package ffmusic.com.ffmusicapp;
+package ffmusic.com.ffmusicapp.util;
 
 import com.ffmusic.backend.ffMusicApi.FfMusicApi;
 import com.google.android.gms.common.Scopes;

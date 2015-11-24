@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.FfMusicApi;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.util.NoResults;
 import ffmusic.com.ffmusicapp.youtube_connection.VideoItem;
 import ffmusic.com.ffmusicapp.youtube_connection.YoutubeConnector;
 
@@ -136,7 +138,8 @@ public class YoutubeResultsActivity extends AppCompatActivity {
     }
 
     private void updateVideosFound(List<VideoItem> searchResults) {
-        Log.d("xd", searchResults.get(0).getTitle());
+        if ( searchResults.isEmpty() ) NoResults.show(this);
+        else NoResults.hide(this);
         list.clear();
         for(VideoItem sr : searchResults){
             list.add(sr);

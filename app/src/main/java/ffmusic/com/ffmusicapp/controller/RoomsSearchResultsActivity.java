@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ffmusic.backend.ffMusicApi.model.Room;
@@ -24,6 +25,7 @@ import java.util.List;
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByPrefixAsyncTask;
+import ffmusic.com.ffmusicapp.util.NoResults;
 
 public class RoomsSearchResultsActivity extends AppCompatActivity {
 
@@ -95,6 +97,10 @@ public class RoomsSearchResultsActivity extends AppCompatActivity {
             @Override
             public void onPostExecute(List<Room> data){
                 super.onPostExecute(data);
+
+                if ( data.isEmpty() ) NoResults.show(RoomsSearchResultsActivity.this);
+                else NoResults.hide(RoomsSearchResultsActivity.this);
+
                 for( Room room : data ){
                     list.add( new RoomListModelItem( room.getName(), room.getRoomOwner().getFirstName(), room.getId() ) );
                     mAdapter.notifyItemInserted(list.size());
