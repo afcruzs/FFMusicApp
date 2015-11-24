@@ -12,17 +12,7 @@
 
         <include layout="@layout/no_results"/>
 
-        <ImageView
-            android:id="@+id/no_results_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/profile_picture"
-            android:scaleType="fitCenter"
-            android:visibility="gone"/>
-
         <GridView
-
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/gridview"
             android:layout_width="fill_parent"

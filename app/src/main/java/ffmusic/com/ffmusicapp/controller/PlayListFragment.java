@@ -162,8 +162,18 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     mAdapter.notifyItemInserted(list.size());
                 }
 
-                if ( added == 0 ) NoResults.show(view);
-                else NoResults.hide(view);
+                if ( added == 0 ) {
+                    NoResults.show(view);
+                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+                    r.setVisibility(View.GONE);
+                    Log.d("puta", "mostrart");
+                }
+                else {
+                    NoResults.hide(view);
+                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+                    r.setVisibility(View.VISIBLE);
+                    Log.d("puta", "ocultar");
+                }
 
                 swipeRefreshLayout.setRefreshing(false);
 
