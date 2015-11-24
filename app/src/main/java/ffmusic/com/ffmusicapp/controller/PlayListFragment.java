@@ -131,6 +131,17 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onPostExecute(List<SongRoom> data){
                 //super.onPostExecute(data);
+                if ( data.isEmpty() ) {
+                    NoResults.show(view);
+                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+                    r.setVisibility(View.GONE);
+                }
+                else {
+                    NoResults.hide(view);
+                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+                    r.setVisibility(View.VISIBLE);
+                }
+
                 List<SongRoom> aux = data;
 
                 Collections.sort(aux, new Comparator<SongRoom>() {
@@ -140,7 +151,6 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     }
                 });
 
-                int added = 0;
                 for(SongRoom sr : aux){
 
                     Log.d("xd", "Idx in queue: " + sr.getIdxInQueue() + "" );
@@ -150,7 +160,6 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                         continue;
                     }
 
-                    ++added;
                     String cutSongName = sr.getSong().getSongName().length()
                             < 40?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 40);
 
@@ -160,19 +169,6 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     list.add(new ListModelItem(cutSongName, sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
                             sr.getSong().getThumbnailURL(), sr.getId()) );
                     mAdapter.notifyItemInserted(list.size());
-                }
-
-                if ( added == 0 ) {
-                    NoResults.show(view);
-                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-                    r.setVisibility(View.GONE);
-                    Log.d("puta", "mostrart");
-                }
-                else {
-                    NoResults.hide(view);
-                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-                    r.setVisibility(View.VISIBLE);
-                    Log.d("puta", "ocultar");
                 }
 
                 swipeRefreshLayout.setRefreshing(false);
