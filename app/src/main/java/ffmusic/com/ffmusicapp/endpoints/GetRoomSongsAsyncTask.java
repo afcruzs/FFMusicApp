@@ -30,14 +30,12 @@ public class GetRoomSongsAsyncTask extends ApiRequestAsyncTask<Long,Void,List<So
             SongRoomCollection data = ffMusicApi.roomEndPoint().songs(room).execute();
             if( data != null && data.getItems() != null ) {
                 List<SongRoom> aux = data.getItems();
-                Queue<Integer> q = new LinkedList<>();
-                for(int i=0; i<aux.size(); i++)
-                    if( aux.get(i).getIdxInQueue() == -1 )
-                        q.add(i);
-
-                while(q.isEmpty() == false) aux.remove(q.poll());
-
-                return aux;
+                List<SongRoom> retList = new ArrayList<>();
+                for(SongRoom sr : aux){
+                    if( sr.getIdxInQueue() != -1 )
+                        retList.add(sr);
+                }
+                return retList;
             }
             else
                 return new ArrayList<>();
