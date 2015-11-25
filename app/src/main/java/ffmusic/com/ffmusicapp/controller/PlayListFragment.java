@@ -78,19 +78,20 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         setupCalled = false;
 
-        list = new ArrayList<ListModelItem>();
+        list = new ArrayList<>();
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new SongAdapter(list);
-
+        mAdapter = new SongAdapter(list, room, this, getActivity());
+/*
         mAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Song selected " + mRecyclerView.getChildPosition(v), Toast.LENGTH_LONG).show();
             }
         });
+        */
 
 
         mRecyclerView.setAdapter(mAdapter);
@@ -118,10 +119,12 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     void updateSongs(){
-        while(!list.isEmpty()){
+        list.clear();
+        //mAdapter.notifyDataSetChanged();
+        /*while(!list.isEmpty()){
             list.remove(0);
             mAdapter.notifyDataSetChanged();
-        }
+        }*/
 
         new GetRoomSongsAsyncTask(getActivity()){
 
@@ -131,19 +134,30 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onPostExecute(List<SongRoom> data){
                 //super.onPostExecute(data);
+
                 List<SongRoom> aux = data;
 
                 Collections.sort(aux, new Comparator<SongRoom>() {
                     @Override
                     public int compare(SongRoom lhs, SongRoom rhs) {
-                        if( lhs.getVotes() == rhs.getVotes() )
-                            return lhs.getIdxInQueue() - rhs.getIdxInQueue();
-                        else
-                            return lhs.getVotes() - rhs.getVotes();
+                        return lhs.getIdxInQueue() - rhs.getIdxInQueue();
                     }
                 });
 
-                int added = 0;
+                if ( data.isEmpty() ) {
+                    NoResults.show(view);
+                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+                    r.setVisibility(View.GONE);
+                }
+                else {
+                    NoResults.hide(view);
+                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+                    r.setVisibility(View.VISIBLE);
+                }
+
+                mAdapter.setSongRoomList((ArrayList)aux);
+
+                Log.d("borrar", "todo");
                 for(SongRoom sr : aux){
 
                     Log.d("xd", "Idx in queue: " + sr.getIdxInQueue() + "" );
@@ -152,33 +166,22 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                         Log.d("xd","INACTIVEA " + sr.getId());
                         continue;
                     }
+                    Log.d("borrar", sr.getId() + " " + sr.getSong().getId() + " " + sr.getIdxInQueue());
 
-                    ++added;
                     String cutSongName = sr.getSong().getSongName().length()
                             < 40?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 40);
 
                     String cutArtistName = sr.getSong().getArtist().length()
                             < 20?sr.getSong().getArtist():sr.getSong().getArtist().substring(0, 20);
-                    Log.e("xd","name = "+ cutSongName );
+                    Log.e("xd", "name = " + cutSongName);
                     list.add(new ListModelItem(cutSongName, sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
-                            sr.getSong().getThumbnailURL(), sr.getId()) );
-                    mAdapter.notifyItemInserted(list.size());
-                }
-
-                if ( added == 0 ) {
-                    NoResults.show(view);
-                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-                    r.setVisibility(View.GONE);
-                    Log.d("puta", "mostrart");
-                }
-                else {
-                    NoResults.hide(view);
-                    RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-                    r.setVisibility(View.VISIBLE);
-                    Log.d("puta", "ocultar");
+                            sr.getSong().getThumbnailURL(), sr.getId()));
+                    //mAdapter.notifyItemInserted(list.size());
+                    //mAdapter.notifyDataSetChanged();
                 }
 
                 swipeRefreshLayout.setRefreshing(false);
+                mAdapter.notifyDataSetChanged();
 
                 if ( !setupCalled ) {
                     setupCalled = true;
@@ -229,6 +232,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onPostExecute( Room theRoom ){
                 super.onPostExecute(theRoom);
                 roomActivity.room = room = theRoom;
+                mAdapter.setRoom(room);
                 updateSongs();
 
                 UserEnteredRoom userEnteredRoom = new UserEnteredRoom();

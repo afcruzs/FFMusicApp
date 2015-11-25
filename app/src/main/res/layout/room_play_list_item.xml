@@ -28,7 +28,7 @@
             android:layout_width="@dimen/image_list_width"
             android:layout_height="@dimen/image_list_height"
             android:scaleType="centerCrop"
-            android:src="@drawable/test"
+            android:src="@drawable/music_note_image"
             android:adjustViewBounds="true"
             />
 
@@ -39,44 +39,12 @@
             android:text="Large Text"
             android:id="@+id/name_song"
             android:layout_toRightOf="@+id/image_song"
-            android:layout_toLeftOf="@+id/time"
+
             android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
             android:textSize="@dimen/text_song_size"
             android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/name_artist"
-            android:layout_below="@+id/name_song"
-            android:visibility="invisible"
-            android:layout_alignLeft="@+id/name_song" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="2:32"
-            android:id="@+id/time"
-            android:layout_marginTop="6dp"
-            android:layout_alignParentRight="true"
-            android:visibility="invisible"
-            android:layout_alignLeft="@+id/star" />
-
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/star"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:visibility="invisible"
-            android:src="@android:drawable/star_off" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

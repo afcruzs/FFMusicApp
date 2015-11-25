@@ -45,7 +45,7 @@ public class FFMusicMainActivity extends AppCompatActivity {
     * */
     private final int NAV_HOME = R.id.nav_home;
     private final int NAV_YOUTUBE = R.id.nav_youtube;
-    private final int NAV_SETTINGS = R.id.nav_settings;
+    //private final int NAV_SETTINGS = R.id.nav_settings;
     private final int NAV_LOG_OUT = R.id.nav_log_out;
     private final String SETTINGS_TAG = R.string.setting_tag+"";
 
@@ -138,12 +138,12 @@ public class FFMusicMainActivity extends AppCompatActivity {
                 else
                     Toast.makeText(this, R.string.youtube_app_not_found, Toast.LENGTH_SHORT);
                 return;
-
+/*
             case NAV_SETTINGS:
                 newFragment = new SettingsFragment();
 
                 break;
-
+*/
             case NAV_LOG_OUT:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.log_out_title);

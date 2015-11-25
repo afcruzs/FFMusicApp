@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/com_facebook_tooltip_black_bottomnub"
+            android:src="@drawable/plus_icon"
             app:borderWidth="0dp"
             app:elevation="7dp"
             android:layout_margin="@dimen/fab_margin"

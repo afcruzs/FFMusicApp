@@ -79,7 +79,7 @@ public class RoomsGridAdapter extends BaseAdapter{
 
         if( DownloadImageTask.getBitmaskFromCache(item.getId().toString()) == null ) {
             Log.d("HOLA","JEJEJEIJIJIJI");
-            image.setImageResource(R.drawable.muse);
+            image.setImageResource(R.drawable.headphones_image);
         }else{
             image.setImageBitmap(DownloadImageTask.getBitmaskFromCache(item.getId().toString()));
         }

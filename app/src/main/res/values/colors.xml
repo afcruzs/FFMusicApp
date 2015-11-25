@@ -2,9 +2,14 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
 
-    <color name="primaryColor1">#0097A7</color>
+    <!--<color name="primaryColor1">#0097A7</color>
     <color name="primaryDarkColor1">#0097A7</color>
     <color name="accentColor1">#03A9F4</color>
+    -->
+
+    <color name="primaryDarkColor1">#009688</color>
+    <color name="primaryColor1">#009688</color>
+    <color name="accentColor1">#00BCD4</color>
 
     <!-- Create Room -->
 

@@ -5,7 +5,7 @@
     <style name="Theme.FirstTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primaryColor1</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor1</item>
-        <item name="colorAccent">@color/accentColor1</item>
+        <item name="colorAccent">@color/red_color</item>
     </style>
 
 

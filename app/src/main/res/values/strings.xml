@@ -44,6 +44,10 @@
     <string name= "incorrect_pass">Incorrect password</string>
     <string name= "delete_room">Delete</string>
 
+    <!-- Room -->
+    <string name= "delete_song">Delete</string>
+    <string name= "like">Like</string>
+
     <!-- Errors -->
     <string name="unknown_error">Unknown error</string>
     <string name="youtube_app_not_found">YouTube App not found</string>
