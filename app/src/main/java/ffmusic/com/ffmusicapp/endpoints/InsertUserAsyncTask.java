@@ -40,10 +40,12 @@ public class InsertUserAsyncTask extends ApiRequestAsyncTask<User, Void, User> {
 
             return ffMusicApi.userEndPoint().insertUser(user).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            onError(e);
+            return null;
         }
 
-        return  null;
+        //return  null;
     }
 
 

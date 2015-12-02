@@ -48,7 +48,9 @@ public class InsertRoomAsyncTask extends ApiRequestAsyncTask<Room,Void,Room> {
         try {
             return ffMusicApi.roomEndPoint().insertRoom(room).execute();
         } catch (IOException e) {
-            throw new RuntimeException("Fail at adding room: " + e.toString());
+            //throw new RuntimeException("Fail at adding room: " + e.toString());
+            onError(e);
+            return null;
 
         }
         //return null;

@@ -47,6 +47,7 @@ import ffmusic.com.ffmusicapp.endpoints.GetNearyByRoomsAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetRoomsByUserAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.GetUserByEmailAsyncTask;
 import ffmusic.com.ffmusicapp.endpoints.InsertUserAsyncTask;
+import ffmusic.com.ffmusicapp.util.ErrorHandlerUI;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -117,12 +118,14 @@ public class LoginActivity extends AppCompatActivity implements
 
             @Override
             public void onCancel() {
-
+                //ErrorHandlerUI.showError(aux,e);
             }
 
             @Override
             public void onError(FacebookException e) {
+
                 Log.d(TAG, e.getMessage() + " ");
+                ErrorHandlerUI.showError(aux,e);
             }
         });
     }
@@ -193,13 +196,19 @@ public class LoginActivity extends AppCompatActivity implements
             isLogged = true;
             emailUser = mPrefs.getString(EMAIL,null);
             //currentUser = UserFactory.getUser(emailUser);
+
             new GetUserByEmailAsyncTask(this){
              @Override
              public void onPostExecute(User user){
                  super.onPostExecute(user);
-                 if(user == null) throw new RuntimeException("THE USER IS NULLLL " + emailUser );
+                 if(user == null) {
+                     ErrorHandlerUI.showError(getApplicationContext(),getResources().getString(R.string.no_user));
+                     return;
+                 }
                  currentUser = user;
                  Log.d(TAG, "Cargado del user ");
+                 //Log.d("Xd", "JEJEJE2");
+
                  startMainActivity();
              }
             }.execute(emailUser);
@@ -214,7 +223,10 @@ public class LoginActivity extends AppCompatActivity implements
 
 
     public void startMainActivity() {
-
+        if(currentUser == null){
+            ErrorHandlerUI.showError(this,"Error");
+            return;
+        }
         final LoginActivity holder = this;
         new GetRoomsByUserAsyncTask(this){
             @Override

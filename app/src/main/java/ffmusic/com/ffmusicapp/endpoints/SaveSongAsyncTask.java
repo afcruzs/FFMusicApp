@@ -20,8 +20,10 @@ public class SaveSongAsyncTask extends ApiRequestAsyncTask<Song,Void,Song> {
         try {
             return ffMusicApi.roomEndPoint().insertSong(params[0]).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            onError(e);
+            return null;
         }
-        return null;
+        //return null;
     }
 }

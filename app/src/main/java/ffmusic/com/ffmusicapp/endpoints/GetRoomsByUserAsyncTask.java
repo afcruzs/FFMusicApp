@@ -55,7 +55,9 @@ public class GetRoomsByUserAsyncTask extends ApiRequestAsyncTask<User, Void, Lis
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("An error ocurred retrieving user rooms..." + e);
+            //throw new RuntimeException("An error ocurred retrieving user rooms..." + e);
+            onError(e);
+            return null;
         }
 
 

@@ -89,4 +89,12 @@
     <string name="yes_message">Yes</string>
     <string name="no_message">No</string>
 
+
+    <!-- Log out -->
+    <string name="no_conexion_error">There is a problem with the internet connection</string>
+    <string name="no_user">The saved user does not exists in the data base please delete your application cache.</string>
+
+
+
+
 </resources>

@@ -21,16 +21,15 @@ public class CountRoomSongsAsyncTask extends ApiRequestAsyncTask<Long,Void,Integ
             Long room = params[0];
             SongRoomCollection data = ffMusicApi.roomEndPoint().songs(room).execute();
             if( data != null && data.getItems() != null ) {
-                int aux = 0;
-                for(SongRoom sr : data.getItems()){
-                    if(sr.getIdxInQueue() != -1) aux++;
-                }
-                return aux;
+                return data.getItems().size();
             }else
                 return 0;
 
         } catch (IOException e) {
-            throw new RuntimeException(e.toString());
+            onError(e);
+            return 0;
+
+            //throw new RuntimeException(e.toString());
         }
 
     }

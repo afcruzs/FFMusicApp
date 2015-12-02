@@ -30,9 +30,11 @@ public class GetRoomByIdAsyncTask extends ApiRequestAsyncTask<Long,Void,Room> {
         try {
             return ffMusicApi.roomEndPoint().getRoomById(theId).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            onError(e);
+            return null;
         }
-        return null;
+        //return null;
     }
 
     @Override

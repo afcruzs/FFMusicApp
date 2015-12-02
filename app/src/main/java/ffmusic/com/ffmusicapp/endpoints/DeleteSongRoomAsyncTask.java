@@ -22,7 +22,9 @@ public class DeleteSongRoomAsyncTask extends ApiRequestAsyncTask<Long,Void,SongR
             return ffMusicApi.roomEndPoint().deleteSongRoom(params[0]).execute();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("An error has occurred deleting");
+            onError(e);
+            return null;
+            //throw new RuntimeException("An error has occurred deleting");
         }
         //  return null;
     }

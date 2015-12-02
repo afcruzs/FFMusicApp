@@ -22,7 +22,9 @@ public class VoteBySongRoomAsyncTask extends  ApiRequestAsyncTask<SongRoom,Void,
         try {
             return ffMusicApi.roomEndPoint().vote(params[0]).execute();
         } catch (IOException e) {
-            throw new RuntimeException("Vote failed");
+           // throw new RuntimeException("Vote failed");
+            onError(e);
+            return null;
         }
     }
 }

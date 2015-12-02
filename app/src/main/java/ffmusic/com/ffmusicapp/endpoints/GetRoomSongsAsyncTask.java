@@ -40,7 +40,9 @@ public class GetRoomSongsAsyncTask extends ApiRequestAsyncTask<Long,Void,List<So
             else
                 return new ArrayList<>();
         } catch (IOException e) {
-            throw new RuntimeException(e.toString());
+            //throw new RuntimeException(e.toString());
+            onError(e);
+            return null;
         }
 
     }

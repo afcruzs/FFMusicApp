@@ -21,8 +21,10 @@ public class SaveSongRoom extends ApiRequestAsyncTask<SongRoom,Void,SongRoom> {
         try {
             return ffMusicApi.roomEndPoint().songRoom(params[0]).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
+            onError(e);
+            return null;
         }
-        return null;
+        //return null;
     }
 }

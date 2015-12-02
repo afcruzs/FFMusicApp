@@ -20,8 +20,10 @@ public class InsertUserEnteredRoomAsyncTask extends ApiRequestAsyncTask<UserEnte
         try {
             return ffMusicApi.roomEndPoint().userEnteredRoom(params[0]).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            onError(e);
+            return null;
         }
-        return null;
+        //return null;
     }
 }

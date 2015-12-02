@@ -21,9 +21,11 @@ public class RandomSongFromRoomAsyncTask extends  ApiRequestAsyncTask<Room,Void,
         try {
             return ffMusicApi.roomEndPoint().randomSongFromRoom(params[0]).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            onError(e);
+            return null;
         }
 
-        return null;
+        //return null;
     }
 }

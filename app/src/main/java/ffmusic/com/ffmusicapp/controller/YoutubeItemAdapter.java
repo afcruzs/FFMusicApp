@@ -102,7 +102,8 @@ public class YoutubeItemAdapter extends RecyclerView.Adapter<YoutubeItemAdapter.
 
                             songRoom.setRoom(RoomActivity.room);
                             songRoom.setSong(realSong);
-                            Log.d("xd1", roomSize + "");
+                            songRoom.setVotes(0);
+                            Log.d("guardar", roomSize + "");
                             songRoom.setIdxInQueue(roomSize);
                             songRoom.setCreatedBy(LoginActivity.currentUser);
                             new SaveSongAsyncTask(mContext){

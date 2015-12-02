@@ -24,7 +24,7 @@ public class Constants {
     //public static final String DEVELOPMENT_IP = " 10.203.163.108";
 
     public static final String DEVELOPMENT_ROOT_URL = "http://"+DEVELOPMENT_IP+":8080/_ah/api/";
-    public static final String PRODUCTION_ROOT_URL = "https://ffmusicbackend.appspot.com/_ah/api/";
+    public static final String PRODUCTION_ROOT_URL = "https://ffmusicbackendtuapp2.appspot.com/_ah/api/";
 
     /*
         If PRODUCTION_ROOT_URL the device will try to connect to the server in DEVELOPMENT_IP address.

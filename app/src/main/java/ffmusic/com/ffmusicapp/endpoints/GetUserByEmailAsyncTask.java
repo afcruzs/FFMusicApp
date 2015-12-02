@@ -34,9 +34,11 @@ public abstract class GetUserByEmailAsyncTask extends ApiRequestAsyncTask<String
 
             return aux;
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            onError(e);
+            return null;
         }
-        Log.d("JEJE","fAIL");
-        return null;
+        //Log.d("JEJE","fAIL");
+        //return null;
     }
 }

@@ -30,9 +30,10 @@ public class GetEnteredRoomsAsyncTask extends ApiRequestAsyncTask<User,Void,List
             return new ArrayList<>();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            onError(e);
+            return null;
         }
 
-        return null;
+        //return null;
     }
 }

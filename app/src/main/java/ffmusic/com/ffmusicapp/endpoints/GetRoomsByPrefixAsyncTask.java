@@ -28,8 +28,10 @@ public class GetRoomsByPrefixAsyncTask extends ApiRequestAsyncTask<String,Void,L
             else
                 return new ArrayList<>();
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            onError(e);
+            return null;
         }
-        return null;
+        //return null;
     }
 }

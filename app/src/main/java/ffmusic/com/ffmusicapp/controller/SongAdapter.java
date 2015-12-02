@@ -29,6 +29,7 @@ import java.util.List;
 
 import ffmusic.com.ffmusicapp.R;
 import ffmusic.com.ffmusicapp.endpoints.DeleteSongRoomAsyncTask;
+import ffmusic.com.ffmusicapp.endpoints.VoteBySongRoomAsyncTask;
 
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> implements View.OnClickListener{
@@ -114,7 +115,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
         public void bindHolder(final ListModelItem t, final SongRoom songRoom) {
             mNameSong.setText(t.getName());
 
-            if ( room.getRoomOwner().getId().equals(songRoom.getCreatedBy().getId()) ) {
+            if ( LoginActivity.currentUser.getId().equals(songRoom.getCreatedBy().getId()) ) {
                 toolbar.getMenu().clear();
                 toolbar.inflateMenu( R.menu.menu_room_play_list_item_owner);
 
@@ -126,16 +127,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
                         switch ( id ) {
                             case MENU_DELETE:
                                 Log.d("borrar", "1. " + songRoom.getId() + " " + songRoom.getSong().getId());
-                                /*new DeleteSongRoomAsyncTask(context) {
-                                    @Override
-                                    public void onPreExecute(){}
-
-                                    @Override
-                                    public void onPostExecute(SongRoom data) {
-                                        Log.d("borrar", "2. " + data.getId() + " " + data.getIdxInQueue());
-                                        playListFragment.updateSongs();
-                                    }
-                                }.execute(t.getDBId());*/
+                                int idx = list.indexOf(t);
+                                if ( idx > 0 )
+                                    playListFragment.removeOnDB(idx);
                                 break;
                             default:
                         }
@@ -153,7 +147,20 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> im
                         int id = menuItem.getItemId();
                         switch ( id ) {
                             case MENU_LIKE:
+                                new VoteBySongRoomAsyncTask(context){
+                                    @Override
+                                    public void onPreExecute(){}
 
+                                    @Override
+                                    public void onPostExecute(SongRoom sr){
+                                        //super.onPostExecute(sr);
+                                        Toast toast1 =
+                                                Toast.makeText(context,
+                                                        "You have voted by " + sr.getSong().getSongName(), Toast.LENGTH_SHORT);
+
+                                        toast1.show();
+                                    }
+                                }.execute(songRoom);
                                 break;
                             default:
                         }

@@ -32,6 +32,7 @@ import java.util.Random;
 import java.util.Stack;
 
 import ffmusic.com.ffmusicapp.R;
+import ffmusic.com.ffmusicapp.util.ErrorHandlerUI;
 
 public class FFMusicMainActivity extends AppCompatActivity {
 
@@ -76,12 +77,16 @@ public class FFMusicMainActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView ( ) {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
-        TextView headerUsernameTextView = (TextView) headerView.findViewById(R.id.header_username);
-        headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
-        TextView headerEmailTextView = (TextView) headerView.findViewById(R.id.header_email);
-        headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
+        try {
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            View headerView = navigationView.inflateHeaderView(R.layout.nav_header);
+            TextView headerUsernameTextView = (TextView) headerView.findViewById(R.id.header_username);
+            headerUsernameTextView.setText(LoginActivity.currentUser.getFullName());
+            TextView headerEmailTextView = (TextView) headerView.findViewById(R.id.header_email);
+            headerEmailTextView.setText(LoginActivity.currentUser.getEmail());
+        }catch(Exception e){
+            ErrorHandlerUI.showError(this,e);
+        }
     }
 
 

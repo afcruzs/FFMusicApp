@@ -43,6 +43,7 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private RecyclerView mRecyclerView;
     private SongAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ListModelItem inPlayer;
 
     public static Room room;
     private Long currentRoom;
@@ -118,6 +119,25 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
         return view;
     }
 
+    void addToList(SongRoom sr){
+        Log.d("borrar", sr.getId() + " " + sr.getSong().getId() + " " + sr.getIdxInQueue());
+
+        String cutSongName = sr.getSong().getSongName().length()
+                < 32?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 32);
+
+        Log.d("xd", "Idx in queue: " + sr.getIdxInQueue() + " " + cutSongName + " idx sr: " + sr.getId());
+
+        String cutArtistName = sr.getSong().getArtist().length()
+                < 20?sr.getSong().getArtist():sr.getSong().getArtist().substring(0, 20);
+        Log.e("xd", "name = " + cutSongName);
+        list.add(new ListModelItem(cutSongName, sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
+                sr.getSong().getThumbnailURL(), sr.getId()));
+        //mAdapter.notifyItemInserted(list.size());
+        //mAdapter.notifyDataSetChanged();
+    }
+
+
+
     void updateSongs(){
         list.clear();
         //mAdapter.notifyDataSetChanged();
@@ -135,12 +155,12 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onPostExecute(List<SongRoom> data){
                 //super.onPostExecute(data);
 
-                List<SongRoom> aux = data;
-
-                Collections.sort(aux, new Comparator<SongRoom>() {
+                Collections.sort(data, new Comparator<SongRoom>() {
                     @Override
                     public int compare(SongRoom lhs, SongRoom rhs) {
-                        return lhs.getIdxInQueue() - rhs.getIdxInQueue();
+                        if( lhs.getVotes().equals(rhs.getVotes()) )
+                            return lhs.getIdxInQueue() - rhs.getIdxInQueue();
+                        return rhs.getVotes() - lhs.getVotes();
                     }
                 });
 
@@ -148,37 +168,25 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     NoResults.show(view);
                     RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
                     r.setVisibility(View.GONE);
-                }
-                else {
+                    return;
+                }else{
                     NoResults.hide(view);
                     RecyclerView r = (RecyclerView) view.findViewById(R.id.my_recycler_view);
                     r.setVisibility(View.VISIBLE);
                 }
 
-                mAdapter.setSongRoomList((ArrayList)aux);
+                mAdapter.setSongRoomList((ArrayList) data);
 
                 Log.d("borrar", "todo");
-                for(SongRoom sr : aux){
-
-                    Log.d("xd", "Idx in queue: " + sr.getIdxInQueue() + "" );
-
+                for(SongRoom sr : data){
                     if( sr.getIdxInQueue() == -1 ){
                         Log.d("xd","INACTIVEA " + sr.getId());
                         continue;
                     }
-                    Log.d("borrar", sr.getId() + " " + sr.getSong().getId() + " " + sr.getIdxInQueue());
+                    addToList( sr );
 
-                    String cutSongName = sr.getSong().getSongName().length()
-                            < 40?sr.getSong().getSongName():sr.getSong().getSongName().substring(0, 40);
-
-                    String cutArtistName = sr.getSong().getArtist().length()
-                            < 20?sr.getSong().getArtist():sr.getSong().getArtist().substring(0, 20);
-                    Log.e("xd", "name = " + cutSongName);
-                    list.add(new ListModelItem(cutSongName, sr.getSong().getSongYoutubeId(), sr.getSong().getArtist(),
-                            sr.getSong().getThumbnailURL(), sr.getId()));
-                    //mAdapter.notifyItemInserted(list.size());
-                    //mAdapter.notifyDataSetChanged();
                 }
+
 
                 swipeRefreshLayout.setRefreshing(false);
                 mAdapter.notifyDataSetChanged();
@@ -188,13 +196,19 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                     if ( room.getRoomOwner().getId().equals(LoginActivity.currentUser.getId()) )
                         roomActivity.loadYoutubePlayerFragment();
                 }
+
+
+
+                mAdapter.notifyDataSetChanged();
+
                 tryToPlay();
             }
         }.execute(room.getId());
     }
 
-    void removeOnDB(final Long id){
-        Log.d("xd","INCIIANDO delete " + id);
+    void removeOnDB(final int idx){
+        final Long id = list.get(idx).getDBId();
+        Log.d("xd", "INCIIANDO delete " + id);
         new DeleteSongRoomAsyncTask(getContext()){
             @Override
             protected void onPreExecute() { }
@@ -204,23 +218,29 @@ public class PlayListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 //super.onPostExecute(v);
                 Log.d("xd", "OnPostExec delete " + id);
                 //V is always null
-                updateSongs();
+
+                list.remove(idx);
+                if ( idx == 0 && !list.isEmpty() ) {
+                    inPlayer = list.get(idx);
+                    youTubePlayer.loadVideo(list.get(idx).getSongId());
+                }
+
+                //updateSongs();
             }
         }.execute(id);
     }
 
     public void tryToPlay () {
         if ( youTubePlayer != null && !youTubePlayer.isPlaying() && !list.isEmpty() ) {
+            inPlayer = list.get(0);
             youTubePlayer.loadVideo(list.get(0).getSongId());
         }
     }
 
-    public void nextSong() {
+        public void nextSong() {
         if (!list.isEmpty()) {
-            removeOnDB(list.get(0).getDBId());
-            list.remove(0);
-            if ( !list.isEmpty() )
-                youTubePlayer.loadVideo(list.get(0).getSongId());
+            removeOnDB( 0 );
+
         }
     }
 
